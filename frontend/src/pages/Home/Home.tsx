@@ -47,18 +47,37 @@ const services = [
 ];
 
 const projects = [
-  { id: 1, name: 'marie', category: 'Branding', image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png' },
-  { id: 2, name: 'softy', category: 'Digital', image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg' },
-  { id: 3, name: 'cela', category: 'Branding', image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Holandria_Img_Featured-260x300.jpg' },
-  { id: 4, name: 'omi', category: 'Digital', image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg' },
+  { 
+    id: 1, 
+    name: 'Târg de Crăciun Dalles 2025', 
+    category: 'Event Concept, Event Management', 
+    image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png',
+    link: 'https://satoris.ro/targ-de-craciun-dalles-2025/'
+  },
+  { 
+    id: 2, 
+    name: 'Omi', 
+    category: 'Digital Audit, Market Research, User Experience', 
+    image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg',
+    link: 'https://satoris.ro/omi/'
+  },
+  { 
+    id: 3, 
+    name: 'Softy', 
+    category: 'Research, Branding, Packaging, Ad Design, PPC', 
+    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg',
+    link: 'https://satoris.ro/softy/'
+  },
+  { 
+    id: 4, 
+    name: 'Cela Jewelry', 
+    category: 'Ecommerce, Website Development, PPC, SEO', 
+    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg',
+    link: 'https://satoris.ro/cela/'
+  },
 ];
 
 const testimonials = [
-  {
-    text: "Natalia is reliable, results oriented, a good professional, always oriented towards achieving the established goal. It was a pleasure working with her. I would do it again without any hesitation.",
-    author: 'Cristina G.',
-    role: 'Program Manager at Digital Transformations',
-  },
   {
     text: "Very good service and helpful person. Natalia handled all issues very professional. I recommend.",
     author: 'Olimpiu G',
@@ -68,6 +87,21 @@ const testimonials = [
     text: "Accurate organization and outstanding support to the exhibitors and to all the attendees are best summarizing Natalia's abilities.",
     author: 'Mihaela P',
     role: 'Project Manager',
+  },
+  {
+    text: "Natalia is a great and skilled project and program manager. Due to her expertise, I strongly recommend her.",
+    author: 'Madalina N',
+    role: 'Managing Director in Media Industry',
+  },
+  {
+    text: "I know I can count on Natalia when I have a project that implies a complex and creative approach, attention to detail, a strict schedule and great outcomes. So if you ask me if it's a good idea to have her as a business partner, I can only say... Definitely! Yes!",
+    author: 'Angela M',
+    role: 'Recruitment Manager',
+  },
+  {
+    text: "Natalia is reliable, results oriented, a good professional, always oriented towards achieving the established goal. It was a pleasure working with her. I would do it again without any hesitation.",
+    author: 'Cristina G.',
+    role: 'Program Manager at Digital Transformations',
   },
 ];
 
@@ -179,20 +213,25 @@ function Home() {
           </div>
           <div className="projects-grid">
             {projects.map((project, index) => (
-              <motion.div
+              <motion.a
                 key={project.id}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="project-card"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.03, y: -5 }}
+                style={{ cursor: 'pointer', textDecoration: 'none' }}
               >
-                <img src={project.image} alt={project.name} />
-                <div className="project-overlay">
-                  <h3>{project.name}</h3>
-                  <p>{project.category}</p>
+                <img src={project.image} alt={project.name} style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+                <div className="project-overlay" style={{ padding: 'var(--space-4)', background: '#1a1a2e' }}>
+                  <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
+                  <p style={{ color: '#fff', fontSize: 'var(--text-sm)' }}>{project.category}</p>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 'var(--space-10)' }}>
