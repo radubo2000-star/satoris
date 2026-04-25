@@ -5,44 +5,44 @@ import '../../styles/sections.css';
 
 const services = [
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/pr.webp',
-    title: 'Marketing',
-    description: 'Digital Marketing, Ads, Sales Funnel, Event participation strategy, E-commerce, Branded merch, Stands & Booth Registration, Ticketing',
+    title: 'marketing',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 94 79"><path d="M32.96,30.33a4.42,4.42,0,1,0-3.82,2.16,4.37,4.37,0,0,0,2.39-.72L47.21,47A1.0047,1.0047,0,0,0,48.6106,45.56Z" style="fill-rule:evenodd"></path><path d="M88.2011,16.2769A22.21,22.21,0,0,0,56.7835,14.81L52.5,18.7192,48.2165,14.81a22.21,22.21,0,0,0-30.6084.622L3.76,2H18.05a1,1,0,0,0,0-2H0V18.04a1,1,0,0,0,2,0V3.08L16.2458,16.9083a22.3119,22.3119,0,0,0,2.0174,30.8454L52.5,79,86.7368,47.7537A22.3111,22.3111,0,0,0,88.2011,16.2769Zm-2.8125,30L52.5,76.2923,19.6114,46.2764A20.2626,20.2626,0,0,1,46.8683,16.2871l4.2835,3.9093a2,2,0,0,0,2.6964,0l4.2835-3.9093A20.2626,20.2626,0,0,1,85.3886,46.2764Z" style="fill-rule:evenodd"></path></svg>`,
+    description: 'Digital Marketing\nAds\nSales Funnel \nEvent participation strategy\nE-commerce \nBranded merch\nStands & BoothRegistration \nTicketing',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/pr.webp',
     title: 'Implementation & On-Site Management',
-    description: "Your agenda, our playbook, no surprises",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 91.8547 74.6427"><path d="M90.7044,1.4952a4.5,4.5,0,1,0-.345,6.3547A4.5,4.5,0,0,0,90.7044,1.4952Z" transform="translate(0 0)"></path><path d="M61,11.1453a1,1,0,0,0,1,1H75.5877C65.2629,19.8084,61.428,27.2272,56.11,37.5163c-1.74,3.3672-3.64,7.0417-5.9777,11.1328C37.52,70.72,13.5082,72.5605.9954,72.6425A1.0012,1.0012,0,0,0,0,73.6457a.9909.9909,0,0,0,.9949.997c12.5657-.08,37.6686-1.893,50.8733-25.0013,2.4318-4.2555,4.3782-8.0176,6.1389-11.4208C63.4713,27.659,67.1484,20.5517,78,12.8665V28.1453a1,1,0,0,0,2,0v-18H62A1,1,0,0,0,61,11.1453Z" transform="translate(0 0)"></path></svg>`,
+    description: 'Your agenda, our playbook, no surprises',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/pr.webp',
     title: 'PR & Communication',
-    description: 'Social Media, Pre-buzz, Media, Social Media Exposure, Events PR, KOLs, Post-event coverage',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83.1669 79.4606"><path d="M57.3667,51.8579a4.5,4.5,0,1,0,6.3546.345A4.5,4.5,0,0,0,57.3667,51.8579Z" transform="translate(0 0)" style="fill-rule:evenodd"></path><path d="M81.739,44.1024,30.33.9368a4,4,0,0,0-5.6355.4912L.9368,29.7228a4,4,0,0,0,.4912,5.6354L52.8369,78.5239a4,4,0,0,0,5.6355-.4912L82.23,49.7378A4,4,0,0,0,81.739,44.1024Zm-1.0405,4.3494L56.9407,76.7466a2,2,0,0,1-2.8177.2456L2.7141,33.8266a2,2,0,0,1-.2457-2.8178L26.2262,2.7141a2,2,0,0,1,2.8177-.2457L80.4529,45.634A2,2,0,0,1,80.6985,48.4518Z" transform="translate(0 0)" style="fill-rule:evenodd"></path></svg>`,
+    description: 'Social Media \nPre-buzz\nMedia\nSocial Media \nExposure\nEvents PR \nKOLs \nPost-event coverage',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Expo.webp',
     title: 'Exhibitions & Trade Fairs',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81.3509 75.4557"><path d="M78.9252,22.1966A4.5,4.5,0,1,0,76.8238,30.69c2.9986,13.2136-2.9278,28.21-15.96,36.9757C44.34,78.7806,22.9031,75.5376,12.9226,60.7A30.6173,30.6173,0,0,1,9.1464,34.51c4.8142,1.9311,10.8685,1.7539,16.6905-.4468l.0109.0273q.6289-.2515,1.2652-.5439.5529-.2388,1.1012-.5022l-.0125-.026a33.254,33.254,0,0,0,5.1743-3.2978,28.36,28.36,0,0,0,8.3591-9.8678c1.5464-3.2907,1.902-6.6877.0615-9.07S36.5794,7.886,33.0048,8.551a26.9591,26.9591,0,0,0-9.781,4.2415l-.0011-.0016A39.7647,39.7647,0,0,0,7.986,31.7032a12.1035,12.1035,0,0,1-3.916-3.66C1.6747,24.4823,1.3992,19.89,3.028,15.2672A26.1139,26.1139,0,0,1,13.2317,2.6594,1,1,0,1,0,12.1155,1,28.1054,28.1054,0,0,0,1.1417,14.6025C-.6437,19.67-.4186,24.9537,2.4105,29.16a14.1486,14.1486,0,0,0,4.9113,4.483A32.57,32.57,0,0,0,11.263,61.8158c10.6948,15.9,33.4288,19.1383,50.7167,7.51,13.6576-9.1866,19.9884-24.987,16.7966-39.069a4.5,4.5,0,0,0,.1489-8.06Zm-56.3666-6.48.01.0124a26.3845,26.3845,0,0,1,10.8024-5.2119c3.32-.6176,5.6992.0069,6.8433,1.4879s1.1472,3.9412-.2889,6.9972a26.3857,26.3857,0,0,1-7.7716,9.1356,30.6156,30.6156,0,0,1-5.8766,3.592c-5.9205,2.5524-11.9271,2.7521-16.4927.8681A37.327,37.327,0,0,1,22.5586,15.7168Z" transform="translate(0 -0.8296)" style="fill-rule:evenodd"></path></svg>`,
     description: 'From 9 sqm booths to full pavilions',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Digital-Mk.webp',
     title: 'Digital',
-    description: 'Digital for Events, Websites, Landing pages, Email, Social amplification, Custom Build SMS Solution, Live streaming, Visual Content, Events Tech, AV - Staging',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83.1669 79.4606"><path d="M57.3667,51.8579a4.5,4.5,0,1,0,6.3546.345A4.5,4.5,0,0,0,57.3667,51.8579Z" transform="translate(0 0)" style="fill-rule:evenodd"></path><path d="M81.739,44.1024,30.33.9368a4,4,0,0,0-5.6355.4912L.9368,29.7228a4,4,0,0,0,.4912,5.6354L52.8369,78.5239a4,4,0,0,0,5.6355-.4912L82.23,49.7378A4,4,0,0,0,81.739,44.1024Zm-1.0405,4.3494L56.9407,76.7466a2,2,0,0,1-2.8177.2456L2.7141,33.8266a2,2,0,0,1-.2457-2.8178L26.2262,2.7141a2,2,0,0,1,2.8177-.2457L80.4529,45.634A2,2,0,0,1,80.6985,48.4518Z" transform="translate(0 0)" style="fill-rule:evenodd"></path></svg>`,
+    description: 'Digital for Events\nWebsite \nLanding pages \nemail \nSocial amplification\nCustom Build SMS Solution \nLive streaming\nVisual Content\nEvents Tech\nAV - Staging',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
     title: 'Concept & Creative',
-    description: 'Events Concept, Visual Content, Themes, formats, agenda design—built for execution.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81.3509 75.4557"><path d="M78.9252,22.1966A4.5,4.5,0,1,0,76.8238,30.69c2.9986,13.2136-2.9278,28.21-15.96,36.9757C44.34,78.7806,22.9031,75.5376,12.9226,60.7A30.6173,30.6173,0,0,1,9.1464,34.51c4.8142,1.9311,10.8685,1.7539,16.6905-.4468l.0109.0273q.6289-.2515,1.2652-.5439.5529-.2388,1.1012-.5022l-.0125-.026a33.254,33.254,0,0,0,5.1743-3.2978,28.36,28.36,0,0,0,8.3591-9.8678c1.5464-3.2907,1.902-6.6877.0615-9.07S36.5794,7.886,33.0048,8.551a26.9591,26.9591,0,0,0-9.781,4.2415l-.0011-.0016A39.7647,39.7647,0,0,0,7.986,31.7032a12.1035,12.1035,0,0,1-3.916-3.66C1.6747,24.4823,1.3992,19.89,3.028,15.2672A26.1139,26.1139,0,0,1,13.2317,2.6594,1,1,0,1,0,12.1155,1,28.1054,28.1054,0,0,0,1.1417,14.6025C-.6437,19.67-.4186,24.9537,2.4105,29.16a14.1486,14.1486,0,0,0,4.9113,4.483A32.57,32.57,0,0,0,11.263,61.8158c10.6948,15.9,33.4288,19.1383,50.7167,7.51,13.6576-9.1866,19.9884-24.987,16.7966-39.069a4.5,4.5,0,0,0,.1489-8.06Zm-56.3666-6.48.01.0124a26.3845,26.3845,0,0,1,10.8024-5.2119c3.32-.6176,5.6992.0069,6.8433,1.4879s1.1472,3.9412-.2889,6.9972a26.3857,26.3857,0,0,1-7.7716,9.1356,30.6156,30.6156,0,0,1-5.8766,3.592c-5.9205,2.5524-11.9271,2.7521-16.4927.8681A37.327,37.327,0,0,1,22.5586,15.7168Z" transform="translate(0 -0.8296)" style="fill-rule:evenodd"></path></svg>`,
+    description: 'Events Concept\nVisual Content\nThemes, formats, agenda design—built for execution.',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
     title: 'Full Service',
-    description: 'AV - Staging, Stage, sound, lights, effects, Staffing, Interpreters, Hostess, Catering & goody bags',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83.1669 79.4606"><path d="M57.3667,51.8579a4.5,4.5,0,1,0,6.3546.345A4.5,4.5,0,0,0,57.3667,51.8579Z" transform="translate(0 0)" style="fill-rule:evenodd"></path><path d="M81.739,44.1024,30.33.9368a4,4,0,0,0-5.6355.4912L.9368,29.7228a4,4,0,0,0,.4912,5.6354L52.8369,78.5239a4,4,0,0,0,5.6355-.4912L82.23,49.7378A4,4,0,0,0,81.739,44.1024Zm-1.0405,4.3494L56.9407,76.7466a2,2,0,0,1-2.8177.2456L2.7141,33.8266a2,2,0,0,1-.2457-2.8178L26.2262,2.7141a2,2,0,0,1,2.8177-.2457L80.4529,45.634A2,2,0,0,1,80.6985,48.4518Z" transform="translate(0 0)" style="fill-rule:evenodd"></path></svg>`,
+    description: 'AV - Staging \nStage, sound, lights, effects \nStaffing \nInterpreters, Hostess \nCatering & goody bags',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Expo.webp',
-    title: 'Go Big',
-    description: 'International events Participations, Global Events as exhibitor, Trips & Ticketing, International team Buildings & client meetups',
+    title: 'Go big',
+    icon: `<svg viewBox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><path d="M347.94 129.86L203.6 195.83a31.938 31.938 0 0 0-15.77 15.77l-65.97 144.34c-7.61 16.65 9.54 33.81 26.2 26.2l144.34-65.97a31.938 31.938 0 0 0 15.77-15.77l65.97-144.34c7.61-16.66-9.54-33.81-26.2-26.2zm-77.36 148.72c-12.47 12.47-32.69 12.47-45.16 0-12.47-12.47-12.47-32.69 0-45.16 12.47-12.47 32.69-12.47 45.16 0 12.47 12.47 12.47 32.69 0 45.16zM248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm0 448c-110.28 0-200-89.72-200-200S137.72 56 248 56s200 89.72 200 200-89.72 200-200 200z"></path></svg>`,
+    description: 'International events Participations\nGlobal Events as exhibitor \nTrips & Ticketing \nInternational team Buildings & client meetups',
   },
 ];
 
@@ -190,20 +190,22 @@ function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                style={{ padding: 'var(--space-6)', background: '#fff', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}
+                style={{ padding: 'var(--space-6)', background: '#fff', borderRadius: 'var(--radius-lg)', textAlign: 'center', border: '1px solid #d9d9e3' }}
               >
-                <img 
-                  src={service.icon} 
-                  alt={service.title}
-                  style={{ width: '80px', height: '80px', objectFit: 'contain', marginBottom: 'var(--space-4)' }}
+                <div 
+                  dangerouslySetInnerHTML={{ __html: service.icon }}
+                  style={{ width: '60px', height: '45px', margin: '0 auto var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  className="service-icon-svg"
                 />
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)', color: '#1a1a2e' }}>{service.title}</h3>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-gray)', lineHeight: 1.6, marginBottom: 'var(--space-4)' }}>{service.description}</p>
+                <h4 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: '#1a1a2e', textTransform: 'lowercase', fontWeight: 600 }}>
+                  {service.title}
+                </h4>
+                <p style={{ fontSize: 'var(--text-xs)', color: '#374151', lineHeight: 1.8, whiteSpace: 'pre-line' }}>{service.description}</p>
                 <Link 
                   to="/services" 
-                  style={{ color: '#FF9100', fontSize: 'var(--text-sm)', fontWeight: 600, textDecoration: 'none' }}
+                  style={{ color: '#FF9100', fontSize: 'var(--text-sm)', fontWeight: 600, textDecoration: 'none', display: 'inline-block', marginTop: 'var(--space-3)' }}
                 >
-                  Learn More →
+                  Learn More
                 </Link>
               </motion.div>
             ))}
