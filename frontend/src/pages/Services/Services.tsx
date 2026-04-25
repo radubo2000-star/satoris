@@ -157,7 +157,7 @@ function Services() {
                     color: '#FF9100',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    textTransform: 'uppercase',
+                    textTransform: 'capitalize',
                     fontFamily: 'Montserrat, sans-serif'
                   }}>
                     {service.title}
@@ -180,7 +180,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        textTransform: 'uppercase',
+                        textTransform: 'capitalize',
                         fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
@@ -205,7 +205,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        textTransform: 'uppercase',
+                        textTransform: 'capitalize',
                         fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
