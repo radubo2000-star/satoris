@@ -295,6 +295,72 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         </div>
       </section>
 
+      {/* What makes us different - Satoris Events in a nutshell */}
+      <section style={{ background: '#fff', padding: 'var(--space-16) 0' }}>
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ textAlign: 'center', marginBottom: 'var(--space-12)' }}
+          >
+            <p style={{ color: '#555', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: 'var(--space-2)' }}>what makes us different</p>
+            <h2 style={{ fontSize: 'var(--text-4xl)', color: '#32373c' }}>Satoris Events in a nutshell</h2>
+          </motion.div>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-8)' }}>
+            {[
+              {
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>`,
+                title: 'Experience',
+                description: '20 years hands-on delivery in RO & MD'
+              },
+              {
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>`,
+                title: 'One partner, zero drama',
+                description: 'AV, staging, staffing, registration, branded merch, national & international'
+              },
+              {
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>`,
+                title: 'Event diversity',
+                description: 'Exhibitions & trade fairs, conferences, product launches, teambuildings, clients meet-ups, parties, official dinners'
+              },
+              {
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>`,
+                title: 'Industry coverage',
+                description: 'Construction & Heritage, Culture & entertainment, Beauty, Health'
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: item.icon }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>{item.title}</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            style={{ textAlign: 'center', marginTop: 'var(--space-10)' }}
+          >
+            <img 
+              src="https://satoris.ro/wp-content/uploads/2025/11/Social-Media.jpg" 
+              alt="Satoris Events" 
+              style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
+            />
+          </motion.div>
+        </div>
+      </section>
+
       {/* Projects Section - 3D Tilt Effect */}
       <section className="section">
         <div className="container">
