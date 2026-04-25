@@ -4,6 +4,49 @@ import '../../styles/globals.css';
 import '../../styles/sections.css';
 
 const servicesData = [
+  // Strategy
+  {
+    category: 'Strategy',
+    title: 'Strategy',
+    description: 'Strategy is the first step, the cornerstone upon which successful journeys are built. At Satoris PR & Digital Communication Studio, we understand that a well-crafted strategy is not just a roadmap; it\'s the key to unlocking your brand\'s full potential.',
+    features: ['Strategic Planning', 'Roadmap', 'Goal Setting', 'Brand Positioning']
+  },
+  {
+    category: 'Strategy',
+    title: 'Social Media Strategy',
+    description: 'Crafting a tailored roadmap for your brand\'s social media success. From content calendars to engagement tactics, we strategize every aspect to maximize your digital presence.',
+    features: ['Content Calendars', 'Engagement Tactics', 'Growth Strategy', 'Analytics']
+  },
+  {
+    category: 'Strategy',
+    title: 'Platform Strategy',
+    description: 'Navigating the digital landscape with precision. We analyze, select, and optimize the right platforms to ensure your message reaches your target audience effectively.',
+    features: ['Platform Analysis', 'Selection', 'Optimization', 'Targeting']
+  },
+  {
+    category: 'Strategy',
+    title: 'Digital Audit',
+    description: 'A comprehensive health check for your online presence. Our digital audit pinpoints strengths and opportunities, guiding strategic decisions for growth.',
+    features: ['Health Check', 'Strengths Analysis', 'Opportunities', 'Growth Planning']
+  },
+  {
+    category: 'Strategy',
+    title: 'Market Research',
+    description: 'Empowering decisions with data-driven insights. Our market research uncovers trends, competition, and audience preferences, enabling informed strategies for success.',
+    features: ['Trend Analysis', 'Competition Analysis', 'Audience Insights', 'Reporting']
+  },
+  {
+    category: 'Strategy',
+    title: 'Communication Strategy',
+    description: 'Mastering the art of brand conversation. Our communication strategy aligns your messaging with objectives, ensuring clear, impactful, and cohesive interactions.',
+    features: ['Messaging', 'Brand Voice', 'Internal Comms', 'External Comms']
+  },
+  {
+    category: 'Strategy',
+    title: 'Content Strategy',
+    description: 'Fueling engagement through compelling storytelling. Our content strategy harmonizes brand narratives with audience interests, creating meaningful connections.',
+    features: ['Storytelling', 'Brand Narratives', 'Audience Engagement', 'Content Planning']
+  },
   // PR & Digital
   {
     category: 'PR & Digital',
@@ -107,7 +150,7 @@ const servicesData = [
   },
 ];
 
-const categories = ['All', 'PR & Digital', 'Digital Marketing', 'Creative & Design', 'Technology', 'Events'];
+const categories = ['All', 'Strategy', 'PR & Digital', 'Digital Marketing', 'Creative & Design', 'Technology', 'Events'];
 
 function Services() {
   const [selectedCategory, setSelectedCategory] = useState('All');
