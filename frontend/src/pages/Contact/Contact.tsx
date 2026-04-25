@@ -111,7 +111,7 @@ function Contact() {
                 <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>New Business</h4>
                 <p>
                   <a href="mailto:natalia@satoris.ro" style={{ color: '#FF9100' }}>natalia@satoris.ro</a><br />
-                  +40 723 25 77 55
+                  <a href="tel:+40723257755" style={{ color: '#FF9100' }}>+40 723 25 77 55</a>
                 </p>
               </div>
 
@@ -133,7 +133,7 @@ function Contact() {
                 <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Press</h4>
                 <p>
                   <a href="mailto:press@satoris.ro" style={{ color: '#FF9100' }}>press@satoris.ro</a><br />
-                  +4 0723 25 77 55
+                  <a href="tel:+40723257755" style={{ color: '#FF9100' }}>+4 0723 25 77 55</a>
                 </p>
               </div>
             </motion.div>
