@@ -153,13 +153,11 @@ function Services() {
                   paddingLeft: isLeftSide ? 'var(--space-2)' : 'var(--space-6)',
                 }}>
                   <h2 style={{ 
-                    fontSize: '2rem', 
-                    color: '#FF9100',
+                    fontSize: '2.5rem', 
+                    color: '#32373c',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    textTransform: 'capitalize',
-                    fontFamily: 'Montserrat, sans-serif',
-                    textAlign: 'left'
+                    fontFamily: 'Montserrat, sans-serif'
                   }}>
                     {service.title}
                   </h2>
@@ -178,13 +176,11 @@ function Services() {
                   {left.length > 0 && left.map((item, i) => (
                     <div key={i} style={{ marginBottom: 'var(--space-5)' }}>
                       <h3 style={{ 
-                        fontSize: '1rem', 
-                        color: '#FF9100',
+                        fontSize: '1.1rem', 
+                        color: '#32373c',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        textTransform: 'capitalize',
-                        fontFamily: 'Montserrat, sans-serif',
-                        textAlign: 'left'
+                        fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
                       </h3>
@@ -205,13 +201,11 @@ function Services() {
                   {right.length > 0 && right.map((item, i) => (
                     <div key={i} style={{ marginBottom: 'var(--space-5)' }}>
                       <h3 style={{ 
-                        fontSize: '1rem', 
-                        color: '#FF9100',
+                        fontSize: '1.1rem', 
+                        color: '#32373c',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        textTransform: 'capitalize',
-                        fontFamily: 'Montserrat, sans-serif',
-                        textAlign: 'left'
+                        fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
                       </h3>
