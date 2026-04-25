@@ -6,7 +6,7 @@ import '../../styles/sections.css';
 
 const services = [
   {
-    title: 'marketing',
+    title: 'Marketing',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 94 79"><path d="M32.96,30.33a4.42,4.42,0,1,0-3.82,2.16,4.37,4.37,0,0,0,2.39-.72L47.21,47A1.0047,1.0047,0,0,0,48.6106,45.56Z" style="fill-rule:evenodd"></path><path d="M88.2011,16.2769A22.21,22.21,0,0,0,56.7835,14.81L52.5,18.7192,48.2165,14.81a22.21,22.21,0,0,0-30.6084.622L3.76,2H18.05a1,1,0,0,0,0-2H0V18.04a1,1,0,0,0,2,0V3.08L16.2458,16.9083a22.3119,22.3119,0,0,0,2.0174,30.8454L52.5,79,86.7368,47.7537A22.3111,22.3111,0,0,0,88.2011,16.2769Zm-2.8125,30L52.5,76.2923,19.6114,46.2764A20.2626,20.2626,0,0,1,46.8683,16.2871l4.2835,3.9093a2,2,0,0,0,2.6964,0l4.2835-3.9093A20.2626,20.2626,0,0,1,85.3886,46.2764Z" style="fill-rule:evenodd"></path></svg>`,
     description: 'Digital Marketing\nAds\nSales Funnel \nEvent participation strategy\nE-commerce \nBranded merch\nStands & BoothRegistration \nTicketing',
   },
@@ -75,7 +75,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       >
         <div dangerouslySetInnerHTML={{ __html: service.icon }} style={{ width: '60px', height: '45px', margin: '0 auto var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
       </motion.div>
-      <h4 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: '#1a1a2e', fontWeight: 600 }}>{service.title}</h4>
+      <h4 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: '#FF9100', fontWeight: 600 }}>{service.title}</h4>
       <AnimatePresence>
         {isHovered ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -96,28 +96,28 @@ const projects = [
     name: 'Târg de Crăciun Dalles 2025', 
     category: 'Event Concept, Event Management', 
     image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png',
-    link: 'https://satoris.ro/targ-de-craciun-dalles-2025/'
+    slug: 'targ-de-craciun-dalles-2025'
   },
   { 
     id: 2, 
     name: 'Omi', 
     category: 'Digital Audit, Market Research, User Experience', 
     image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg',
-    link: 'https://satoris.ro/omi/'
+    slug: 'omi'
   },
   { 
     id: 3, 
     name: 'Softy', 
     category: 'Research, Branding, Packaging, Ad Design, PPC', 
     image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg',
-    link: 'https://satoris.ro/softy/'
+    slug: 'softy'
   },
   { 
     id: 4, 
     name: 'Cela Jewelry', 
     category: 'Ecommerce, Website Development, PPC, SEO', 
     image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg',
-    link: 'https://satoris.ro/cela/'
+    slug: 'cela'
   },
 ];
 
@@ -150,29 +150,33 @@ const testimonials = [
 ];
 
 const clientLogos = [
-  { name: 'SMAEB', logo: 'https://satoris.ro/wp-content/uploads/2021/09/SIGLA-SMAEB.gif' },
-  { name: 'TotalServe', logo: 'https://satoris.ro/wp-content/uploads/2021/09/totalserve-e1631537248931.jpg' },
-  { name: 'NatalChic', logo: 'https://satoris.ro/wp-content/uploads/2021/09/Natalchic-roz-logo-social-media-960px-e1631537328780.jpg' },
-  { name: 'Miresmei', logo: 'https://satoris.ro/wp-content/uploads/2021/09/sigla-ME-e1631537317688.jpeg' },
   { name: 'OAR', logo: 'https://satoris.ro/wp-content/uploads/2023/09/1-1.png' },
   { name: 'PM', logo: 'https://satoris.ro/wp-content/uploads/2023/09/2-1.png' },
   { name: 'UAUIM', logo: 'https://satoris.ro/wp-content/uploads/2023/09/3-1.png' },
   { name: 'Rombeer', logo: 'https://satoris.ro/wp-content/uploads/2023/09/4-1.png' },
   { name: 'EXPOBIKE', logo: 'https://satoris.ro/wp-content/uploads/2023/09/5-1.png' },
-  { name: 'Arvi', logo: 'https://satoris.ro/wp-content/uploads/2023/09/6-1.png' },
-  { name: 'Patrimoniu', logo: 'https://satoris.ro/wp-content/uploads/2023/09/7-1.png' },
+  { name: 'EXPOBIKE', logo: 'https://satoris.ro/wp-content/uploads/2023/09/8-1.png' },
+  { name: 'Client 9', logo: 'https://satoris.ro/wp-content/uploads/2023/09/9-1.png' },
+  { name: 'Client 11', logo: 'https://satoris.ro/wp-content/uploads/2023/09/11-1.png' },
+  { name: 'Interreg', logo: 'https://satoris.ro/wp-content/uploads/2023/09/13-1.png' },
   { name: 'Stone Deco', logo: 'https://satoris.ro/wp-content/uploads/2023/09/14-1.png' },
   { name: 'Basa Stone', logo: 'https://satoris.ro/wp-content/uploads/2023/09/15-1.png' },
   { name: 'Fit Class', logo: 'https://satoris.ro/wp-content/uploads/2023/09/16-1.png' },
+  { name: 'Arvi', logo: 'https://satoris.ro/wp-content/uploads/2023/09/17-1.png' },
+  { name: 'Patrimoniu', logo: 'https://satoris.ro/wp-content/uploads/2022/09/Untitled-design.png' },
+  { name: 'Nadia Oanea', logo: 'https://satoris.ro/wp-content/uploads/2022/09/Nadia-Oanea-logo-v2.jpg' },
+  { name: 'SMAEB', logo: 'https://satoris.ro/wp-content/uploads/2021/09/SIGLA-SMAEB.gif' },
+  { name: 'TotalServe', logo: 'https://satoris.ro/wp-content/uploads/2021/09/totalserve-e1631537248931.jpg' },
+  { name: 'NatalChic', logo: 'https://satoris.ro/wp-content/uploads/2021/09/Natalchic-roz-logo-social-media-960px-e1631537328780.jpg' },
+  { name: 'Miresmei', logo: 'https://satoris.ro/wp-content/uploads/2021/09/sigla-ME-e1631537317688.jpeg' },
 ];
 
 function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
 // ProjectCard with 3D tilt effect
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   
   const handleMouseMove = (e: any) => {
@@ -184,32 +188,30 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
   };
   
   return (
-    <motion.a
-      ref={ref}
-      href={project.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setRotate({ x: 0, y: 0 })}
-      whileHover={{ scale: 1.02 }}
-      style={{ cursor: 'pointer', textDecoration: 'none', perspective: '1000px' }}
-    >
+    <Link to={`/work/${project.slug}`} style={{ cursor: 'pointer', textDecoration: 'none', perspective: '1000px' }}>
       <motion.div
-        animate={{ rotateX: rotate.x, rotateY: rotate.y }}
-        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-        style={{ background: '#1a1a2e', borderRadius: '12px', overflow: 'hidden', transformStyle: 'preserve-3d' }}
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setRotate({ x: 0, y: 0 })}
+        whileHover={{ scale: 1.02 }}
       >
-        <img src={project.image} alt={project.name} style={{ width: '100%', height: '280px', objectFit: 'cover' }} />
-        <div style={{ padding: 'var(--space-4)' }}>
-          <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
-          <p style={{ color: '#9ca3af', fontSize: 'var(--text-sm)' }}>{project.category}</p>
-        </div>
+        <motion.div
+          animate={{ rotateX: rotate.x, rotateY: rotate.y }}
+          transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+          style={{ background: '#1a1a2e', borderRadius: '12px', overflow: 'hidden', transformStyle: 'preserve-3d' }}
+        >
+          <img src={project.image} alt={project.name} style={{ width: '100%', height: '280px', objectFit: 'cover' }} />
+          <div style={{ padding: 'var(--space-4)' }}>
+            <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
+            <p style={{ color: '#9ca3af', fontSize: 'var(--text-sm)' }}>{project.category}</p>
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.a>
+    </Link>
   );
 }
   
@@ -295,6 +297,90 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         </div>
       </section>
 
+      {/* What makes us different - Satoris Events in a nutshell */}
+      <section style={{ background: '#fff', padding: 'var(--space-16) 0' }}>
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ textAlign: 'center', marginBottom: 'var(--space-12)' }}
+          >
+            <p style={{ color: '#FF9100', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: 'var(--space-2)' }}>what makes us different</p>
+            <h2 style={{ fontSize: 'var(--text-4xl)', color: '#32373c' }}>Satoris Events in a nutshell</h2>
+          </motion.div>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 'var(--space-8)', alignItems: 'center' }}>
+            {/* Left column - 2 items */}
+            <div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)', marginBottom: 'var(--space-8)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>Experience</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>20 years hands-on delivery in RO & MD</p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>One partner, zero drama</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>AV, staging, staffing, registration, branded merch, national & international</p>
+              </motion.div>
+            </div>
+            
+            {/* Center column - Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 }}
+              style={{ textAlign: 'center' }}
+            >
+              <img 
+                src="https://satoris.ro/wp-content/uploads/2025/11/Social-Media.jpg" 
+                alt="Satoris Events" 
+                style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
+              />
+            </motion.div>
+            
+            {/* Right column - 2 items */}
+            <div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)', marginBottom: 'var(--space-8)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>Event diversity</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>Exhibitions & trade fairs, conferences, product launches, teambuildings, clients meet-ups, parties, official dinners</p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>Industry coverage</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>Construction & Heritage, Culture & entertainment, Beauty, Health</p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Projects Section - 3D Tilt Effect */}
       <section className="section">
         <div className="container">
@@ -308,7 +394,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             <p>Explore our portfolio. Hover for 3D tilt effect.</p>
           </motion.div>
           
-          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-6)' }}>
+          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-6)' }}>
             {projects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
@@ -434,32 +520,11 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           </div>
         </motion.div>
         
-        <div 
-          className="clients-carousel-wrapper"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          style={{ padding: 'var(--space-6) 0' }}
-        >
-          <div 
-            className="clients-carousel" 
-            style={{ 
-              display: 'flex', 
-              animationPlayState: isPaused ? 'paused' : 'running',
-              width: 'fit-content' 
-            }}
-          >
+        <div className="clients-carousel-wrapper">
+          <div className="clients-carousel">
             {[...clientLogos, ...clientLogos].map((client, index) => (
-              <div 
-                key={index} 
-                className="client-logo-wrapper" 
-                style={{ flex: '0 0 180px', padding: '0 var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-              >
-                <motion.img
-                  src={client.logo}
-                  alt={client.name}
-                  whileHover={{ scale: 1.15, rotate: 3 }}
-                  style={{ maxHeight: '60px', maxWidth: '150px', objectFit: 'contain', cursor: 'pointer' }}
-                />
+              <div key={index} className="client-logo-wrapper">
+                <img src={client.logo} alt={client.name} />
               </div>
             ))}
           </div>
