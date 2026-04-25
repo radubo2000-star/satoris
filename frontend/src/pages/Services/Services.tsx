@@ -167,7 +167,7 @@ function Services() {
                     color: '#555', 
                     fontSize: '0.8rem',
                     lineHeight: 1.4,
-                    textAlign: 'justify'
+                    textAlign: 'left'
                   }}>
                     {service.description}
                   </p>
@@ -192,7 +192,7 @@ function Services() {
                         color: '#555', 
                         fontSize: '0.8rem',
                         lineHeight: 1.2,
-                        textAlign: 'justify'
+                        textAlign: 'left'
                       }}>
                         {item.description}
                       </p>
@@ -219,7 +219,7 @@ function Services() {
                         color: '#555', 
                         fontSize: '0.8rem',
                         lineHeight: 1.2,
-                        textAlign: 'justify'
+                        textAlign: 'left'
                       }}>
                         {item.description}
                       </p>
