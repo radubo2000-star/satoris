@@ -5,7 +5,7 @@ import '../../styles/sections.css';
 
 const teamMembers = [
   {
-    name: 'Natalia PruteaNU',
+    name: 'Natalia Pruteanu',
     role: 'Founder, PR, PR FIN, Event',
     image: 'https://satoris.ro/wp-content/uploads/2023/09/c530c303-53e2-423f-8c38-2e4570e1dce3.jpg',
   },
