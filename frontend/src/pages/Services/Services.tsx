@@ -19,35 +19,16 @@ const servicesData = [
   },
   // 2. Branding - right side (alternated)
   {
-    title: 'branding',
-    description: 'Our branding crafts narratives that resonate, transforming your identity into an unforgettable story.',
-    subItems: []
-  },
-  // 3. Website design - left side
-  {
-    title: 'website design',
-    description: 'Our websites are more than pages; they\'re canvases of expression and user-friendliness into every click',
-    subItems: []
-  },
-  // 4. User experience - right side
-  {
-    title: 'user experience',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.',
-    subItems: []
-  },
-  // 5. App design - left side
-  {
-    title: 'app design',
-    description: 'In the mobile realm, we create apps that blend aesthetics with seamless functionality, delivering user experiences that captivate.',
-    subItems: []
-  },
-  // 6. Creative & Design - right side (alternated)
-  {
     title: 'creative & design',
     description: 'We believe that the most impactful solutions are born from the fusion of artistry and forward-thinking strategies. Explore our array of services designed to elevate your brand, captivate your audience, and redefine industry standards',
-    subItems: []
+    subItems: [
+      { title: 'branding', description: 'Our branding crafts narratives that resonate, transforming your identity into an unforgettable story.' },
+      { title: 'website design', description: 'Our websites are more than pages; they’re canvases of expression and user-friendliness into every click' },
+      { title: 'user experience', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.' },
+      { title: 'app design', description: 'In the mobile realm, we create apps that blend aesthetics with seamless functionality, delivering user experiences that captivate. ' },
+    ]
   },
-  // 7. Technology - left side
+  // 3. Technology - left side
   {
     title: 'technology',
     description: 'We\'re passionate enthusiasts of technology. We firmly believe that technology isn\'t just a tool; it\'s a powerful accelerator on our journey to success. Our in-house technology expertise empowers innovation, ensuring that your vision becomes reality with the speed and precision that modern technology allows',
@@ -58,17 +39,12 @@ const servicesData = [
       { title: 'ecommerce', description: 'From idea to marketplace, our in-house ecommerce solutions build robust online stores that thrive in the digital realm' },
     ]
   },
-  // 8. Events (short) - right side
+  // 4. Marketing - right side
   {
-    title: 'Events',
-    description: 'From memorable corporate gatherings to immersive product launches, our event marketing expertise brings your brand to life',
-    subItems: []
-  },
-  // 9. Events with sub-items - left side
-  {
-    title: 'Events',
-    description: 'At Satoris PR & Digital Communication Studio, we are masters of transforming fleeting moments into enduring memories. With over 15 years of hands-on experience in orchestrating events, ranging from intimate teambuilding sessions to grand-scale exhibitions that draw crowds from far and wide, we have honed our craft to perfection.',
+    title: 'marketing',
+    description: 'Marketing isn\'t just a service; it\'s the heartbeat of your brand\'s journey. At Satoris Communication Studio, we view marketing as the engine that propels your brand forward. Our strategic marketing expertise serves as the compass guiding your path to success.',
     subItems: [
+      { title: 'Events', description: 'From memorable corporate gatherings to immersive product launches, our event marketing expertise brings your brand to life' },
       { title: 'Content Creation', description: 'Crafting compelling stories, visuals and engaging content that resonate with and capture attention of your audience and drive meaningful connections' },
       { title: 'social Media managment', description: 'From content creation to engagement, our social media management ensures your brand shines in the digital spotlight' },
       { title: 'SEO', description: 'Boosting your online visibility and search rankings with our SEO strategies that drive organic growth' },
@@ -76,13 +52,7 @@ const servicesData = [
       { title: 'Email Marketing', description: 'Engaging your audience directly through personalized and effective email campaigns that convert' },
     ]
   },
-  // 10. Marketing - right side
-  {
-    title: 'marketing',
-    description: 'Marketing isn\'t just a service; it\'s the heartbeat of your brand\'s journey. At Satoris Communication Studio, we view marketing as the engine that propels your brand forward. Our strategic marketing expertise serves as the compass guiding your path to success.',
-    subItems: []
-  },
-  // 11. Events (detailed) - left side
+  // 5. Events - left side
   {
     title: 'Events',
     description: 'Events are more than just gatherings; they are the stages upon which your brand\'s essence takes center stage. We\'re dedicated to turning your vision into a tangible reality, creating experiences that captivate, inspire, and resonate.',
@@ -95,24 +65,16 @@ const servicesData = [
       { title: 'Partner Meetups', description: 'Strengthening partnerships and fostering collaboration through meticulously planned meetups' },
     ]
   },
-  // 12. Relationship Management - right side
-  {
-    title: 'Relationship Management',
-    description: 'Building and nurturing strong, lasting relationships that are the foundation of successful financial communication',
-    subItems: []
-  },
-  // 13. Investor Relations - left side
-  {
-    title: 'Investor Relations',
-    description: 'Crafting strategic and transparent communication that fosters investor trust and confidence in your financial journey',
-    subItems: []
-  },
-  // 14. Financial PR - right side
+  // 6. Financial PR - right side
   {
     title: 'Financial PR',
     description: 'We specialise in Financial PR, where every word and message matters, we understand the nuances of financial communication, from investor relations to market announcements. Our goal is to take the burden of this often tedious and complex task off your shoulders.',
-    subItems: []
+    subItems: [
+        { title: 'Relationship Management', description: 'Building and nurturing strong, lasting relationships that are the foundation of successful financial communication' },
+        { title: 'Investor Relations', description: 'Crafting strategic and transparent communication that fosters investor trust and confidence in your financial journey' },
+    ]
   },
+
 ];
 
 function Services() {
