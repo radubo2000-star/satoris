@@ -168,7 +168,6 @@ const clientLogos = [
 
 function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
 // ProjectCard with 3D tilt effect
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
@@ -518,32 +517,11 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           </div>
         </motion.div>
         
-        <div 
-          className="clients-carousel-wrapper"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          style={{ padding: 'var(--space-6) 0' }}
-        >
-          <div 
-            className="clients-carousel" 
-            style={{ 
-              display: 'flex', 
-              animationPlayState: isPaused ? 'paused' : 'running',
-              width: 'fit-content' 
-            }}
-          >
+        <div className="clients-carousel-wrapper">
+          <div className="clients-carousel">
             {[...clientLogos, ...clientLogos].map((client, index) => (
-              <div 
-                key={index} 
-                className="client-logo-wrapper" 
-                style={{ flex: '0 0 180px', padding: '0 var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-              >
-                <motion.img
-                  src={client.logo}
-                  alt={client.name}
-                  whileHover={{ scale: 1.15, rotate: 3 }}
-                  style={{ maxHeight: '60px', maxWidth: '150px', objectFit: 'contain', cursor: 'pointer' }}
-                />
+              <div key={index} className="client-logo-wrapper">
+                <img src={client.logo} alt={client.name} />
               </div>
             ))}
           </div>
