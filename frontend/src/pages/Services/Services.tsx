@@ -154,10 +154,10 @@ function Services() {
                 }}>
                   <h2 style={{ 
                     fontSize: '2rem', 
-                    color: '#32373c',
+                    color: '#FF9100',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    textTransform: 'lowercase',
+                    textTransform: 'uppercase',
                     fontFamily: 'Montserrat, sans-serif'
                   }}>
                     {service.title}
@@ -180,7 +180,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        textTransform: 'lowercase',
+                        textTransform: 'uppercase',
                         fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
@@ -205,7 +205,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        textTransform: 'lowercase',
+                        textTransform: 'uppercase',
                         fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
