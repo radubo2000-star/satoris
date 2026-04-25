@@ -11,13 +11,13 @@ const services = [
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Digital-Mk.webp',
-    title: 'Digital Marketing',
-    description: 'Digital Marketing, Ads, Sales Funnel, Event participation strategy, E-commerce.',
+    title: 'Marketing',
+    description: 'Digital Marketing, Ads, Sales Funnel, Event participation strategy, E-commerce, Branded merch.',
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
-    title: 'Events',
-    description: 'Corporate events, product launches, teambuildings, partner meetups, conferences.',
+    title: 'Implementation & On-Site',
+    description: 'Your agenda, our playbook, no surprises. Professional on-site management.',
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Expo.webp',
@@ -25,14 +25,14 @@ const services = [
     description: 'From 9 sqm booths to full pavilions. Complete expo strategy and execution.',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/pr.webp',
-    title: 'Implementation & On-Site',
-    description: 'Your agenda, our playbook, no surprises. Professional on-site management.',
-  },
-  {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Digital-Mk.webp',
     title: 'Digital',
     description: 'Websites, Landing pages, Email campaigns, Live streaming, Visual Content, Events Tech.',
+  },
+  {
+    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
+    title: 'Concept & Creative',
+    description: 'Events Concept, Visual Content, Themes, formats, agenda design—built for execution.',
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
