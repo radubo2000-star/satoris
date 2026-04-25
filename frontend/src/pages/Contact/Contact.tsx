@@ -42,8 +42,8 @@ function Contact() {
           >
             <span style={{ fontSize: '40px', color: '#fff' }}>✓</span>
           </motion.div>
-          <h2 style={{ fontSize: 'var(--text-3xl)', marginBottom: 'var(--space-4)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, color: '#32373c' }}>Thank you!</h2>
-          <p style={{ color: '#40464d', marginBottom: 'var(--space-6)', fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px' }}>We will get back to you within 24 hours.</p>
+          <h2 style={{ fontSize: 'var(--text-3xl)', marginBottom: 'var(--space-4)' }}>Thank you!</h2>
+          <p style={{ color: '#6b7280', marginBottom: 'var(--space-6)' }}>We will get back to you within 24 hours.</p>
           <button onClick={() => setIsSubmitted(false)} className="btn btn-outline">Send another message</button>
         </motion.div>
       </div>
@@ -55,10 +55,8 @@ function Contact() {
     padding: 'var(--space-4)',
     border: focusedField === fieldName ? '2px solid #FF9100' : '2px solid #e5e7eb',
     borderRadius: '8px',
-    fontSize: '17px',
-    fontFamily: "'Source Sans Pro', sans-serif",
+    fontSize: 'var(--text-base)',
     background: '#fff',
-    color: '#32373c',
     transition: 'all 0.3s',
     outline: 'none',
     boxShadow: focusedField === fieldName ? '0 4px 12px rgba(255,145,0,0.15)' : 'none',
@@ -72,12 +70,6 @@ function Contact() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            style={{ 
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 600,
-              fontSize: '48px',
-              color: '#32373c'
-            }}
           >
             want to work together?
           </motion.h1>
@@ -86,7 +78,6 @@ function Contact() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ fontFamily: "'Source Sans Pro', sans-serif", color: '#40464d', fontSize: '17px' }}
           >
             Contact us, and let's discover how we can help your organization become even greater.
           </motion.p>
@@ -101,11 +92,11 @@ function Contact() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h2 style={{ marginBottom: 'var(--space-6)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '40px', color: '#32373c' }}>Satoris PR & Digital</h2>
+              <h2 style={{ marginBottom: 'var(--space-6)' }}>Satoris PR & Digital</h2>
 
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '24px' }}>Contact Info</h4>
-                <p style={{ fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px', color: '#40464d' }}>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Contact Info</h4>
+                <p>
                   70-84 I. Mihalache Bd, Bl45, ent. 2, fl.1, ap.1<br />
                   District 1, Bucharest, Romania<br />
                   <a href="tel:+40723257755" style={{ color: '#FF9100' }}>+4 0723 25 77 55</a><br />
@@ -115,30 +106,30 @@ function Contact() {
               </div>
 
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '24px' }}>New Business</h4>
-                <p style={{ fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px', color: '#40464d' }}>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>New Business</h4>
+                <p>
                   <a href="mailto:natalia@satoris.ro" style={{ color: '#FF9100' }}>natalia@satoris.ro</a><br />
                   +40 723 25 77 55
                 </p>
               </div>
 
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '24px' }}>Other Inquiries</h4>
-                <p style={{ fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px', color: '#40464d' }}>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Other Inquiries</h4>
+                <p>
                   <a href="mailto:info@satoris.ro" style={{ color: '#FF9100' }}>info@satoris.ro</a>
                 </p>
               </div>
 
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '24px' }}>Join the team</h4>
-                <p style={{ fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px', color: '#40464d' }}>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Join the team</h4>
+                <p>
                   <a href="mailto:team@satoris.ro" style={{ color: '#FF9100' }}>team@satoris.ro</a>
                 </p>
               </div>
 
               <div>
-                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '24px' }}>Press</h4>
-                <p style={{ fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px', color: '#40464d' }}>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Press</h4>
+                <p>
                   <a href="mailto:press@satoris.ro" style={{ color: '#FF9100' }}>press@satoris.ro</a><br />
                   +4 0723 25 77 55
                 </p>
@@ -151,8 +142,8 @@ function Contact() {
               transition={{ duration: 0.6, delay: 0.2 }}
               style={{ background: '#fafafa', padding: 'var(--space-8)', borderRadius: '16px' }}
             >
-              <h3 style={{ marginBottom: 'var(--space-6)', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '32px', color: '#32373c' }}>Prefer we call you?</h3>
-              <p style={{ marginBottom: 'var(--space-6)', color: '#40464d', fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px' }}>
+              <h3 style={{ marginBottom: 'var(--space-6)' }}>Prefer we call you?</h3>
+              <p style={{ marginBottom: 'var(--space-6)', color: '#6b7280' }}>
                 Fill out your details here and we'll get back to you within 24 hours.
               </p>
 
@@ -257,8 +248,8 @@ function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600, fontSize: '40px' }}>let's talk</h2>
-            <p style={{ fontFamily: "'Source Sans Pro', sans-serif", fontSize: '17px' }}>Your digital presence is about to take off</p>
+            <h2>let's talk</h2>
+            <p>Your digital presence is about to take off</p>
             <a href="/contact" className="btn">Contact us</a>
           </motion.div>
         </div>
