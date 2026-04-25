@@ -44,16 +44,20 @@ function Footer() {
             <ul>
               <li>
                 <strong>Address:</strong><br />
-                70-84 Ion Mihalache Bd, b.45, S1<br />
-                Bucharest, RO
+                70-84 I. Mihalache Bd, Bl45, ent. 2, fl.1, ap.1<br />
+                District 1, Bucharest, Romania
               </li>
               <li>
                 <strong>Phone:</strong><br />
-                +4 0723257755
+                +4 0723 25 77 55
               </li>
               <li>
                 <strong>Hours:</strong><br />
-                Mon-Fri 9am-6pm
+                Mon-Fri 9am-5pm
+              </li>
+              <li>
+                <strong>Email:</strong><br />
+                hello@satoris.ro
               </li>
             </ul>
           </div>
@@ -62,7 +66,7 @@ function Footer() {
             <h4>Join Our Newsletter</h4>
             <p>Sign up for free marketing tips, inspirations, and more.</p>
             <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" placeholder="Your email" required />
+              <input type="email" placeholder="Email" required />
               <button type="submit" className="btn btn-primary">Sign Me Up</button>
             </form>
           </div>

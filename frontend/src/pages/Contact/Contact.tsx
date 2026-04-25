@@ -5,35 +5,35 @@ import '../../styles/sections.css';
 
 function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    firstName: '',
+    lastName: '',
     phone: '',
-    subject: '',
+    email: '',
+    organization: '',
+    website: '',
     message: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submission:', formData);
-    setSubmitted(true);
+    console.log('Contact form:', formData);
+    alert('Thank you! We will get back to you within 24 hours.');
   };
 
   return (
     <div className="contact-page">
-      <section className="hero" style={{ minHeight: '50vh' }}>
+      <section className="hero" style={{ minHeight: '40vh' }}>
         <div className="hero-content">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Contact Us
+            want to work together?
           </motion.h1>
           <motion.p
             className="hero-description"
@@ -41,179 +41,165 @@ function Contact() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Let's make things happen together!
+            Contact us, and let's discover how we can help your organization become even greater.
           </motion.p>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-12)' }}>
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 style={{ marginBottom: 'var(--space-6)' }}>Get in Touch</h2>
-              
-              {submitted ? (
-                <div style={{ 
-                  padding: 'var(--space-8)', 
-                  background: 'var(--color-success)', 
-                  borderRadius: 'var(--radius-lg)',
-                  color: 'var(--color-white)',
-                  textAlign: 'center'
-                }}>
-                  <h3>Thank you!</h3>
-                  <p>Your message has been sent. We'll get back to you soon.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="contact-form">
-                  <div style={{ marginBottom: 'var(--space-4)' }}>
-                    <label htmlFor="name" style={{ display: 'block', marginBottom: 'var(--space-2)', fontWeight: 500 }}>Name *</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      style={{ 
-                        width: '100%', 
-                        padding: '0.75rem', 
-                        border: '1px solid var(--color-gray-lighter)', 
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: 'var(--text-base)'
-                      }}
-                    />
-                  </div>
-                  
-                  <div style={{ marginBottom: 'var(--space-4)' }}>
-                    <label htmlFor="email" style={{ display: 'block', marginBottom: 'var(--space-2)', fontWeight: 500 }}>Email *</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      style={{ 
-                        width: '100%', 
-                        padding: '0.75rem', 
-                        border: '1px solid var(--color-gray-lighter)', 
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: 'var(--text-base)'
-                      }}
-                    />
-                  </div>
-                  
-                  <div style={{ marginBottom: 'var(--space-4)' }}>
-                    <label htmlFor="phone" style={{ display: 'block', marginBottom: 'var(--space-2)', fontWeight: 500 }}>Phone</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      style={{ 
-                        width: '100%', 
-                        padding: '0.75rem', 
-                        border: '1px solid var(--color-gray-lighter)', 
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: 'var(--text-base)'
-                      }}
-                    />
-                  </div>
-                  
-                  <div style={{ marginBottom: 'var(--space-4)' }}>
-                    <label htmlFor="subject" style={{ display: 'block', marginBottom: 'var(--space-2)', fontWeight: 500 }}>Subject</label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      style={{ 
-                        width: '100%', 
-                        padding: '0.75rem', 
-                        border: '1px solid var(--color-gray-lighter)', 
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: 'var(--text-base)',
-                        background: 'var(--color-white)'
-                      }}
-                    >
-                      <option value="">Select a subject</option>
-                      <option value="event">Event Inquiry</option>
-                      <option value="pr">PR & Communication</option>
-                      <option value="digital">Digital Services</option>
-                      <option value="branding">Branding</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                  
-                  <div style={{ marginBottom: 'var(--space-4)' }}>
-                    <label htmlFor="message" style={{ display: 'block', marginBottom: 'var(--space-2)', fontWeight: 500 }}>Message *</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      style={{ 
-                        width: '100%', 
-                        padding: '0.75rem', 
-                        border: '1px solid var(--color-gray-lighter)', 
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: 'var(--text-base)',
-                        resize: 'vertical'
-                      }}
-                    />
-                  </div>
-                  
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                    Send Message
-                  </button>
-                </form>
-              )}
-            </motion.div>
-
+          <div className="grid grid-2" style={{ gap: 'var(--space-12)' }}>
             {/* Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 style={{ marginBottom: 'var(--space-6)' }}>Contact Information</h2>
+            <div>
+              <h2 style={{ marginBottom: 'var(--space-6)' }}>Satoris PR & Digital</h2>
               
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>Address</h3>
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Contact Info</h4>
                 <p>
-                  70-84 Ion Mihalache Bd, b.45, S1<br />
-                  Bucharest, RO
+                  70-84 I. Mihalache Bd, Bl45, ent. 2, fl.1, ap.1<br />
+                  District 1, Bucharest, Romania<br />
+                  <a href="tel:+40723257755" style={{ color: 'var(--color-primary)' }}>+4 0723 25 77 55</a><br />
+                  Mon-Fri 9am-5pm<br />
+                  <a href="mailto:hello@satoris.ro" style={{ color: 'var(--color-primary)' }}>hello@satoris.ro</a>
                 </p>
               </div>
-              
+
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>Phone</h3>
-                <p>+4 0723257755</p>
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>New Business</h4>
+                <p>
+                  <a href="mailto:natalia@satoris.ro" style={{ color: 'var(--color-primary)' }}>natalia@satoris.ro</a><br />
+                  +40 723 25 77 55
+                </p>
               </div>
-              
+
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>Email</h3>
-                <p>contact@satoris.ro</p>
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Other Inquiries</h4>
+                <p>
+                  <a href="mailto:info@satoris.ro" style={{ color: 'var(--color-primary)' }}>info@satoris.ro</a>
+                </p>
               </div>
-              
+
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>Hours</h3>
-                <p>Mon-Fri 9am-6pm</p>
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Join the team</h4>
+                <p>
+                  <a href="mailto:team@satoris.ro" style={{ color: 'var(--color-primary)' }}>team@satoris.ro</a>
+                </p>
               </div>
-            </motion.div>
+
+              <div>
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Press</h4>
+                <p>
+                  <a href="mailto:press@satoris.ro" style={{ color: 'var(--color-primary)' }}>press@satoris.ro</a><br />
+                  +4 0723 25 77 55
+                </p>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div style={{ background: 'var(--color-gray-lightest)', padding: 'var(--space-8)', borderRadius: 'var(--radius-lg)' }}>
+              <h3 style={{ marginBottom: 'var(--space-6)' }}>Prefer we call you?</h3>
+              <p style={{ marginBottom: 'var(--space-6)', color: 'var(--color-gray)' }}>
+                Fill out your details here and we'll get back to you within 24 hours.
+              </p>
+
+              <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name*"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                    style={inputStyle}
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name*"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                    style={inputStyle}
+                  />
+                </div>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number*"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  style={inputStyle}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address*"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  style={inputStyle}
+                />
+                <input
+                  type="text"
+                  name="organization"
+                  placeholder="Business/Organization name*"
+                  value={formData.organization}
+                  onChange={handleChange}
+                  required
+                  style={inputStyle}
+                />
+                <input
+                  type="url"
+                  name="website"
+                  placeholder="Website URL"
+                  value={formData.website}
+                  onChange={handleChange}
+                  style={inputStyle}
+                />
+                <textarea
+                  name="message"
+                  placeholder="Tell us how we can help*"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  style={{ ...inputStyle, resize: 'vertical' }}
+                />
+                <button type="submit" className="btn btn-primary" style={{ justifySelf: 'center' }}>
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <section className="cta-section">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2>let's talk</h2>
+            <p>Your digital presence is about to take off</p>
+            <a href="/contact" className="btn">Contact us</a>
+          </motion.div>
         </div>
       </section>
     </div>
   );
 }
+
+const inputStyle = {
+  width: '100%',
+  padding: '0.75rem 1rem',
+  border: '1px solid var(--color-gray-lighter)',
+  borderRadius: 'var(--radius-md)',
+  fontSize: 'var(--text-base)',
+  fontFamily: 'var(--font-primary)',
+};
 
 export default Contact;
