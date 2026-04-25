@@ -164,8 +164,8 @@ function Services() {
                   </h2>
                   <p style={{ 
                     color: '#555', 
-                    fontSize: '1rem',
-                    lineHeight: 1.8,
+                    fontSize: '0.8rem',
+                    lineHeight: 1.4,
                   }}>
                     {service.description}
                   </p>
@@ -187,8 +187,8 @@ function Services() {
                       </h3>
                       <p style={{ 
                         color: '#555', 
-                        fontSize: '0.9rem',
-                        lineHeight: 1.6
+                        fontSize: '0.8rem',
+                        lineHeight: 1.2
                       }}>
                         {item.description}
                       </p>
@@ -212,8 +212,8 @@ function Services() {
                       </h3>
                       <p style={{ 
                         color: '#555', 
-                        fontSize: '0.9rem',
-                        lineHeight: 1.6
+                        fontSize: '0.8rem',
+                        lineHeight: 1.2
                       }}>
                         {item.description}
                       </p>
