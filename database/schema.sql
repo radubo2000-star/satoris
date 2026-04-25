@@ -48,9 +48,38 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     content TEXT,
     category VARCHAR(100) DEFAULT '',
     image VARCHAR(500) DEFAULT '',
+    author VARCHAR(255) DEFAULT 'Satoris Team',
     is_published TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Comments table
+CREATE TABLE IF NOT EXISTS comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    blog_post_id INT NOT NULL,
+    author_name VARCHAR(255) NOT NULL,
+    author_email VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    is_approved TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (blog_post_id) REFERENCES blog_posts(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tags table
+CREATE TABLE IF NOT EXISTS tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    slug VARCHAR(100) UNIQUE NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Blog-Tags relationship (many-to-many)
+CREATE TABLE IF NOT EXISTS blog_tags (
+    blog_post_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    PRIMARY KEY (blog_post_id, tag_id),
+    FOREIGN KEY (blog_post_id) REFERENCES blog_posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Testimonials table
@@ -117,12 +146,39 @@ INSERT INTO projects (name, slug, category, description, is_featured) VALUES
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Insert default blog posts
-INSERT INTO blog_posts (title, slug, excerpt, category, is_published) VALUES
-    ('Târg de Crăciun Dalles 2025', 'targ-de-craciun-dalles-2025', 'Event Concept, Event Management & Implementation for the Christmas market at Dalles.', 'Events', 1),
-    ('Exhibition Success Blueprint', 'exhibition-success-blueprint', 'Event Management, Expo Strategy, Print Design, Content Strategy for successful trade shows.', 'Strategy', 1),
-    ('Omi', 'omi', 'Digital Audit, Market Research, User Experience for Omi brand.', 'Digital', 1),
-    ('Holandria', 'holandria', 'Packaging, Branding, Email Marketing for Holandria.', 'Branding', 1)
+INSERT INTO blog_posts (title, slug, excerpt, content, category, author, is_published) VALUES
+    ('Târg de Crăciun Dalles 2025', 'targ-de-craciun-dalles-2025', 'Event Concept, Event Management & Implementation for the Christmas market at Dalles.', '<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025. This event brought together over 50 exhibitors and thousands of visitors during the holiday season.</p><p>Our team managed everything from venue coordination to marketing campaigns, ensuring a memorable experience for all attendees.</p><h3>Key Highlights</h3><ul><li>50+ exhibitor booths</li><li>Live entertainment throughout the event</li><li>Traditional Romanian crafts and products</li><li>Delicious local food vendors</li></ul>', 'Events', 'Satoris Team', 1),
+    ('Exhibition Success Blueprint', 'exhibition-success-blueprint', 'Event Management, Expo Strategy, Print Design, Content Strategy for successful trade shows.', '<p>Attending or exhibiting at trade shows can be a game-changer for your business. But without proper planning and execution, it can also be a waste of resources.</p><p>This guide will help you create a winning exhibition strategy that delivers results.</p><h3>Pre-Event Planning</h3><p>Start by defining clear objectives. Are you looking to generate leads, launch a new product, or build brand awareness? Your goals will shape every decision you make.</p>', 'Strategy', 'Natalia Pruteanu', 1),
+    ('Omi Brand Digital Strategy', 'omi-digital-strategy', 'Digital Audit, Market Research, User Experience for Omi brand.', '<p>Working with Omi allowed us to completely transform their digital presence. Through comprehensive market research and digital audits, we identified key opportunities for growth.</p><p>The results exceeded expectations with a 200% increase in online engagement.</p>', 'Digital', 'Satoris Team', 1),
+    ('Holandria Branding Journey', 'holandria-branding', 'Packaging, Branding, Email Marketing for Holandria.', '<p>Holandria approached us for a complete brand refresh. From logo design to packaging, we created a cohesive visual identity that resonated with their target audience.</p><p>The new branding has helped them stand out in a competitive market.</p>', 'Branding', 'Satoris Team', 1)
 ON DUPLICATE KEY UPDATE title = VALUES(title);
+
+-- Insert tags
+INSERT INTO tags (name, slug) VALUES
+    ('Events', 'events'),
+    ('Strategy', 'strategy'),
+    ('Digital', 'digital'),
+    ('Branding', 'branding'),
+    ('Marketing', 'marketing'),
+    ('Trends', 'trends'),
+    ('Case Study', 'case-study')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+-- Insert blog tags relationships
+INSERT INTO blog_tags (blog_post_id, tag_id) VALUES
+    (1, 1), (1, 7),
+    (2, 2), (2, 5),
+    (3, 3), (3, 2),
+    (4, 4), (4, 7)
+ON DUPLICATE KEY UPDATE tag_id = VALUES(tag_id);
+
+-- Insert sample comments
+INSERT INTO comments (blog_post_id, author_name, author_email, content, is_approved) VALUES
+    (1, 'Maria Popescu', 'maria@example.com', 'Excelent eveniment! A fost o experiență minunată pentru întreaga familie.', 1),
+    (1, 'Ion Georgescu', 'ion@example.com', 'Când va fi următorul târg? Aștept cu nerăbdare!', 1),
+    (2, 'Elena Dumitrescu', 'elena@example.com', 'Sfaturile sunt foarte utile. Mulțumesc pentru sharing!', 1),
+    (3, 'Andrei Marin', 'andrei@example.com', 'Impresionant rezultatele. Felicitări!', 0)
+ON DUPLICATE KEY UPDATE content = VALUES(content);
 
 -- Insert default testimonials
 INSERT INTO testimonials (text, author, role, sort_order) VALUES

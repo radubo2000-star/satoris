@@ -4,7 +4,9 @@ nohup: ignoring input
 > vite
 
 
-  VITE v8.0.10  ready in 176 ms
+  VITE v8.0.10  ready in 168 ms
 
   ➜  Local:   http://localhost:12000/
   ➜  Network: use --host to expose
+10:30:10 PM [vite] (client) hmr update /src/App.tsx
+10:30:12 PM [vite] (client) hmr update /src/App.tsx
