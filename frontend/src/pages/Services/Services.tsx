@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
 const serviceCategories = [
   {
     title: 'Strategy',
-    icon: '🎯',
     description: "Strategy is the first step, the cornerstone upon which successful journeys are built. At Satoris PR & Digital Communication Studio, we understand that a well-crafted strategy is not just a roadmap; it's the key to unlocking your brand's full potential.",
     services: [
       { name: 'Social Media Strategy', desc: 'Crafting a tailored roadmap for your brand\'s social media success' },
@@ -19,7 +17,6 @@ const serviceCategories = [
   },
   {
     title: 'Branding & Design',
-    icon: '🎨',
     description: "Our branding crafts narratives that resonate, transforming your identity into an unforgettable story.",
     services: [
       { name: 'Branding', desc: 'Crafting narratives that resonate' },
@@ -31,7 +28,6 @@ const serviceCategories = [
   },
   {
     title: 'Technology',
-    icon: '💻',
     description: "Technology isn't just a tool; it's a powerful accelerator on our journey to success.",
     services: [
       { name: 'Website Development', desc: 'In-house web development expertise' },
@@ -42,7 +38,6 @@ const serviceCategories = [
   },
   {
     title: 'Digital Marketing',
-    icon: '📱',
     description: "Marketing isn't just a service; it's the heartbeat of your brand's journey.",
     services: [
       { name: 'Content Creation', desc: 'Compelling stories and visuals' },
@@ -54,7 +49,6 @@ const serviceCategories = [
   },
   {
     title: 'Events',
-    icon: '🎪',
     description: "We are masters of transforming fleeting moments into enduring memories. With over 15 years of hands-on experience in orchestrating events.",
     services: [
       { name: 'Custom Events', desc: 'Tailored solutions that exceed expectations' },
@@ -67,7 +61,6 @@ const serviceCategories = [
   },
   {
     title: 'Financial PR',
-    icon: '💰',
     description: "We specialize in Financial PR, where every word and message matters.",
     services: [
       { name: 'Relationship Management', desc: 'Building lasting relationships' },
@@ -78,167 +71,137 @@ const serviceCategories = [
 ];
 
 function Services() {
-  const [activeCategory, setActiveCategory] = useState(0);
-
   return (
     <div className="services-page">
-      {/* Hero Section */}
-      <section className="hero" style={{ minHeight: '50vh', background: 'linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%)' }}>
-        <div className="hero-content">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ color: '#FF9100' }}
-          >
-            We're here to help you
-          </motion.h1>
-          <motion.p
-            className="hero-description"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Grow & stand out from the crowd
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Intro Section */}
-      <section className="section" style={{ background: '#fafafa' }}>
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}
-          >
-            <h2 style={{ marginBottom: 'var(--space-6)' }}>Strategy</h2>
-            <p style={{ fontSize: 'var(--text-xl)', lineHeight: 1.8, color: 'var(--color-gray)' }}>
-              Strategy is the first step, the cornerstone upon which successful journeys are built. At Satoris PR & Digital Communication Studio, 
-              we understand that a well-crafted strategy is not just a roadmap; it's the key to unlocking your brand's full potential. We dive deep into the 
-              heart of your goals, challenges, and aspirations, crafting personalised strategies that illuminate the path to success.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Service Categories */}
-      <section className="section">
-        <div className="container">
-          <div className="services-grid">
-            {serviceCategories.map((category, index) => (
-              <motion.div
-                key={index}
-                className="service-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                style={{ 
-                  cursor: 'pointer',
-                  border: '1px solid #e4e4e7',
-                  borderRadius: 'var(--radius-lg)',
-                  overflow: 'hidden',
-                }}
-                onClick={() => setActiveCategory(activeCategory === index ? -1 : index)}
-              >
-                <div style={{ 
-                  padding: 'var(--space-8)', 
-                  background: activeCategory === index ? '#FF9100' : 'transparent',
-                  transition: 'all 0.3s ease'
-                }}>
-                  <span style={{ fontSize: 'var(--text-3xl)', marginBottom: 'var(--space-4)', display: 'block' }}>
-                    {category.icon}
-                  </span>
-                  <h3 style={{ 
-                    color: activeCategory === index ? '#fff' : 'var(--color-black)',
-                    marginBottom: 'var(--space-3)',
-                    transition: 'color 0.3s ease'
-                  }}>
-                    {category.title}
-                  </h3>
-                  <p style={{ 
-                    color: activeCategory === index ? '#fff' : 'var(--color-gray)',
-                    fontSize: 'var(--text-sm)',
-                    lineHeight: 1.7,
-                    transition: 'color 0.3s ease'
-                  }}>
-                    {category.description}
-                  </p>
-                </div>
-                
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ 
-                    opacity: activeCategory === index ? 1 : 0,
-                    height: activeCategory === index ? 'auto' : 0 
-                  }}
-                  transition={{ duration: 0.3 }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <div style={{ 
-                    padding: 'var(--space-6)', 
-                    borderTop: '1px solid #e4e4e7',
-                    background: '#fff'
-                  }}>
-                    {category.services.map((service, i) => (
-                      <div 
-                        key={i} 
-                        style={{ 
-                          padding: 'var(--space-4) 0',
-                          borderBottom: i < category.services.length - 1 ? '1px solid #f4f4f5' : 'none'
-                        }}
-                      >
-                        <h4 style={{ 
-                          fontSize: 'var(--text-base)', 
-                          color: 'var(--color-black)',
-                          marginBottom: 'var(--space-1)'
-                        }}>
-                          {service.name}
-                        </h4>
-                        <p style={{ 
-                          fontSize: 'var(--text-sm)', 
-                          color: 'var(--color-gray)' 
-                        }}>
-                          {service.desc}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              </motion.div>
-            ))}
+      {/* Hero with Image */}
+      <section style={{ position: 'relative', height: '50vh', minHeight: '400px' }}>
+        <img 
+          src="https://satoris.ro/wp-content/uploads/2023/09/services_hero.jpg"
+          alt="Services"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }}
+        />
+        <div style={{ 
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          bottom: 0, 
+          background: 'linear-gradient(135deg, rgba(26,26,46,0.9) 0%, rgba(45,45,68,0.7) 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <div className="hero-content" style={{ textAlign: 'center', maxWidth: '800px', padding: 'var(--space-8)' }}>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              style={{ color: '#FF9100', marginBottom: 'var(--space-4)' }}
+            >
+              We're here to help you
+            </motion.h1>
+            <motion.p
+              className="hero-description"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{ fontSize: 'var(--text-3xl)', fontWeight: 600, color: '#fff' }}
+            >
+              Grow & stand out from the crowd
+            </motion.p>
           </div>
         </div>
       </section>
 
-      {/* Events Detail Section */}
+      {/* Service Categories - Similar to Original */}
+      {serviceCategories.map((category, catIndex) => (
+        <section 
+          key={catIndex} 
+          className="section"
+          style={{ background: catIndex % 2 === 0 ? '#fafafa' : '#fff' }}
+        >
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{ marginBottom: 'var(--space-8)' }}
+            >
+              <h2 style={{ 
+                color: '#FF9100', 
+                fontSize: 'var(--text-4xl)', 
+                marginBottom: 'var(--space-4)',
+                textTransform: 'capitalize'
+              }}>
+                {category.title.toLowerCase()}
+              </h2>
+              <p style={{ 
+                fontSize: 'var(--text-xl)', 
+                lineHeight: 1.8, 
+                color: 'var(--color-gray)',
+                maxWidth: '800px'
+              }}>
+                {category.description}
+              </p>
+            </motion.div>
+
+            <div className="grid grid-3">
+              {category.services.map((service, servIndex) => (
+                <motion.div
+                  key={servIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: servIndex * 0.1 }}
+                  style={{
+                    padding: 'var(--space-6)',
+                    background: '#fff',
+                    borderRadius: 'var(--radius-lg)',
+                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                    border: '1px solid #e5e7eb'
+                  }}
+                >
+                  <h3 style={{ 
+                    fontSize: 'var(--text-lg)', 
+                    marginBottom: 'var(--space-2)',
+                    color: 'var(--color-black)'
+                  }}>
+                    {service.name}
+                  </h3>
+                  <p style={{ 
+                    fontSize: 'var(--text-sm)', 
+                    color: 'var(--color-gray)',
+                    lineHeight: 1.6
+                  }}>
+                    {service.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
+
+      {/* Events Section - Dark Background */}
       <section className="section" style={{ background: '#1a1a2e', color: '#fff' }}>
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}
+            style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto var(--space-10)' }}
           >
-            <span style={{ fontSize: 'var(--text-3xl)', marginBottom: 'var(--space-4)', display: 'block' }}>🎪</span>
-            <h2 style={{ color: '#FF9100', marginBottom: 'var(--space-6)' }}>Events</h2>
-            <p style={{ fontSize: 'var(--text-xl)', lineHeight: 1.8, color: '#a1a1aa', marginBottom: 'var(--space-8)' }}>
+            <h2 style={{ color: '#FF9100', fontSize: 'var(--text-4xl)', marginBottom: 'var(--space-4)' }}>Events</h2>
+            <p style={{ fontSize: 'var(--text-xl)', lineHeight: 1.8, color: '#a1a1aa' }}>
               At Satoris PR & Digital Communication Studio, we are masters of transforming fleeting moments into 
               enduring memories. With over 15 years of hands-on experience in orchestrating events, ranging from 
               intimate teambuilding sessions to grand-scale exhibitions that draw crowds from far and wide.
             </p>
-            <p style={{ fontSize: 'var(--text-lg)', color: '#fff' }}>
-              Whether it's a corporate party, product launch, partner meetup, convention, exhibition, or a custom event that defies categorization, 
-              our expertise shines through, leaving an indelible mark on every occasion.
-            </p>
           </motion.div>
 
-          <div className="grid grid-3" style={{ marginTop: 'var(--space-12)' }}>
+          <div className="grid grid-3">
             {[
-              { title: 'Custom Events', desc: 'Tailored solutions' },
+              { title: 'Custom Events', desc: 'Tailored solutions that exceed expectations' },
               { title: 'Conventions', desc: 'Immersive experiences' },
               { title: 'Exhibitions', desc: 'Captivating displays' },
               { title: 'Teambuilding', desc: 'Dynamic activities' },
@@ -251,7 +214,7 @@ function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, y: -5 }}
                 style={{
                   padding: 'var(--space-6)',
                   background: '#2d2d44',
@@ -274,10 +237,15 @@ function Services() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            style={{ textAlign: 'center' }}
           >
-            <h2>let's talk</h2>
-            <p>Your digital presence is about to take off</p>
-            <a href="/contact" className="btn">Contact us</a>
+            <h2 style={{ fontSize: 'var(--text-4xl)', marginBottom: 'var(--space-4)' }}>let's talk</h2>
+            <p style={{ fontSize: 'var(--text-xl)', marginBottom: 'var(--space-8)', color: 'var(--color-gray)' }}>
+              Your digital presence is about to take off
+            </p>
+            <a href="/contact" className="btn btn-primary" style={{ padding: '1rem 2rem', fontSize: 'var(--text-lg)' }}>
+              Contact us
+            </a>
           </motion.div>
         </div>
       </section>
