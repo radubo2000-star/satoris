@@ -4,48 +4,18 @@ import '../../styles/globals.css';
 import '../../styles/sections.css';
 
 const servicesData = [
-  // Strategy
+  // Strategy - Parent category with children
   {
     category: 'Strategy',
     title: 'Strategy',
-    description: 'Strategy is the first step, the cornerstone upon which successful journeys are built. At Satoris PR & Digital Communication Studio, we understand that a well-crafted strategy is not just a roadmap; it\'s the key to unlocking your brand\'s full potential.',
-    features: ['Strategic Planning', 'Roadmap', 'Goal Setting', 'Brand Positioning']
-  },
-  {
-    category: 'Strategy',
-    title: 'Social Media Strategy',
-    description: 'Crafting a tailored roadmap for your brand\'s social media success. From content calendars to engagement tactics, we strategize every aspect to maximize your digital presence.',
-    features: ['Content Calendars', 'Engagement Tactics', 'Growth Strategy', 'Analytics']
-  },
-  {
-    category: 'Strategy',
-    title: 'Platform Strategy',
-    description: 'Navigating the digital landscape with precision. We analyze, select, and optimize the right platforms to ensure your message reaches your target audience effectively.',
-    features: ['Platform Analysis', 'Selection', 'Optimization', 'Targeting']
-  },
-  {
-    category: 'Strategy',
-    title: 'Digital Audit',
-    description: 'A comprehensive health check for your online presence. Our digital audit pinpoints strengths and opportunities, guiding strategic decisions for growth.',
-    features: ['Health Check', 'Strengths Analysis', 'Opportunities', 'Growth Planning']
-  },
-  {
-    category: 'Strategy',
-    title: 'Market Research',
-    description: 'Empowering decisions with data-driven insights. Our market research uncovers trends, competition, and audience preferences, enabling informed strategies for success.',
-    features: ['Trend Analysis', 'Competition Analysis', 'Audience Insights', 'Reporting']
-  },
-  {
-    category: 'Strategy',
-    title: 'Communication Strategy',
-    description: 'Mastering the art of brand conversation. Our communication strategy aligns your messaging with objectives, ensuring clear, impactful, and cohesive interactions.',
-    features: ['Messaging', 'Brand Voice', 'Internal Comms', 'External Comms']
-  },
-  {
-    category: 'Strategy',
-    title: 'Content Strategy',
-    description: 'Fueling engagement through compelling storytelling. Our content strategy harmonizes brand narratives with audience interests, creating meaningful connections.',
-    features: ['Storytelling', 'Brand Narratives', 'Audience Engagement', 'Content Planning']
+    description: 'Strategy is the first step, the cornerstone upon which successful journeys are built. At Satoris PR & Digital Communication Studio, we understand that a well-crafted strategy is not just a roadmap; it\'s the key to unlocking your brand\'s full potential. We dive deep into the heart of your goals, challenges, and aspirations, crafting personalised strategies that illuminate the path to success. With our commitment to strategy, we ensure that every move is purposeful, every decision is informed, and every outcome is exceptional.',
+    children: [
+      { title: 'Social Media Strategy', description: 'Crafting a tailored roadmap for your brand\'s social media success. From content calendars to engagement tactics, we strategize every aspect to maximize your digital presence' },
+      { title: 'Platform Strategy', description: 'Navigating the digital landscape with precision. We analyze, select, and optimize the right platforms to ensure your message reaches your target audience effectively' },
+      { title: 'Digital Audit', description: 'A comprehensive health check for your online presence. Our digital audit pinpoints strengths and opportunities, guiding strategic decisions for growth' },
+      { title: 'Market Research', description: 'Empowering decisions with data-driven insights. Our market research uncovers trends, competition, and audience preferences, enabling informed strategies for success' },
+      { title: 'Communication Strategy', description: 'Mastering the art of brand conversation. Our communication strategy aligns your messaging with objectives, ensuring clear, impactful, and cohesive interactions, both internal and external' },
+    ]
   },
   // PR & Digital
   {
@@ -290,13 +260,27 @@ function Services() {
                       }}>
                         {service.description}
                       </p>
-                      <div style={{ 
-                        display: 'flex', 
-                        flexWrap: 'wrap', 
-                        gap: 'var(--space-2)',
-                        marginTop: 'var(--space-4)' 
-                      }}>
-                        {service.features.map((feature, i) => (
+                      {service.children && (
+                        <div style={{ marginTop: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                        {service.children.map((child, i) => (
+                          <div key={i} style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
+                            <span style={{ color: '#FF9100', fontSize: 'var(--text-lg)' }}>›</span>
+                            <div>
+                              <h4 style={{ fontWeight: 600, marginBottom: 'var(--space-1)' }}>{child.title}</h4>
+                              <p style={{ color: '#6b7280', fontSize: 'var(--text-sm)' }}>{child.description}</p>
+                            </div>
+                          </div>
+                        ))}
+                        </div>
+                      )}
+                      {service.features && (
+                        <div style={{ 
+                          display: 'flex', 
+                          flexWrap: 'wrap', 
+                          gap: 'var(--space-2)',
+                          marginTop: 'var(--space-4)' 
+                        }}>
+                          {service.features.map((feature, i) => (
                           <span
                             key={i}
                             style={{
@@ -310,7 +294,8 @@ function Services() {
                             {feature}
                           </span>
                         ))}
-                      </div>
+                        </div>
+                      )}
                     </motion.div>
                   )}
                 </motion.div>
