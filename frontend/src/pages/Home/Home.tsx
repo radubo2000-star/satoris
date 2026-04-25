@@ -110,6 +110,16 @@ const clientLogos = [
   { name: 'TotalServe', logo: 'https://satoris.ro/wp-content/uploads/2021/09/totalserve-e1631537248931.jpg' },
   { name: 'NatalChic', logo: 'https://satoris.ro/wp-content/uploads/2021/09/Natalchic-roz-logo-social-media-960px-e1631537328780.jpg' },
   { name: 'Miresmei', logo: 'https://satoris.ro/wp-content/uploads/2021/09/sigla-ME-e1631537317688.jpeg' },
+  { name: 'OAR', logo: 'https://satoris.ro/wp-content/uploads/2023/09/1-1.png' },
+  { name: 'PM', logo: 'https://satoris.ro/wp-content/uploads/2023/09/2-1.png' },
+  { name: 'UAUIM', logo: 'https://satoris.ro/wp-content/uploads/2023/09/3-1.png' },
+  { name: 'Rombeer', logo: 'https://satoris.ro/wp-content/uploads/2023/09/4-1.png' },
+  { name: 'EXPOBIKE', logo: 'https://satoris.ro/wp-content/uploads/2023/09/5-1.png' },
+  { name: 'Arvi', logo: 'https://satoris.ro/wp-content/uploads/2023/09/6-1.png' },
+  { name: 'Patrimoniu', logo: 'https://satoris.ro/wp-content/uploads/2023/09/7-1.png' },
+  { name: 'Stone Deco', logo: 'https://satoris.ro/wp-content/uploads/2023/09/14-1.png' },
+  { name: 'Basa Stone', logo: 'https://satoris.ro/wp-content/uploads/2023/09/15-1.png' },
+  { name: 'Fit Class', logo: 'https://satoris.ro/wp-content/uploads/2023/09/16-1.png' },
 ];
 
 function Home() {
