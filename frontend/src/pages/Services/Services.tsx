@@ -158,7 +158,8 @@ function Services() {
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
                     textTransform: 'capitalize',
-                    fontFamily: 'Montserrat, sans-serif'
+                    fontFamily: 'Montserrat, sans-serif',
+                    textAlign: 'left'
                   }}>
                     {service.title}
                   </h2>
@@ -182,7 +183,8 @@ function Services() {
                         fontWeight: 600,
                         marginBottom: '6px',
                         textTransform: 'capitalize',
-                        fontFamily: 'Montserrat, sans-serif'
+                        fontFamily: 'Montserrat, sans-serif',
+                        textAlign: 'left'
                       }}>
                         {item.title}
                       </h3>
@@ -208,7 +210,8 @@ function Services() {
                         fontWeight: 600,
                         marginBottom: '6px',
                         textTransform: 'capitalize',
-                        fontFamily: 'Montserrat, sans-serif'
+                        fontFamily: 'Montserrat, sans-serif',
+                        textAlign: 'left'
                       }}>
                         {item.title}
                       </h3>
