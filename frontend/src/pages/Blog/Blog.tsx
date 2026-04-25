@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
@@ -38,6 +39,13 @@ const blogPostsData = [
 ];
 
 function Blog() {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  
+  const categories = ['All', ...new Set(blogPostsData.map(p => p.category))];
+  const filteredPosts = selectedCategory === 'All' 
+    ? blogPostsData 
+    : blogPostsData.filter(p => p.category === selectedCategory);
+
   return (
     <div className="blog-page">
       <section className="hero" style={{ minHeight: '50vh' }}>
@@ -65,22 +73,47 @@ function Blog() {
           <div className="section-title">
             <h2>Latest Articles</h2>
           </div>
-          <div className="projects-grid">
-            {blogPostsData.map((post, index) => (
+          
+          {/* Category Filter */}
+          <motion.div 
+            style={{ display: 'flex', gap: 'var(--space-3)', justifyContent: 'center', marginBottom: 'var(--space-8)', flexWrap: 'wrap' }}
+          >
+            {categories.map(cat => (
+              <motion.button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                whileHover={{ scale: 1.05 }}
+                style={{
+                  padding: 'var(--space-2) var(--space-4)',
+                  borderRadius: '20px',
+                  border: 'none',
+                  background: selectedCategory === cat ? '#FF9100' : '#f3f4f6',
+                  color: selectedCategory === cat ? '#fff' : '#374151',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                {cat}
+              </motion.button>
+            ))}
+          </motion.div>
+
+          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 'var(--space-6)' }}>
+            {filteredPosts.map((post) => (
               <motion.div
                 key={post.id}
-                className="card"
+                layout
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -8, boxShadow: '0 12px 24px rgba(0,0,0,0.15)' }}
+                style={{ borderRadius: '12px', overflow: 'hidden', background: '#fff', cursor: 'pointer' }}
               >
                 <img src={post.image} alt={post.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
                 <div style={{ padding: 'var(--space-6)' }}>
-                  <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-primary)', fontWeight: 600 }}>{post.category}</span>
+                  <span style={{ fontSize: 'var(--text-sm)', color: '#FF9100', fontWeight: 600 }}>{post.category}</span>
                   <h3 style={{ margin: 'var(--space-2) 0' }}>{post.title}</h3>
-                  <p style={{ color: 'var(--color-gray)', marginBottom: 'var(--space-4)' }}>{post.excerpt}</p>
-                  <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-gray-light)' }}>{post.date}</span>
+                  <p style={{ color: '#6b7280', marginBottom: 'var(--space-4)' }}>{post.excerpt}</p>
+                  <span style={{ fontSize: 'var(--text-sm)', color: '#9ca3af' }}>{post.date}</span>
                 </div>
               </motion.div>
             ))}

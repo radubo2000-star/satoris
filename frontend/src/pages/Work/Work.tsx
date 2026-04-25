@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
@@ -57,6 +57,48 @@ function Work() {
     ? projectsData 
     : projectsData.filter(p => p.category === filter);
 
+  // Project card with 3D tilt effect
+  function ProjectCard({ project, index }: { project: typeof projectsData[0]; index: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+    const [rotate, setRotate] = useState({ x: 0, y: 0 });
+    
+    const handleMouseMove = (e: any) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      setRotate({ x: y * 15, y: -x * 15 });
+    };
+    
+    return (
+      <motion.div
+        ref={ref}
+        layout
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.3, delay: index * 0.05 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setRotate({ x: 0, y: 0 })}
+        whileHover={{ scale: 1.02 }}
+        onClick={() => {}}
+        style={{ perspective: '1000px', cursor: 'pointer' }}
+      >
+        <motion.div
+          animate={{ rotateX: rotate.x, rotateY: rotate.y }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          style={{ borderRadius: '12px', overflow: 'hidden', background: '#1a1a2e' }}
+        >
+          <img src={project.image} alt={project.name} style={{ width: '100%', height: '280px', objectFit: 'cover' }} />
+          <div style={{ padding: 'var(--space-4)' }}>
+            <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
+            <p style={{ color: '#9ca3af', fontSize: 'var(--text-sm)' }}>{project.category}</p>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  }
+  
   return (
     <div className="work-page">
       <section className="hero" style={{ minHeight: '50vh' }}>
@@ -81,39 +123,50 @@ function Work() {
 
       <section className="section">
         <div className="container">
-          {/* Filter */}
-          <div style={{ display: 'flex', gap: 'var(--space-3)', justifyContent: 'center', marginBottom: 'var(--space-10)', flexWrap: 'wrap' }}>
+          {/* Filter with animation */}
+          <motion.div 
+            style={{ 
+              display: 'flex', 
+              gap: 'var(--space-3)', 
+              justifyContent: 'center', 
+              marginBottom: 'var(--space-10)', 
+              flexWrap: 'wrap' 
+            }}
+          >
             {categories.map(cat => (
-              <button
+              <motion.button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`btn ${filter === cat ? 'btn-primary' : 'btn-outline'}`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  padding: 'var(--space-3) var(--space-5)',
+                  borderRadius: '8px',
+                  border: filter === cat ? 'none' : '2px solid #e5e7eb',
+                  background: filter === cat ? '#FF9100' : '#fff',
+                  color: filter === cat ? '#fff' : '#374151',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s'
+                }}
               >
                 {cat}
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
 
-          {/* Projects Grid */}
-          <div className="projects-grid">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                className="project-card"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <img src={project.image} alt={project.name} />
-                <div className="project-overlay">
-                  <h3>{project.name}</h3>
-                  <p>{project.category}</p>
-                  <p style={{ marginTop: 'var(--space-2)', fontSize: 'var(--text-sm)', opacity: 0.8 }}>{project.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Projects Grid with animation */}
+          <motion.div 
+            layout
+            className="projects-grid"
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-6)' }}
+          >
+            <AnimatePresence>
+              {filteredProjects.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
     </div>

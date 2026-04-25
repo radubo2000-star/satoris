@@ -13,16 +13,54 @@ function Contact() {
     website: '',
     message: '',
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log('Contact form:', formData);
-    alert('Thank you! We will get back to you within 24 hours.');
+    setIsSubmitted(true);
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="contact-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          style={{ textAlign: 'center', padding: 'var(--space-10)' }}
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#22c55e', margin: '0 auto var(--space-6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <span style={{ fontSize: '40px', color: '#fff' }}>✓</span>
+          </motion.div>
+          <h2 style={{ fontSize: 'var(--text-3xl)', marginBottom: 'var(--space-4)' }}>Thank you!</h2>
+          <p style={{ color: '#6b7280', marginBottom: 'var(--space-6)' }}>We will get back to you within 24 hours.</p>
+          <button onClick={() => setIsSubmitted(false)} className="btn btn-outline">Send another message</button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  const inputStyle = (fieldName: string) => ({
+    width: '100%',
+    padding: 'var(--space-4)',
+    border: focusedField === fieldName ? '2px solid #FF9100' : '2px solid #e5e7eb',
+    borderRadius: '8px',
+    fontSize: 'var(--text-base)',
+    background: '#fff',
+    transition: 'all 0.3s',
+    outline: 'none',
+    boxShadow: focusedField === fieldName ? '0 4px 12px rgba(255,145,0,0.15)' : 'none',
+  });
 
   return (
     <div className="contact-page">
@@ -49,56 +87,63 @@ function Contact() {
       <section className="section">
         <div className="container">
           <div className="grid grid-2" style={{ gap: 'var(--space-12)' }}>
-            {/* Contact Info */}
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <h2 style={{ marginBottom: 'var(--space-6)' }}>Satoris PR & Digital</h2>
-              
+
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Contact Info</h4>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Contact Info</h4>
                 <p>
                   70-84 I. Mihalache Bd, Bl45, ent. 2, fl.1, ap.1<br />
                   District 1, Bucharest, Romania<br />
-                  <a href="tel:+40723257755" style={{ color: 'var(--color-primary)' }}>+4 0723 25 77 55</a><br />
+                  <a href="tel:+40723257755" style={{ color: '#FF9100' }}>+4 0723 25 77 55</a><br />
                   Mon-Fri 9am-5pm<br />
-                  <a href="mailto:hello@satoris.ro" style={{ color: 'var(--color-primary)' }}>hello@satoris.ro</a>
+                  <a href="mailto:hello@satoris.ro" style={{ color: '#FF9100' }}>hello@satoris.ro</a>
                 </p>
               </div>
 
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>New Business</h4>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>New Business</h4>
                 <p>
-                  <a href="mailto:natalia@satoris.ro" style={{ color: 'var(--color-primary)' }}>natalia@satoris.ro</a><br />
+                  <a href="mailto:natalia@satoris.ro" style={{ color: '#FF9100' }}>natalia@satoris.ro</a><br />
                   +40 723 25 77 55
                 </p>
               </div>
 
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Other Inquiries</h4>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Other Inquiries</h4>
                 <p>
-                  <a href="mailto:info@satoris.ro" style={{ color: 'var(--color-primary)' }}>info@satoris.ro</a>
+                  <a href="mailto:info@satoris.ro" style={{ color: '#FF9100' }}>info@satoris.ro</a>
                 </p>
               </div>
 
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Join the team</h4>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Join the team</h4>
                 <p>
-                  <a href="mailto:team@satoris.ro" style={{ color: 'var(--color-primary)' }}>team@satoris.ro</a>
+                  <a href="mailto:team@satoris.ro" style={{ color: '#FF9100' }}>team@satoris.ro</a>
                 </p>
               </div>
 
               <div>
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>Press</h4>
+                <h4 style={{ color: '#FF9100', marginBottom: 'var(--space-2)' }}>Press</h4>
                 <p>
-                  <a href="mailto:press@satoris.ro" style={{ color: 'var(--color-primary)' }}>press@satoris.ro</a><br />
+                  <a href="mailto:press@satoris.ro" style={{ color: '#FF9100' }}>press@satoris.ro</a><br />
                   +4 0723 25 77 55
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Contact Form */}
-            <div style={{ background: 'var(--color-gray-lightest)', padding: 'var(--space-8)', borderRadius: 'var(--radius-lg)' }}>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{ background: '#fafafa', padding: 'var(--space-8)', borderRadius: '16px' }}
+            >
               <h3 style={{ marginBottom: 'var(--space-6)' }}>Prefer we call you?</h3>
-              <p style={{ marginBottom: 'var(--space-6)', color: 'var(--color-gray)' }}>
+              <p style={{ marginBottom: 'var(--space-6)', color: '#6b7280' }}>
                 Fill out your details here and we'll get back to you within 24 hours.
               </p>
 
@@ -110,8 +155,10 @@ function Contact() {
                     placeholder="First Name*"
                     value={formData.firstName}
                     onChange={handleChange}
+                    onFocus={() => setFocusedField('firstName')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    style={inputStyle}
+                    style={inputStyle('firstName')}
                   />
                   <input
                     type="text"
@@ -119,8 +166,10 @@ function Contact() {
                     placeholder="Last Name*"
                     value={formData.lastName}
                     onChange={handleChange}
+                    onFocus={() => setFocusedField('lastName')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    style={inputStyle}
+                    style={inputStyle('lastName')}
                   />
                 </div>
                 <input
@@ -129,8 +178,10 @@ function Contact() {
                   placeholder="Phone Number*"
                   value={formData.phone}
                   onChange={handleChange}
+                  onFocus={() => setFocusedField('phone')}
+                  onBlur={() => setFocusedField(null)}
                   required
-                  style={inputStyle}
+                  style={inputStyle('phone')}
                 />
                 <input
                   type="email"
@@ -138,8 +189,10 @@ function Contact() {
                   placeholder="Email Address*"
                   value={formData.email}
                   onChange={handleChange}
+                  onFocus={() => setFocusedField('email')}
+                  onBlur={() => setFocusedField(null)}
                   required
-                  style={inputStyle}
+                  style={inputStyle('email')}
                 />
                 <input
                   type="text"
@@ -147,8 +200,10 @@ function Contact() {
                   placeholder="Business/Organization name*"
                   value={formData.organization}
                   onChange={handleChange}
+                  onFocus={() => setFocusedField('organization')}
+                  onBlur={() => setFocusedField(null)}
                   required
-                  style={inputStyle}
+                  style={inputStyle('organization')}
                 />
                 <input
                   type="url"
@@ -156,22 +211,32 @@ function Contact() {
                   placeholder="Website URL"
                   value={formData.website}
                   onChange={handleChange}
-                  style={inputStyle}
+                  onFocus={() => setFocusedField('website')}
+                  onBlur={() => setFocusedField(null)}
+                  style={inputStyle('website')}
                 />
                 <textarea
                   name="message"
                   placeholder="Tell us how we can help*"
                   value={formData.message}
                   onChange={handleChange}
+                  onFocus={() => setFocusedField('message')}
+                  onBlur={() => setFocusedField(null)}
                   required
                   rows={4}
-                  style={{ ...inputStyle, resize: 'vertical' }}
+                  style={{ ...inputStyle('message'), resize: 'vertical' }}
                 />
-                <button type="submit" className="btn btn-primary" style={{ justifySelf: 'center' }}>
+                <motion.button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ justifySelf: 'center', padding: 'var(--space-4) var(--space-10)' }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   Submit
-                </button>
+                </motion.button>
               </form>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -192,14 +257,5 @@ function Contact() {
     </div>
   );
 }
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.75rem 1rem',
-  border: '1px solid var(--color-gray-lighter)',
-  borderRadius: 'var(--radius-md)',
-  fontSize: 'var(--text-base)',
-  fontFamily: 'var(--font-primary)',
-};
 
 export default Contact;

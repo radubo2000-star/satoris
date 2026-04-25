@@ -131,25 +131,27 @@ function About() {
           <div className="section-title">
             <h2>SATORIS is its people</h2>
           </div>
-          <div className="grid grid-3" style={{ marginTop: 'var(--space-10)' }}>
+          <div className="grid grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-6)', marginTop: 'var(--space-10)' }}>
             {teamMembers.map((member, index) => (
               <motion.div
                 key={index}
-                className="card"
-                style={{ padding: 0 }}
+                layout
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8, boxShadow: '0 16px 32px rgba(255,145,0,0.2)' }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                style={{ padding: 0, borderRadius: '16px', overflow: 'hidden', background: '#fff', cursor: 'pointer' }}
               >
-                <img 
+                <motion.img 
                   src={member.image} 
                   alt={member.name}
-                  style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+                  whileHover={{ scale: 1.05 }}
+                  style={{ width: '100%', height: '300px', objectFit: 'cover', transition: 'transform 0.5s' }}
                 />
                 <div style={{ padding: 'var(--space-6)' }}>
                   <h3 style={{ marginBottom: 'var(--space-2)' }}>{member.name}</h3>
-                  <p style={{ color: 'var(--color-primary)' }}>{member.role}</p>
+                  <p style={{ color: '#FF9100', fontWeight: 600 }}>{member.role}</p>
                 </div>
               </motion.div>
             ))}

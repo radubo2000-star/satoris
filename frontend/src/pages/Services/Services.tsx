@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
@@ -71,6 +72,8 @@ const serviceCategories = [
 ];
 
 function Services() {
+  const [expandedService, setExpandedService] = useState<number | null>(null);
+  
   return (
     <div className="services-page">
       {/* Hero with Image */}
@@ -146,7 +149,7 @@ function Services() {
               </p>
             </motion.div>
 
-            <div className="grid grid-3">
+            <div className="grid grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-6)' }}>
               {category.services.map((service, servIndex) => (
                 <motion.div
                   key={servIndex}
@@ -154,28 +157,60 @@ function Services() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: servIndex * 0.1 }}
+                  whileHover={{ y: -5, boxShadow: '0 12px 24px rgba(255,145,0,0.15)' }}
+                  onClick={() => setExpandedService(expandedService === servIndex ? null : servIndex)}
                   style={{
                     padding: 'var(--space-6)',
-                    background: '#fff',
-                    borderRadius: 'var(--radius-lg)',
-                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
-                    border: '1px solid #e5e7eb'
+                    background: expandedService === servIndex ? '#fff7ed' : '#fff',
+                    borderRadius: '12px',
+                    boxShadow: expandedService === servIndex ? '0 8px 24px rgba(255,145,0,0.2)' : '0 4px 6px -1px rgba(0,0,0,0.1)',
+                    border: expandedService === servIndex ? '2px solid #FF9100' : '1px solid #e5e7eb',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
                   }}
                 >
                   <h3 style={{ 
                     fontSize: 'var(--text-lg)', 
                     marginBottom: 'var(--space-3)',
-                    color: '#FF9100'
+                    color: '#FF9100',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
                   }}>
                     {service.name}
+                    <motion.span
+                      animate={{ rotate: expandedService === servIndex ? 180 : 0 }}
+                      style={{ fontSize: 'var(--text-xs)' }}
+                    >
+                      ▼
+                    </motion.span>
                   </h3>
-                  <p style={{ 
-                    fontSize: 'var(--text-base)', 
-                    color: 'var(--color-gray)',
-                    lineHeight: 1.7
-                  }}>
-                    {service.desc}
-                  </p>
+                  <AnimatePresence>
+                    {expandedService === servIndex && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                      >
+                        <p style={{ 
+                          fontSize: 'var(--text-base)', 
+                          color: 'var(--color-gray)',
+                          lineHeight: 1.7,
+                          marginTop: 'var(--space-3)'
+                        }}>
+                          {service.desc}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  {expandedService !== servIndex && (
+                    <p style={{ 
+                      fontSize: 'var(--text-sm)', 
+                      color: '#9ca3af'
+                    }}>
+                      Click to expand
+                    </p>
+                  )}
                 </motion.div>
               ))}
             </div>
