@@ -163,9 +163,10 @@ function Services() {
                   </h2>
                   <p style={{ 
                     color: '#555', 
-                    fontSize: '0.8rem',
-                    lineHeight: 1.4,
-                    textAlign: 'left'
+                    fontSize: '0.85rem',
+                    lineHeight: 1.6,
+                    textAlign: 'justify',
+                    fontFamily: 'Source Sans Pro, sans-serif'
                   }}>
                     {service.description}
                   </p>
@@ -186,9 +187,10 @@ function Services() {
                       </h3>
                       <p style={{ 
                         color: '#555', 
-                        fontSize: '0.8rem',
-                        lineHeight: 1.2,
-                        textAlign: 'left'
+                        fontSize: '0.85rem',
+                        lineHeight: 1.6,
+                        textAlign: 'justify',
+                        fontFamily: 'Source Sans Pro, sans-serif'
                       }}>
                         {item.description}
                       </p>
@@ -211,9 +213,10 @@ function Services() {
                       </h3>
                       <p style={{ 
                         color: '#555', 
-                        fontSize: '0.8rem',
-                        lineHeight: 1.2,
-                        textAlign: 'left'
+                        fontSize: '0.85rem',
+                        lineHeight: 1.6,
+                        textAlign: 'justify',
+                        fontFamily: 'Source Sans Pro, sans-serif'
                       }}>
                         {item.description}
                       </p>
