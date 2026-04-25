@@ -288,5 +288,11 @@
 /* Clients Carousel */
 @keyframes scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Clients Carousel - Override grayscale for colored logos */
+.clients-carousel .client-logo {
+  filter: none !important;
+  opacity: 1 !important;
 }
