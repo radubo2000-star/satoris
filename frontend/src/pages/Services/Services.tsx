@@ -113,10 +113,24 @@ function Services() {
             style={{ 
               color: '#FF9100', 
               fontSize: 'var(--text-5xl)',
+              fontFamily: 'Montserrat',
               fontWeight: 800
             }}
           >
-            Grow & stand out from the crowd
+            Grow & Stand Out
+          </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ 
+              color: '#FF9100', 
+              fontSize: 'var(--text-5xl)',
+              fontFamily: 'Montserrat',
+              fontWeight: 800
+            }}
+          >
+            From The Crowd
           </motion.h1>
         </div>
       </section>
@@ -157,7 +171,7 @@ function Services() {
                     color: '#FF9100',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    fontFamily: 'Montserrat, sans-serif',
+                    fontFamily: 'Montserrat',
                     textTransform: 'capitalize',
                     textAlign: 'left'
                   }}>
@@ -167,8 +181,8 @@ function Services() {
                     color: '#555', 
                     fontSize: '0.85rem',
                     lineHeight: 1.6,
-                    textAlign: 'justify',
-                    fontFamily: 'Source Sans Pro, sans-serif'
+                    textAlign: 'left',
+                    fontFamily: 'Montserrat'
                   }}>
                     {service.description}
                   </p>
@@ -183,7 +197,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: 'Montserrat, sans-serif',
+                        fontFamily: 'Montserrat',
                         textTransform: 'capitalize',
                         textAlign: 'left'
                       }}>
@@ -193,8 +207,8 @@ function Services() {
                         color: '#555', 
                         fontSize: '0.85rem',
                         lineHeight: 1.6,
-                        textAlign: 'justify',
-                        fontFamily: 'Source Sans Pro, sans-serif'
+                        textAlign: 'left',
+                        fontFamily: 'Montserrat'
                       }}>
                         {item.description}
                       </p>
@@ -211,7 +225,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: 'Montserrat, sans-serif',
+                        fontFamily: 'Montserrat',
                         textTransform: 'capitalize',
                         textAlign: 'left'
                       }}>
@@ -221,8 +235,8 @@ function Services() {
                         color: '#555', 
                         fontSize: '0.85rem',
                         lineHeight: 1.6,
-                        textAlign: 'justify',
-                        fontFamily: 'Source Sans Pro, sans-serif'
+                        textAlign: 'left',
+                        fontFamily: 'Montserrat'
                       }}>
                         {item.description}
                       </p>

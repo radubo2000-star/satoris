@@ -6,7 +6,7 @@ import '../../styles/sections.css';
 
 const services = [
   {
-    title: 'marketing',
+    title: 'Marketing',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 94 79"><path d="M32.96,30.33a4.42,4.42,0,1,0-3.82,2.16,4.37,4.37,0,0,0,2.39-.72L47.21,47A1.0047,1.0047,0,0,0,48.6106,45.56Z" style="fill-rule:evenodd"></path><path d="M88.2011,16.2769A22.21,22.21,0,0,0,56.7835,14.81L52.5,18.7192,48.2165,14.81a22.21,22.21,0,0,0-30.6084.622L3.76,2H18.05a1,1,0,0,0,0-2H0V18.04a1,1,0,0,0,2,0V3.08L16.2458,16.9083a22.3119,22.3119,0,0,0,2.0174,30.8454L52.5,79,86.7368,47.7537A22.3111,22.3111,0,0,0,88.2011,16.2769Zm-2.8125,30L52.5,76.2923,19.6114,46.2764A20.2626,20.2626,0,0,1,46.8683,16.2871l4.2835,3.9093a2,2,0,0,0,2.6964,0l4.2835-3.9093A20.2626,20.2626,0,0,1,85.3886,46.2764Z" style="fill-rule:evenodd"></path></svg>`,
     description: 'Digital Marketing\nAds\nSales Funnel \nEvent participation strategy\nE-commerce \nBranded merch\nStands & BoothRegistration \nTicketing',
   },
@@ -75,7 +75,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       >
         <div dangerouslySetInnerHTML={{ __html: service.icon }} style={{ width: '60px', height: '45px', margin: '0 auto var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
       </motion.div>
-      <h4 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: '#1a1a2e', fontWeight: 600 }}>{service.title}</h4>
+      <h4 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: '#FF9100', fontWeight: 600 }}>{service.title}</h4>
       <AnimatePresence>
         {isHovered ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
