@@ -1,6 +1,6 @@
 .footer {
-  background: var(--color-black);
-  color: var(--color-white);
+  background: #1a1a2e;
+  color: #fff;
   padding: var(--space-16) 0 var(--space-8);
   margin-top: var(--space-16);
 }
@@ -22,24 +22,24 @@
 .footer-logo .logo-text {
   font-size: var(--text-xl);
   font-weight: 800;
-  color: var(--color-white);
+  color: #fff;
   letter-spacing: 2px;
 }
 
 .footer-logo .logo-subtitle {
   font-size: var(--text-xs);
-  color: var(--color-gray-light);
+  color: #a1a1aa;
   letter-spacing: 1px;
 }
 
 .footer-tagline {
-  color: var(--color-gray-light);
+  color: #a1a1aa;
   font-size: var(--text-sm);
   line-height: 1.7;
 }
 
 .footer h4 {
-  color: var(--color-white);
+  color: #FF9100;
   font-size: var(--text-base);
   margin-bottom: var(--space-4);
   font-weight: 600;
@@ -54,13 +54,14 @@
 
 .footer-links a,
 .footer-contact li {
-  color: var(--color-gray-light);
+  color: #a1a1aa;
   font-size: var(--text-sm);
   transition: color var(--transition-fast);
+  list-style: none;
 }
 
 .footer-links a:hover {
-  color: var(--color-primary-light);
+  color: #FF9100;
 }
 
 .footer-contact li {
@@ -68,7 +69,7 @@
 }
 
 .footer-newsletter p {
-  color: var(--color-gray-light);
+  color: #a1a1aa;
   font-size: var(--text-sm);
   margin-bottom: var(--space-4);
 }
@@ -81,35 +82,49 @@
 .newsletter-form input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--color-dark);
+  border: 1px solid #2d2d44;
   border-radius: var(--radius-md);
-  background: var(--color-dark);
-  color: var(--color-white);
+  background: #2d2d44;
+  color: #fff;
   font-size: var(--text-sm);
 }
 
 .newsletter-form input::placeholder {
-  color: var(--color-gray-light);
+  color: #a1a1aa;
 }
 
 .newsletter-form input:focus {
   outline: none;
-  border-color: var(--color-primary);
+  border-color: #FF9100;
 }
 
 .newsletter-form .btn {
   padding: 0.75rem 1.25rem;
   white-space: nowrap;
+  background: #FF9100;
+  border-color: #FF9100;
+}
+
+.newsletter-form .btn:hover {
+  background: #E68200;
+  border-color: #E68200;
+}
+
+.footer-map {
+  margin-top: var(--space-10);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .footer-bottom {
   padding-top: var(--space-8);
-  border-top: 1px solid var(--color-dark);
+  border-top: 1px solid #2d2d44;
   text-align: center;
+  margin-top: var(--space-10);
 }
 
 .footer-bottom p {
-  color: var(--color-gray);
+  color: #71717a;
   font-size: var(--text-sm);
 }
 
