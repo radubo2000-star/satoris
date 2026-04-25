@@ -308,56 +308,74 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             <h2 style={{ fontSize: 'var(--text-4xl)', color: '#32373c' }}>Satoris Events in a nutshell</h2>
           </motion.div>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-8)' }}>
-            {[
-              {
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>`,
-                title: 'Experience',
-                description: '20 years hands-on delivery in RO & MD'
-              },
-              {
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>`,
-                title: 'One partner, zero drama',
-                description: 'AV, staging, staffing, registration, branded merch, national & international'
-              },
-              {
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>`,
-                title: 'Event diversity',
-                description: 'Exhibitions & trade fairs, conferences, product launches, teambuildings, clients meet-ups, parties, official dinners'
-              },
-              {
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>`,
-                title: 'Industry coverage',
-                description: 'Construction & Heritage, Culture & entertainment, Beauty, Health'
-              }
-            ].map((item, index) => (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 'var(--space-8)', alignItems: 'center' }}>
+            {/* Left column - 2 items */}
+            <div>
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: 0.1 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)', marginBottom: 'var(--space-8)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>Experience</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>20 years hands-on delivery in RO & MD</p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
                 style={{ textAlign: 'center', padding: 'var(--space-6)' }}
               >
-                <div dangerouslySetInnerHTML={{ __html: item.icon }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
-                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>{item.title}</h3>
-                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>{item.description}</p>
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>One partner, zero drama</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>AV, staging, staffing, registration, branded merch, national & international</p>
               </motion.div>
-            ))}
+            </div>
+            
+            {/* Center column - Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 }}
+              style={{ textAlign: 'center' }}
+            >
+              <img 
+                src="https://satoris.ro/wp-content/uploads/2025/11/Social-Media.jpg" 
+                alt="Satoris Events" 
+                style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
+              />
+            </motion.div>
+            
+            {/* Right column - 2 items */}
+            <div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)', marginBottom: 'var(--space-8)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3257)"></circle><defs><linearGradient id="paint0_linear_215_3257" x1="21.5" y1="0" x2="21.5" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#F8C3D0"></stop><stop offset="1" stop-color="#FF27F6" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>Event diversity</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>Exhibitions & trade fairs, conferences, product launches, teambuildings, clients meet-ups, parties, official dinners</p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                style={{ textAlign: 'center', padding: 'var(--space-6)' }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: `<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none"><circle cx="21.5" cy="21.5" r="21.5" fill="url(#paint0_linear_215_3261)"></circle><defs><linearGradient id="paint0_linear_215_3261" x1="21.5112" y1="-16.2781" x2="21.3949" y2="42.9998" gradientUnits="userSpaceOnUse"><stop stop-color="#FFBA7B"></stop><stop offset="1" stop-color="#FFAB2D" stop-opacity="0"></stop></linearGradient></defs></svg>` }} style={{ width: '43px', height: '43px', margin: '0 auto var(--space-4)' }} />
+                <h3 style={{ fontSize: 'var(--text-lg)', color: '#32373c', marginBottom: 'var(--space-2)' }}>Industry coverage</h3>
+                <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>Construction & Heritage, Culture & entertainment, Beauty, Health</p>
+              </motion.div>
+            </div>
           </div>
-          
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            style={{ textAlign: 'center', marginTop: 'var(--space-10)' }}
-          >
-            <img 
-              src="https://satoris.ro/wp-content/uploads/2025/11/Social-Media.jpg" 
-              alt="Satoris Events" 
-              style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
-            />
-          </motion.div>
         </div>
       </section>
 
