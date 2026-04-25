@@ -6,28 +6,28 @@ import '../../styles/sections.css';
 const services = [
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/pr.webp',
-    title: 'PR & Communication',
-    description: 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage. Building your brand voice.',
-  },
-  {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Digital-Mk.webp',
     title: 'Marketing',
-    description: 'Digital Marketing, Ads, Sales Funnel, Event participation strategy, E-commerce, Branded merch.',
+    description: 'Digital Marketing, Ads, Sales Funnel, Event participation strategy, E-commerce, Branded merch, Stands & Booth Registration, Ticketing',
   },
   {
-    icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
-    title: 'Implementation & On-Site',
-    description: 'Your agenda, our playbook, no surprises. Professional on-site management.',
+    icon: 'https://satoris.ro/wp-content/uploads/2024/03/pr.webp',
+    title: 'Implementation & On-Site Management',
+    description: "Your agenda, our playbook, no surprises",
+  },
+  {
+    icon: 'https://satoris.ro/wp-content/uploads/2024/03/pr.webp',
+    title: 'PR & Communication',
+    description: 'Social Media, Pre-buzz, Media, Social Media Exposure, Events PR, KOLs, Post-event coverage',
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Expo.webp',
     title: 'Exhibitions & Trade Fairs',
-    description: 'From 9 sqm booths to full pavilions. Complete expo strategy and execution.',
+    description: 'From 9 sqm booths to full pavilions',
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Digital-Mk.webp',
     title: 'Digital',
-    description: 'Websites, Landing pages, Email campaigns, Live streaming, Visual Content, Events Tech.',
+    description: 'Digital for Events, Websites, Landing pages, Email, Social amplification, Custom Build SMS Solution, Live streaming, Visual Content, Events Tech, AV - Staging',
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
@@ -37,12 +37,12 @@ const services = [
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Events.webp',
     title: 'Full Service',
-    description: 'AV - Staging, Stage, sound, lights, effects, Staffing, Interpreters, Hostess, Catering.',
+    description: 'AV - Staging, Stage, sound, lights, effects, Staffing, Interpreters, Hostess, Catering & goody bags',
   },
   {
     icon: 'https://satoris.ro/wp-content/uploads/2024/03/Expo.webp',
     title: 'Go Big',
-    description: 'International events, Global Events as exhibitor, Trips & Ticketing, Team Buildings.',
+    description: 'International events Participations, Global Events as exhibitor, Trips & Ticketing, International team Buildings & client meetups',
   },
 ];
 
@@ -195,10 +195,16 @@ function Home() {
                 <img 
                   src={service.icon} 
                   alt={service.title}
-                  style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: 'var(--space-4)' }}
+                  style={{ width: '80px', height: '80px', objectFit: 'contain', marginBottom: 'var(--space-4)' }}
                 />
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>{service.title}</h3>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-gray)', lineHeight: 1.6 }}>{service.description}</p>
+                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)', color: '#1a1a2e' }}>{service.title}</h3>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-gray)', lineHeight: 1.6, marginBottom: 'var(--space-4)' }}>{service.description}</p>
+                <Link 
+                  to="/services" 
+                  style={{ color: '#FF9100', fontSize: 'var(--text-sm)', fontWeight: 600, textDecoration: 'none' }}
+                >
+                  Learn More →
+                </Link>
               </motion.div>
             ))}
           </div>
