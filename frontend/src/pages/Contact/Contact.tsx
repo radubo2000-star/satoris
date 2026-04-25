@@ -1,7 +1,8 @@
-import { color, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
+import { submitContact } from '../../api/client';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -15,15 +16,33 @@ function Contact() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('Contact form:', formData);
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    setError(null);
+    
+    try {
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      await submitContact({
+        name: fullName,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      });
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Contact form error:', err);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -232,11 +251,15 @@ function Contact() {
                   type="submit"
                   className="btn btn-primary"
                   style={{ justifySelf: 'center', padding: 'var(--space-4) var(--space-10)' }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  disabled={isSubmitting}
                 >
-                  Submit
+                  {isSubmitting ? 'Sending...' : 'Submit'}
                 </motion.button>
+                {error && (
+                  <p style={{ color: '#ef4444', textAlign: 'center', marginTop: 'var(--space-2)' }}>{error}</p>
+                )}
               </form>
             </motion.div>
           </div>

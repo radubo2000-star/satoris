@@ -1,7 +1,27 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { subscribeNewsletter } from '../../api/client';
 import './Footer.css';
 
 function Footer() {
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      await subscribeNewsletter(email);
+      setIsSubscribed(true);
+      setEmail('');
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
@@ -59,11 +79,26 @@ function Footer() {
 
           <div className="footer-newsletter">
             <h4>Join Our Newsletter</h4>
-            <p>Sign up for free marketing tips, inspirations, and more.</p>
-            <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" placeholder="Email" required />
-              <button type="submit" className="btn btn-primary">Sign Me Up</button>
-            </form>
+            {isSubscribed ? (
+              <p style={{ color: '#22c55e' }}>Thank you for subscribing!</p>
+            ) : (
+              <>
+                <p>Sign up for free marketing tips, inspirations, and more.</p>
+                <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
+                  <input 
+                    type="email" 
+                    placeholder="Email" 
+                    required 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isLoading}
+                  />
+                  <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                    {isLoading ? '...' : 'Sign Me Up'}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
 
