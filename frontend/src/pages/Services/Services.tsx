@@ -154,10 +154,12 @@ function Services() {
                 }}>
                   <h2 style={{ 
                     fontSize: '2.5rem', 
-                    color: '#32373c',
+                    color: '#FF9100',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    fontFamily: 'Montserrat, sans-serif'
+                    fontFamily: 'Montserrat, sans-serif',
+                    textTransform: 'capitalize',
+                    textAlign: 'left'
                   }}>
                     {service.title}
                   </h2>
@@ -178,10 +180,12 @@ function Services() {
                     <div key={i} style={{ marginBottom: 'var(--space-5)' }}>
                       <h3 style={{ 
                         fontSize: '1.1rem', 
-                        color: '#32373c',
+                        color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: 'Montserrat, sans-serif'
+                        fontFamily: 'Montserrat, sans-serif',
+                        textTransform: 'capitalize',
+                        textAlign: 'left'
                       }}>
                         {item.title}
                       </h3>
@@ -204,10 +208,12 @@ function Services() {
                     <div key={i} style={{ marginBottom: 'var(--space-5)' }}>
                       <h3 style={{ 
                         fontSize: '1.1rem', 
-                        color: '#32373c',
+                        color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: 'Montserrat, sans-serif'
+                        fontFamily: 'Montserrat, sans-serif',
+                        textTransform: 'capitalize',
+                        textAlign: 'left'
                       }}>
                         {item.title}
                       </h3>
