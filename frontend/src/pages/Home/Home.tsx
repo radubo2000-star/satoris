@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
@@ -123,6 +124,8 @@ const clientLogos = [
 ];
 
 function Home() {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -264,32 +267,102 @@ function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="section" style={{ background: 'var(--color-gray-lightest)' }}>
+      {/* Testimonials - Interactive Carousel */}
+      <section className="section" style={{ background: '#fafafa', padding: 'var(--space-16) 0' }}>
         <div className="container">
-          <div className="section-title">
-            <h2>Client Feedback</h2>
-            <p>Don't just take our word for it</p>
-          </div>
-          <div className="testimonials-grid">
-            {testimonials.map((testimonial, index) => (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h5 style={{ color: '#FF9100', fontSize: 'var(--text-sm)', fontWeight: 600, marginBottom: 'var(--space-2)' }}>Client feedback</h5>
+            <h2 style={{ fontSize: 'var(--text-3xl)', marginBottom: 'var(--space-2)' }}>don't just take our word for it</h2>
+          </motion.div>
+          
+          <div style={{ position: 'relative', maxWidth: '800px', margin: 'var(--space-10) auto 0' }}>
+            <div style={{ minHeight: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <motion.div
-                key={index}
-                className="testimonial-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                key={currentTestimonial}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ textAlign: 'center', padding: '0 var(--space-12)' }}
               >
-                <p className="testimonial-text">"{testimonial.text}"</p>
-                <div className="testimonial-author">
-                  <div className="testimonial-info">
-                    <strong>{testimonial.author}</strong>
-                    <span>{testimonial.role}</span>
-                  </div>
+                <p style={{ fontSize: 'var(--text-xl)', fontStyle: 'italic', color: '#374151', lineHeight: 1.8, marginBottom: 'var(--space-6)' }}>
+                  "{testimonials[currentTestimonial].text}"
+                </p>
+                <div>
+                  <strong style={{ color: '#1a1a2e', display: 'block' }}>{testimonials[currentTestimonial].author}</strong>
+                  <span style={{ color: '#71717a', fontSize: 'var(--text-sm)' }}>{testimonials[currentTestimonial].role}</span>
                 </div>
               </motion.div>
-            ))}
+            </div>
+            
+            {/* Dots Navigation */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-2)', marginTop: 'var(--space-6)' }}>
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  style={{
+                    width: '10px',
+                    height: '10px',
+                    borderRadius: '50%',
+                    border: 'none',
+                    background: currentTestimonial === index ? '#FF9100' : '#d9d9e3',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s'
+                  }}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            {/* Arrows */}
+            <button
+              onClick={() => setCurrentTestimonial((currentTestimonial - 1 + testimonials.length) % testimonials.length)}
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: '#fff',
+                border: '1px solid #d9d9e3',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#1a1a2e',
+                fontSize: 'var(--text-lg)'
+              }}
+            >
+              ←
+            </button>
+            <button
+              onClick={() => setCurrentTestimonial((currentTestimonial + 1) % testimonials.length)}
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: '#fff',
+                border: '1px solid #d9d9e3',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#1a1a2e',
+                fontSize: 'var(--text-lg)'
+              }}
+            >
+              →
+            </button>
           </div>
         </div>
       </section>
