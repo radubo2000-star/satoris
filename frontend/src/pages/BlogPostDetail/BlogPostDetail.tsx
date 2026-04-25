@@ -65,6 +65,38 @@ function BlogPostDetail() {
     );
   }
 
+  // Helper to render tags (handle both string[] and object[] formats)
+  const renderTags = () => {
+    if (!post.tags || post.tags.length === 0) return null;
+    
+    return (
+      <div style={{ marginTop: 'var(--space-8)', paddingTop: 'var(--space-6)', borderTop: '1px solid #e5e7eb' }}>
+        <p style={{ fontWeight: 600, marginBottom: 'var(--space-3)' }}>Tags:</p>
+        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+          {post.tags.map((tag, index) => {
+            // Handle both string tags and object tags
+            const tagName = typeof tag === 'string' ? tag : (tag as { name?: string }).name || (tag as { slug?: string }).slug || '';
+            const tagKey = typeof tag === 'string' ? tag : (tag as { id?: number }).id?.toString() || index.toString();
+            return (
+              <span
+                key={tagKey}
+                style={{
+                  padding: 'var(--space-1) var(--space-3)',
+                  background: '#f3f4f6',
+                  borderRadius: '15px',
+                  fontSize: 'var(--text-sm)',
+                  color: '#6b7280'
+                }}
+              >
+                #{tagName}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="blog-post-page">
       {/* Hero */}
@@ -108,28 +140,7 @@ function BlogPostDetail() {
             <div dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }} />
           </motion.div>
 
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div style={{ marginTop: 'var(--space-8)', paddingTop: 'var(--space-6)', borderTop: '1px solid #e5e7eb' }}>
-              <p style={{ fontWeight: 600, marginBottom: 'var(--space-3)' }}>Tags:</p>
-              <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-                {post.tags.map(tag => (
-                  <span 
-                    key={tag} 
-                    style={{ 
-                      padding: 'var(--space-1) var(--space-3)', 
-                      background: '#f3f4f6', 
-                      borderRadius: '15px',
-                      fontSize: 'var(--text-sm)',
-                      color: '#6b7280'
-                    }}
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+          {renderTags()}
         </div>
       </section>
 
