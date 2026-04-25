@@ -304,7 +304,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             viewport={{ once: true }}
             style={{ textAlign: 'center', marginBottom: 'var(--space-12)' }}
           >
-            <p style={{ color: '#555', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: 'var(--space-2)' }}>what makes us different</p>
+            <p style={{ color: '#FF9100', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: 'var(--space-2)' }}>what makes us different</p>
             <h2 style={{ fontSize: 'var(--text-4xl)', color: '#32373c' }}>Satoris Events in a nutshell</h2>
           </motion.div>
           
