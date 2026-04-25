@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
@@ -10,6 +11,7 @@ const projectsData = [
     category: 'Event',
     description: 'Event Concept, Event Management & Implementation, Research, Print Design',
     image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png',
+    slug: 'targ-de-craciun-dalles-2025',
   },
   {
     id: 2,
@@ -17,6 +19,7 @@ const projectsData = [
     category: 'Branding',
     description: 'Research, Branding, Packaging, Ad Design, PPC Management',
     image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg',
+    slug: 'softy',
   },
   {
     id: 3,
@@ -24,6 +27,7 @@ const projectsData = [
     category: 'Digital',
     description: 'Ecommerce, Website Development, PPC Campaigns, SEO',
     image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg',
+    slug: 'cela',
   },
   {
     id: 4,
@@ -31,6 +35,7 @@ const projectsData = [
     category: 'Digital',
     description: 'Digital Audit, Market Research, User Experience',
     image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg',
+    slug: 'omi',
   },
   {
     id: 5,
@@ -38,6 +43,7 @@ const projectsData = [
     category: 'Branding',
     description: 'Packaging, Branding, Email Marketing, Affiliate Management',
     image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Holandria_Img_Featured-260x300.jpg',
+    slug: 'holarnia',
   },
   {
     id: 6,
@@ -45,13 +51,18 @@ const projectsData = [
     category: 'Event',
     description: 'Event Management, Expo Strategy, Print Design, Content Strategy',
     image: 'https://satoris.ro/wp-content/uploads/2023/10/blurred-background-people-shopping-market-fair-sunny-day-blur-background-with-bokeh-1-300x200.jpg',
+    slug: 'exhibition-blueprint',
   },
 ];
 
 const categories = ['All', 'Branding', 'Digital', 'Event'];
 
 function Work() {
+  const { slug } = useParams<{ slug: string }>();
   const [filter, setFilter] = useState('All');
+  
+  // If there's a slug, find the project
+  const currentProject = slug ? projectsData.find(p => p.slug === slug) : null;
   
   const filteredProjects = filter === 'All' 
     ? projectsData 
@@ -121,6 +132,33 @@ function Work() {
         </div>
       </section>
 
+      {/* Single Project View */}
+      {currentProject && (
+        <section className="section" style={{ paddingTop: 'var(--space-10)' }}>
+          <div className="container" style={{ maxWidth: '900px' }}>
+            <Link to="/work" style={{ display: 'inline-flex', alignItems: 'center', color: '#FF9100', marginBottom: 'var(--space-6)', textDecoration: 'none' }}>
+              ← Back to All Projects
+            </Link>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <img 
+                src={currentProject.image} 
+                alt={currentProject.name} 
+                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '12px', marginBottom: 'var(--space-6)' }} 
+              />
+              <h2 style={{ fontSize: 'var(--text-3xl)', color: '#FF9100', marginBottom: 'var(--space-2)' }}>{currentProject.name}</h2>
+              <p style={{ color: '#555', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>{currentProject.category}</p>
+              <p style={{ color: '#374151', lineHeight: 1.8 }}>{currentProject.description}</p>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Only show filter and grid if no single project */}
+      {!slug && (
       <section className="section">
         <div className="container">
           {/* Filter with animation */}
@@ -169,6 +207,7 @@ function Work() {
           </motion.div>
         </div>
       </section>
+      )}
     </div>
   );
 }

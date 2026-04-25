@@ -96,28 +96,28 @@ const projects = [
     name: 'Târg de Crăciun Dalles 2025', 
     category: 'Event Concept, Event Management', 
     image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png',
-    link: 'https://satoris.ro/targ-de-craciun-dalles-2025/'
+    slug: 'targ-de-craciun-dalles-2025'
   },
   { 
     id: 2, 
     name: 'Omi', 
     category: 'Digital Audit, Market Research, User Experience', 
     image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg',
-    link: 'https://satoris.ro/omi/'
+    slug: 'omi'
   },
   { 
     id: 3, 
     name: 'Softy', 
     category: 'Research, Branding, Packaging, Ad Design, PPC', 
     image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg',
-    link: 'https://satoris.ro/softy/'
+    slug: 'softy'
   },
   { 
     id: 4, 
     name: 'Cela Jewelry', 
     category: 'Ecommerce, Website Development, PPC, SEO', 
     image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg',
-    link: 'https://satoris.ro/cela/'
+    slug: 'cela'
   },
 ];
 
@@ -176,7 +176,7 @@ function Home() {
 
 // ProjectCard with 3D tilt effect
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   
   const handleMouseMove = (e: any) => {
@@ -188,32 +188,30 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
   };
   
   return (
-    <motion.a
-      ref={ref}
-      href={project.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setRotate({ x: 0, y: 0 })}
-      whileHover={{ scale: 1.02 }}
-      style={{ cursor: 'pointer', textDecoration: 'none', perspective: '1000px' }}
-    >
+    <Link to={`/work/${project.slug}`} style={{ cursor: 'pointer', textDecoration: 'none', perspective: '1000px' }}>
       <motion.div
-        animate={{ rotateX: rotate.x, rotateY: rotate.y }}
-        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-        style={{ background: '#1a1a2e', borderRadius: '12px', overflow: 'hidden', transformStyle: 'preserve-3d' }}
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setRotate({ x: 0, y: 0 })}
+        whileHover={{ scale: 1.02 }}
       >
-        <img src={project.image} alt={project.name} style={{ width: '100%', height: '280px', objectFit: 'cover' }} />
-        <div style={{ padding: 'var(--space-4)' }}>
-          <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
-          <p style={{ color: '#9ca3af', fontSize: 'var(--text-sm)' }}>{project.category}</p>
-        </div>
+        <motion.div
+          animate={{ rotateX: rotate.x, rotateY: rotate.y }}
+          transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+          style={{ background: '#1a1a2e', borderRadius: '12px', overflow: 'hidden', transformStyle: 'preserve-3d' }}
+        >
+          <img src={project.image} alt={project.name} style={{ width: '100%', height: '280px', objectFit: 'cover' }} />
+          <div style={{ padding: 'var(--space-4)' }}>
+            <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
+            <p style={{ color: '#9ca3af', fontSize: 'var(--text-sm)' }}>{project.category}</p>
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.a>
+    </Link>
   );
 }
   
