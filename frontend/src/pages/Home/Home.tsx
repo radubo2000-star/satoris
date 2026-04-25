@@ -302,8 +302,8 @@ function Home() {
           </div>
         </div>
         <div className="clients-carousel-wrapper" style={{ position: 'relative', overflow: 'hidden', padding: 'var(--space-6) 0' }}>
-          <div className="clients-carousel" style={{ display: 'flex', animation: 'scroll 30s linear infinite', width: 'fit-content' }}>
-            {clientLogos.map((client, index) => (
+          <div className="clients-carousel" style={{ display: 'flex', animation: 'scroll 40s linear infinite', width: 'fit-content' }}>
+            {[...clientLogos, ...clientLogos].map((client, index) => (
               <div key={index} className="client-logo-wrapper" style={{ flex: '0 0 180px', padding: '0 var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src={client.logo}
