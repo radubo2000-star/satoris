@@ -3,7 +3,6 @@ import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
-// Services organized by category with sub-items
 const servicesData = [
   {
     category: 'Strategy',
@@ -25,29 +24,12 @@ const servicesData = [
     items: []
   },
   {
-    category: 'Marketing',
-    title: 'marketing',
-    description: 'Marketing isn\'t just a service; it\'s the heartbeat of your brand\'s journey. At Satoris Communication Studio, we view marketing as the engine that propels your brand forward. Our strategic marketing expertise serves as the compass guiding your path to success.',
-    items: []
-  },
-  {
-    category: 'PR & Digital',
-    title: 'PR & Digital',
-    description: 'We turn your brand\'s story into an unforgettable narrative, shaping perception and driving results through strategic storytelling.',
-    items: [
-      { title: 'SEO', description: 'Boosting your online visibility and search rankings with our SEO strategies that drive organic growth' },
-      { title: 'Affiliate Management', description: 'Optimizing affiliate programs to expand your reach and drive results, all under expert management' },
-      { title: 'Email Marketing', description: 'Engaging your audience directly through personalized and effective email campaigns that convert' },
-      { title: 'Social Media Management', description: 'From content creation to engagement, our social media management ensures your brand shines in the digital spotlight' },
-    ]
-  },
-  {
     category: 'Digital Marketing',
     title: 'Digital Marketing',
-    description: 'Our websites are more than pages; they\'re canvases of expression and user-friendliness into every click',
+    description: 'We blend creativity with technology to deliver campaigns that resonate and convert.',
     items: [
       { title: 'website design', description: 'Our websites are more than pages; they\'re canvases of expression and user-friendliness into every click' },
-      { title: 'user experience', description: 'Creating intuitive user journeys that delight customers and drive conversion.' },
+      { title: 'user experience', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.' },
       { title: 'app design', description: 'In the mobile realm, we create apps that blend aesthetics with seamless functionality, delivering user experiences that captivate.' },
     ]
   },
@@ -62,7 +44,7 @@ const servicesData = [
     title: 'technology',
     description: 'We\'re passionate enthusiasts of technology. We firmly believe that technology isn\'t just a tool; it\'s a powerful accelerator on our journey to success. Our in-house technology expertise empowers innovation, ensuring that your vision becomes reality with the speed and precision that modern technology allows',
     items: [
-      { title: 'website development', description: 'Our websites are more than pixels; they\'re the result of in-house web development expertise, tailored to your unique needs' },
+      { title: 'website development', description: 'Our websites are more than pixels; they\'re the result of in-house web development expertise, tailored to your unique needs, either if it is a custom code build or an open platform' },
       { title: 'SMS promo Machine', description: 'Take control of your SMS marketing with our in-house SMS Promo Machine, a versatile tool crafted to supercharge your campaigns' },
       { title: 'app development', description: 'Crafting tailored mobile solutions from the ground up, our in-house app development ensures your vision becomes a reality' },
       { title: 'ecommerce', description: 'From idea to marketplace, our in-house ecommerce solutions build robust online stores that thrive in the digital realm' },
@@ -71,8 +53,13 @@ const servicesData = [
   {
     category: 'Events',
     title: 'Events',
-    description: 'At Satoris PR & Digital Communication Studio, we are masters of transforming fleeting moments into enduring memories. With over 15 years of hands-on experience in orchestrating events, ranging from intimate teambuilding sessions to grand-scale exhibitions that draw crowds from far and wide, we have honed our craft to perfection.',
+    description: 'At Satoris PR & Digital Communication Studio, we are masters of transforming fleeting moments into enduring memories. With over 15 years of hands-on experience in orchestrating events, ranging from intimate teambuilding sessions to grand-scale exhibitions that draw crowds from far and wide, we have honed our craft to perfection. Events are more than just gatherings; they are the stages upon which your brand\'s essence takes center stage.',
     items: [
+      { title: 'Content Creation', description: 'Crafting compelling stories, visuals and engaging content that resonate with and capture attention of your audience and drive meaningful connections' },
+      { title: 'social Media managment', description: 'From content creation to engagement, our social media management ensures your brand shines in the digital spotlight' },
+      { title: 'SEO', description: 'Boosting your online visibility and search rankings with our SEO strategies that drive organic growth' },
+      { title: 'Affiliate Management', description: 'Optimizing affiliate programs to expand your reach and drive results, all under expert management' },
+      { title: 'Email Marketing', description: 'Engaging your audience directly through personalized and effective email campaigns that convert' },
       { title: 'Custom Events', description: 'For any occasion that demands excellence, our custom events deliver tailored solutions that exceed expectations' },
       { title: 'Conventions', description: 'Crafting immersive convention experiences that engage attendees and convey your brand\'s essence' },
       { title: 'Exhibitions', description: 'Captivating exhibitions that tell your brand\'s story and leave a lasting impression on attendees' },
@@ -84,16 +71,15 @@ const servicesData = [
   {
     category: 'Financial PR',
     title: 'Financial PR',
-    description: 'Building credibility through strategic financial communications and media relations.',
+    description: 'We specialise in Financial PR, where every word and message matters, we understand the nuances of financial communication, from investor relations to market announcements. Our goal is to take the burden of this often tedious and complex task off your shoulders, passing it on to a dedicated key manager who ensures seamless communication across different departments and countries, allowing you to focus on what matters most: your financial success.',
     items: [
       { title: 'Relationship Management', description: 'Building and nurturing strong, lasting relationships that are the foundation of successful financial communication' },
       { title: 'Investor Relations', description: 'Crafting strategic and transparent communication that fosters investor trust and confidence in your financial journey' },
-      { title: 'Financial PR', description: 'Building credibility through strategic financial communications and media relations.' },
     ]
   },
 ];
 
-const categories = ['All', 'Strategy', 'Branding', 'Marketing', 'PR & Digital', 'Digital Marketing', 'Creative & Design', 'Technology', 'Events', 'Financial PR'];
+const categories = ['All', 'Strategy', 'Branding', 'Digital Marketing', 'Creative & Design', 'Technology', 'Events', 'Financial PR'];
 
 function Services() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -104,7 +90,6 @@ function Services() {
 
   return (
     <div className="services-page">
-      {/* Hero */}
       <section className="hero" style={{ minHeight: '50vh' }}>
         <div className="hero-content">
           <motion.h1
@@ -117,7 +102,6 @@ function Services() {
         </div>
       </section>
 
-      {/* Filter */}
       <section style={{ background: '#dad8da', padding: 'var(--space-6) 0' }}>
         <div className="container">
           <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -129,7 +113,7 @@ function Services() {
                   padding: '8px 16px',
                   borderRadius: '4px',
                   border: selectedCategory === cat ? 'none' : '1px solid #32373c',
-                  background: selectedCategory === cat ? '#00a99d' : 'transparent',
+                  background: selectedCategory === cat ? '#FF9100' : 'transparent',
                   color: selectedCategory === cat ? '#fff' : '#32373c',
                   fontWeight: 500,
                   cursor: 'pointer',
@@ -143,11 +127,10 @@ function Services() {
         </div>
       </section>
 
-      {/* Services - Alternating Layout */}
       <section className="section" style={{ background: '#fff' }}>
         <div className="container">
           {filteredServices.map((service, index) => {
-            const isReversed = index % 2 === 1; // Alternate layout
+            const isReversed = index % 2 === 1;
             
             return (
               <motion.div
@@ -157,21 +140,20 @@ function Services() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 style={{ 
                   display: 'grid',
-                  gridTemplateColumns: isReversed ? '1fr 1fr' : '1fr 1fr',
+                  gridTemplateColumns: '1fr 1fr',
                   gap: 'var(--space-8)',
                   marginBottom: 'var(--space-12)',
                   paddingBottom: 'var(--space-12)',
                   borderBottom: '1px solid #e5e5e5'
                 }}
               >
-                {/* Main Column - Category Description */}
                 <div style={{ 
                   paddingRight: isReversed ? '0' : 'var(--space-6)',
                   paddingLeft: isReversed ? 'var(--space-6)' : '0',
                 }}>
                   <span style={{ 
                     fontSize: 'var(--text-xs)', 
-                    color: '#00a99d', 
+                    color: '#FF9100', 
                     fontWeight: 600,
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em'
@@ -197,12 +179,11 @@ function Services() {
                   </p>
                 </div>
 
-                {/* Sub-items Column - Always Visible */}
                 <div>
                   {service.items.length > 0 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                       {service.items.map((item, i) => (
-                        <div key={i} style={{ borderLeft: '2px solid #00a99d', paddingLeft: 'var(--space-3)' }}>
+                        <div key={i} style={{ borderLeft: '2px solid #FF9100', paddingLeft: 'var(--space-3)' }}>
                           <h3 style={{ 
                             fontSize: 'var(--text-sm)', 
                             color: '#32373c',
@@ -222,11 +203,7 @@ function Services() {
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    <div style={{ color: '#999', fontSize: 'var(--text-sm)' }}>
-                      {/* Empty state */}
-                    </div>
-                  )}
+                  ) : null}
                 </div>
               </motion.div>
             );
@@ -234,7 +211,6 @@ function Services() {
         </div>
       </section>
 
-      {/* CTA */}
       <section style={{ background: '#32373c', padding: 'var(--space-16) 0' }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <h2 style={{ color: '#fff', marginBottom: 'var(--space-4)', fontSize: 'var(--text-3xl)' }}>
@@ -244,7 +220,7 @@ function Services() {
             Your vision, our expertise - let's build something extraordinary
           </p>
           <a href="/contact" style={{ 
-            background: '#00a99d', 
+            background: '#FF9100', 
             color: '#fff', 
             padding: '14px 32px', 
             borderRadius: '4px', 
