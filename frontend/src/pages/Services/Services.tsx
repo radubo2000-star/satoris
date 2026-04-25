@@ -111,7 +111,7 @@ function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ 
-              color: '#fff', 
+              color: '#FF9100', 
               fontSize: 'var(--text-5xl)',
               fontWeight: 800
             }}
