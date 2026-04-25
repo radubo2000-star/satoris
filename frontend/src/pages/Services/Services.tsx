@@ -97,7 +97,6 @@ const categories = ['All', 'Strategy', 'Branding', 'Marketing', 'PR & Digital', 
 
 function Services() {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [expandedItem, setExpandedItem] = useState<string | null>(null);
   
   const filteredServices = selectedCategory === 'All' 
     ? servicesData 
@@ -125,10 +124,7 @@ function Services() {
             {categories.map(cat => (
               <button
                 key={cat}
-                onClick={() => {
-                  setSelectedCategory(cat);
-                  setExpandedItem(null);
-                }}
+                onClick={() => setSelectedCategory(cat)}
                 style={{
                   padding: '8px 16px',
                   borderRadius: '4px',
@@ -161,8 +157,8 @@ function Services() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 style={{ 
                   display: 'grid',
-                  gridTemplateColumns: isReversed ? '1fr 2fr' : '2fr 1fr',
-                  gap: 'var(--space-6)',
+                  gridTemplateColumns: isReversed ? '1fr 1fr' : '1fr 1fr',
+                  gap: 'var(--space-8)',
                   marginBottom: 'var(--space-12)',
                   paddingBottom: 'var(--space-12)',
                   borderBottom: '1px solid #e5e5e5'
@@ -170,9 +166,8 @@ function Services() {
               >
                 {/* Main Column - Category Description */}
                 <div style={{ 
-                  padding: isReversed ? '0 0 0 var(--space-6)' : '0 var(--space-6) 0 0',
-                  borderRight: isReversed ? 'none' : '1px solid #e5e5e5',
-                  borderLeft: isReversed ? '1px solid #e5e5e5' : 'none',
+                  paddingRight: isReversed ? '0' : 'var(--space-6)',
+                  paddingLeft: isReversed ? 'var(--space-6)' : '0',
                 }}>
                   <span style={{ 
                     fontSize: 'var(--text-xs)', 
@@ -184,7 +179,7 @@ function Services() {
                     {service.category}
                   </span>
                   <h2 style={{ 
-                    fontSize: 'var(--text-2xl)', 
+                    fontSize: 'var(--text-xl)', 
                     color: '#32373c',
                     fontWeight: 600,
                     marginTop: 'var(--space-2)',
@@ -194,74 +189,43 @@ function Services() {
                   </h2>
                   <p style={{ 
                     color: '#666', 
-                    fontSize: 'var(--text-base)',
+                    fontSize: 'var(--text-sm)',
                     lineHeight: 1.7,
-                    marginTop: 'var(--space-4)'
+                    marginTop: 'var(--space-3)'
                   }}>
                     {service.description}
                   </p>
                 </div>
 
-                {/* Sub-items Column */}
+                {/* Sub-items Column - Always Visible */}
                 <div>
                   {service.items.length > 0 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-                      {service.items.map((item, i) => {
-                        const isExpanded = expandedItem === `${service.category}-${item.title}`;
-                        return (
-                          <div
-                            key={i}
-                            onClick={() => setExpandedItem(isExpanded ? null : `${service.category}-${item.title}`)}
-                            style={{ 
-                              cursor: 'pointer',
-                              borderBottom: '1px solid #e5e5e5',
-                              paddingBottom: 'var(--space-3)'
-                            }}
-                          >
-                            <div style={{ 
-                              display: 'flex', 
-                              justifyContent: 'space-between',
-                              alignItems: 'center'
-                            }}>
-                              <h3 style={{ 
-                                fontSize: 'var(--text-base)', 
-                                color: '#32373c',
-                                fontWeight: 600,
-                                textTransform: 'capitalize'
-                              }}>
-                                {item.title}
-                              </h3>
-                              <svg 
-                                width="16" 
-                                height="16" 
-                                viewBox="0 0 16 16" 
-                                fill="none"
-                                style={{ 
-                                  transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                                  transition: 'transform 0.2s'
-                                }}
-                              >
-                                <path d="M4 6L8 10L12 6" stroke="#32373c" strokeWidth="2" strokeLinecap="round"/>
-                              </svg>
-                            </div>
-                            {isExpanded && (
-                              <p style={{ 
-                                color: '#666', 
-                                fontSize: 'var(--text-sm)',
-                                lineHeight: 1.6,
-                                marginTop: 'var(--space-2)'
-                              }}>
-                                {item.description}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
+                      {service.items.map((item, i) => (
+                        <div key={i} style={{ borderLeft: '2px solid #00a99d', paddingLeft: 'var(--space-3)' }}>
+                          <h3 style={{ 
+                            fontSize: 'var(--text-sm)', 
+                            color: '#32373c',
+                            fontWeight: 600,
+                            textTransform: 'capitalize',
+                            marginBottom: '4px'
+                          }}>
+                            {item.title}
+                          </h3>
+                          <p style={{ 
+                            color: '#666', 
+                            fontSize: 'var(--text-xs)',
+                            lineHeight: 1.5
+                          }}>
+                            {item.description}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   ) : (
-                    <p style={{ color: '#999', fontStyle: 'italic' }}>
-                      No sub-services available
-                    </p>
+                    <div style={{ color: '#999', fontSize: 'var(--text-sm)' }}>
+                      {/* Empty state */}
+                    </div>
                   )}
                 </div>
               </motion.div>
