@@ -392,7 +392,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             <p>Explore our portfolio. Hover for 3D tilt effect.</p>
           </motion.div>
           
-          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-6)' }}>
+          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-6)' }}>
             {projects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
