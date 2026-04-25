@@ -1,13 +1,13 @@
 /* Satoris Design Tokens - Based on satoris.ro brand */
 :root {
-  /* Primary Colors - Orange accent from original site */
-  --color-primary: #ff9100;
-  --color-primary-dark: #e68200;
-  --color-primary-light: #ffa33a;
+  /* Primary Colors - Orange from satoris.ro (#FF9100) */
+  --color-primary: #FF9100;
+  --color-primary-dark: #E68200;
+  --color-primary-light: #FFAA33;
   
   /* Secondary Colors */
-  --color-secondary: #0ea5e9;
-  --color-accent: #ff9100;
+  --color-secondary: #00B3A2;
+  --color-accent: #FF9100;
   
   /* Neutrals */
   --color-black: #1a1a2e;
