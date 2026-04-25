@@ -116,6 +116,7 @@ const categories = ['All', 'Strategy', 'Branding', 'PR & Digital', 'Digital Mark
 function Services() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [selectedChild, setSelectedChild] = useState<number | null>(null);
   
   const filteredServices = selectedCategory === 'All' 
     ? servicesData 
@@ -189,7 +190,10 @@ function Services() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  onClick={() => setSelectedService(isExpanded ? null : `${service.category}-${service.title}`)}
+                  onClick={() => {
+                    setSelectedService(isExpanded ? null : `${service.category}-${service.title}`);
+                    if (isExpanded) setSelectedChild(null);
+                  }}
                   style={{ 
                     background: '#fff',
                     border: '1px solid #e5e5e5',
@@ -263,19 +267,53 @@ function Services() {
                         {service.description}
                       </p>
 
-                      {/* Children (like original sub-items) */}
+                      {/* Children (like original sub-items) - clickable */}
                       {service.children && (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', borderTop: '1px solid #e5e5e5', paddingTop: 'var(--space-4)' }}>
-                          {service.children.map((child, i) => (
-                            <div key={i} style={{ paddingLeft: 'var(--space-4)', borderLeft: '3px solid #00a99d' }}>
-                              <h4 style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: '#32373c', marginBottom: 'var(--space-1)' }}>
-                                {child.title}
-                              </h4>
-                              <p style={{ color: '#666', fontSize: 'var(--text-sm)', lineHeight: 1.5 }}>
-                                {child.description}
-                              </p>
-                            </div>
-                          ))}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', borderTop: '1px solid #e5e5e5', paddingTop: 'var(--space-4)' }}>
+                          {service.children.map((child, i) => {
+                            const childIndex = filteredServices.findIndex(s => s.title === service.title) * 100 + i;
+                            const isChildExpanded = selectedChild === childIndex;
+                            return (
+                              <motion.div
+                                key={i}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedChild(isChildExpanded ? null : childIndex);
+                                }}
+                                whileHover={{ backgroundColor: '#f9f9f9' }}
+                                style={{ 
+                                  padding: 'var(--space-3) var(--space-4)', 
+                                  borderLeft: isChildExpanded ? '3px solid #00a99d' : '3px solid #ddd',
+                                  background: isChildExpanded ? '#f9f9f9' : 'transparent',
+                                  cursor: 'pointer',
+                                  borderRadius: '0 4px 4px 0'
+                                }}
+                              >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <h4 style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: '#32373c' }}>
+                                    {child.title}
+                                  </h4>
+                                  <motion.span
+                                    animate={{ rotate: isChildExpanded ? 180 : 0 }}
+                                    style={{ color: '#00a99d', fontSize: 'var(--text-sm)' }}
+                                  >
+                                    ▼
+                                  </motion.span>
+                                </div>
+                                {isChildExpanded && (
+                                  <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    style={{ marginTop: 'var(--space-2)' }}
+                                  >
+                                    <p style={{ color: '#666', fontSize: 'var(--text-sm)', lineHeight: 1.5 }}>
+                                      {child.description}
+                                    </p>
+                                  </motion.div>
+                                )}
+                              </motion.div>
+                            );
+                          })}
                         </div>
                       )}
 
