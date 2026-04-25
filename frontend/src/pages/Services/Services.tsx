@@ -126,7 +126,7 @@ function Services() {
         <div className="container">
           {servicesData.map((service, index) => {
             const { left, right } = splitSubItems(service.subItems);
-            const isReversed = index % 2 === 1; // Alternates: odd = left, even = right
+            const isLeftSide = index % 2 === 0; // Even = left side, Odd = right side
             
             return (
               <motion.div
@@ -137,51 +137,57 @@ function Services() {
                 style={{ 
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
-                  gap: 'var(--space-6)',
+                  gap: 'var(--space-8)',
                   marginBottom: 'var(--space-12)',
                   paddingBottom: 'var(--space-12)',
                   borderBottom: '1px solid #e5e5e5'
                 }}
               >
-                {/* Column 1: Category title + description */}
+                {/* LEFT side: category first, sub-items second */}
+                {/* RIGHT side: sub-items first, category last */}
+                
+                {/* Column 1 - Category title + description */}
                 <div style={{ 
-                  paddingRight: isReversed ? 'var(--space-4)' : 'var(--space-6)',
-                  paddingLeft: isReversed ? 'var(--space-6)' : 'var(--space-4)',
+                  order: isLeftSide ? 1 : 3,
+                  paddingRight: isLeftSide ? 'var(--space-6)' : 'var(--space-2)',
+                  paddingLeft: isLeftSide ? 'var(--space-2)' : 'var(--space-6)',
                 }}>
                   <h2 style={{ 
-                    fontSize: 'var(--text-2xl)', 
+                    fontSize: '2rem', 
                     color: '#32373c',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    textTransform: 'lowercase'
+                    textTransform: 'lowercase',
+                    fontFamily: 'Montserrat, sans-serif'
                   }}>
                     {service.title}
                   </h2>
                   <p style={{ 
-                    color: '#666', 
-                    fontSize: 'var(--text-base)',
+                    color: '#555', 
+                    fontSize: '1rem',
                     lineHeight: 1.8,
                   }}>
                     {service.description}
                   </p>
                 </div>
 
-                {/* Column 2: Left sub-items */}
-                <div>
+                {/* Column 2 - Left sub-items */}
+                <div style={{ order: isLeftSide ? 2 : 1 }}>
                   {left.length > 0 && left.map((item, i) => (
-                    <div key={i} style={{ marginBottom: 'var(--space-4)' }}>
+                    <div key={i} style={{ marginBottom: 'var(--space-5)' }}>
                       <h3 style={{ 
-                        fontSize: 'var(--text-base)', 
-                        color: '#32373c',
+                        fontSize: '1rem', 
+                        color: '#FF9100',
                         fontWeight: 600,
-                        marginBottom: '4px',
-                        textTransform: 'lowercase'
+                        marginBottom: '6px',
+                        textTransform: 'lowercase',
+                        fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
                       </h3>
                       <p style={{ 
-                        color: '#666', 
-                        fontSize: 'var(--text-sm)',
+                        color: '#555', 
+                        fontSize: '0.9rem',
                         lineHeight: 1.6
                       }}>
                         {item.description}
@@ -190,22 +196,23 @@ function Services() {
                   ))}
                 </div>
 
-                {/* Column 3: Right sub-items */}
-                <div>
+                {/* Column 3 - Right sub-items */}
+                <div style={{ order: isLeftSide ? 3 : 2 }}>
                   {right.length > 0 && right.map((item, i) => (
-                    <div key={i} style={{ marginBottom: 'var(--space-4)' }}>
+                    <div key={i} style={{ marginBottom: 'var(--space-5)' }}>
                       <h3 style={{ 
-                        fontSize: 'var(--text-base)', 
-                        color: '#32373c',
+                        fontSize: '1rem', 
+                        color: '#FF9100',
                         fontWeight: 600,
-                        marginBottom: '4px',
-                        textTransform: 'lowercase'
+                        marginBottom: '6px',
+                        textTransform: 'lowercase',
+                        fontFamily: 'Montserrat, sans-serif'
                       }}>
                         {item.title}
                       </h3>
                       <p style={{ 
-                        color: '#666', 
-                        fontSize: 'var(--text-sm)',
+                        color: '#555', 
+                        fontSize: '0.9rem',
                         lineHeight: 1.6
                       }}>
                         {item.description}
