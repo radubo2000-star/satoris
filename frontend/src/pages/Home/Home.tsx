@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
@@ -46,6 +46,49 @@ const services = [
     description: 'International events Participations\nGlobal Events as exhibitor \nTrips & Ticketing \nInternational team Buildings & client meetups',
   },
 ];
+
+// ServiceCard with hover reveal effect
+function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(255,145,0,0.15)' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        padding: 'var(--space-6)',
+        background: '#fff',
+        borderRadius: '16px',
+        textAlign: 'center',
+        border: isHovered ? '2px solid #FF9100' : '1px solid #e5e7eb',
+        cursor: 'pointer'
+      }}
+    >
+      <motion.div
+        animate={{ scale: isHovered ? 1.1 : 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div dangerouslySetInnerHTML={{ __html: service.icon }} style={{ width: '60px', height: '45px', margin: '0 auto var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
+      </motion.div>
+      <h4 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: '#1a1a2e', fontWeight: 600 }}>{service.title}</h4>
+      <AnimatePresence>
+        {isHovered ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <p style={{ fontSize: 'var(--text-xs)', color: '#374151', lineHeight: 1.8, whiteSpace: 'pre-line', marginBottom: 'var(--space-3)' }}>{service.description}</p>
+            <Link to="/services" style={{ color: '#FF9100', fontWeight: 600 }}>Learn More →</Link>
+          </motion.div>
+        ) : (
+          <p style={{ fontSize: 'var(--text-xs)', color: '#9ca3af' }}>Hover for details</p>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 
 const projects = [
   { 
@@ -125,6 +168,50 @@ const clientLogos = [
 
 function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+// ProjectCard with 3D tilt effect
+function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  
+  const handleMouseMove = (e: any) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setRotate({ x: y * 20, y: -x * 20 });
+  };
+  
+  return (
+    <motion.a
+      ref={ref}
+      href={project.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => setRotate({ x: 0, y: 0 })}
+      whileHover={{ scale: 1.02 }}
+      style={{ cursor: 'pointer', textDecoration: 'none', perspective: '1000px' }}
+    >
+      <motion.div
+        animate={{ rotateX: rotate.x, rotateY: rotate.y }}
+        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+        style={{ background: '#1a1a2e', borderRadius: '12px', overflow: 'hidden', transformStyle: 'preserve-3d' }}
+      >
+        <img src={project.image} alt={project.name} style={{ width: '100%', height: '280px', objectFit: 'cover' }} />
+        <div style={{ padding: 'var(--space-4)' }}>
+          <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
+          <p style={{ color: '#9ca3af', fontSize: 'var(--text-sm)' }}>{project.category}</p>
+        </div>
+      </motion.div>
+    </motion.a>
+  );
+}
   
   return (
     <div className="home-page">
@@ -184,43 +271,22 @@ function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="section" style={{ background: 'var(--color-gray-lightest)' }}>
+      {/* Services Section - Hover Reveal */}
+      <section className="section" style={{ background: '#f8f9fa' }}>
         <div className="container">
-          <div className="section-title">
+          <motion.div
+            className="section-title"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             <h2>We execute events that actually happen on time.</h2>
-            <p>
-              Our comprehensive services cover everything from concept to execution.
-            </p>
-          </div>
-          <div className="services-grid">
+            <p>Our comprehensive services cover everything from concept to execution. Hover for details.</p>
+          </motion.div>
+          
+          <div className="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-6)' }}>
             {services.map((service, index) => (
-              <motion.div
-                key={index}
-                className="service-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                style={{ padding: 'var(--space-6)', background: '#fff', borderRadius: 'var(--radius-lg)', textAlign: 'center', border: '1px solid #d9d9e3' }}
-              >
-                <div 
-                  dangerouslySetInnerHTML={{ __html: service.icon }}
-                  style={{ width: '60px', height: '45px', margin: '0 auto var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  className="service-icon-svg"
-                />
-                <h4 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: '#1a1a2e', textTransform: 'lowercase', fontWeight: 600 }}>
-                  {service.title}
-                </h4>
-                <p style={{ fontSize: 'var(--text-xs)', color: '#374151', lineHeight: 1.8, whiteSpace: 'pre-line' }}>{service.description}</p>
-                <Link 
-                  to="/services" 
-                  style={{ color: '#FF9100', fontSize: 'var(--text-sm)', fontWeight: 600, textDecoration: 'none', display: 'inline-block', marginTop: 'var(--space-3)' }}
-                >
-                  Learn More
-                </Link>
-              </motion.div>
+              <ServiceCard key={index} service={service} index={index} />
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 'var(--space-10)' }}>
@@ -229,38 +295,25 @@ function Home() {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* Projects Section - 3D Tilt Effect */}
       <section className="section">
         <div className="container">
-          <div className="section-title">
+          <motion.div
+            className="section-title"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             <h2>Featured Work</h2>
-            <p>
-              Explore our portfolio of featured work, where precision meets creativity and results shine with experience beyond events.
-            </p>
-          </div>
-          <div className="projects-grid">
+            <p>Explore our portfolio. Hover for 3D tilt effect.</p>
+          </motion.div>
+          
+          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-6)' }}>
             {projects.map((project, index) => (
-              <motion.a
-                key={project.id}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="project-card"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.03, y: -5 }}
-                style={{ cursor: 'pointer', textDecoration: 'none' }}
-              >
-                <img src={project.image} alt={project.name} style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
-                <div className="project-overlay" style={{ padding: 'var(--space-4)', background: '#1a1a2e' }}>
-                  <h3 style={{ color: '#FF9100', marginBottom: 'var(--space-1)' }}>{project.name}</h3>
-                  <p style={{ color: '#fff', fontSize: 'var(--text-sm)' }}>{project.category}</p>
-                </div>
-              </motion.a>
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
+          
           <div style={{ textAlign: 'center', marginTop: 'var(--space-10)' }}>
             <Link to="/work" className="btn btn-outline">All Projects</Link>
           </div>
@@ -367,22 +420,45 @@ function Home() {
         </div>
       </section>
 
-      {/* Clients - Carousel */}
-      <section className="section" style={{ overflow: 'hidden', padding: 'var(--space-10) 0' }}>
-        <div className="container">
+      {/* Clients - Carousel with Pause on Hover */}
+      <section className="section">
+        <motion.div 
+          className="container"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
           <div className="section-title">
             <h2>Just a Few of Our Clients</h2>
+            <p>Hover to pause • Scroll to see more</p>
           </div>
-        </div>
-        <div className="clients-carousel-wrapper" style={{ position: 'relative', overflow: 'hidden', padding: 'var(--space-6) 0' }}>
-          <div className="clients-carousel" style={{ display: 'flex', animation: 'scroll 40s linear infinite', width: 'fit-content' }}>
+        </motion.div>
+        
+        <div 
+          className="clients-carousel-wrapper"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          style={{ padding: 'var(--space-6) 0' }}
+        >
+          <div 
+            className="clients-carousel" 
+            style={{ 
+              display: 'flex', 
+              animationPlayState: isPaused ? 'paused' : 'running',
+              width: 'fit-content' 
+            }}
+          >
             {[...clientLogos, ...clientLogos].map((client, index) => (
-              <div key={index} className="client-logo-wrapper" style={{ flex: '0 0 180px', padding: '0 var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
+              <div 
+                key={index} 
+                className="client-logo-wrapper" 
+                style={{ flex: '0 0 180px', padding: '0 var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <motion.img
                   src={client.logo}
                   alt={client.name}
-                  className="client-logo"
-                  style={{ maxHeight: '60px', maxWidth: '150px', objectFit: 'contain' }}
+                  whileHover={{ scale: 1.15, rotate: 3 }}
+                  style={{ maxHeight: '60px', maxWidth: '150px', objectFit: 'contain', cursor: 'pointer' }}
                 />
               </div>
             ))}
