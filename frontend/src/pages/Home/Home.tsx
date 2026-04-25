@@ -294,21 +294,26 @@ function Home() {
         </div>
       </section>
 
-      {/* Clients */}
-      <section className="section">
+      {/* Clients - Carousel */}
+      <section className="section" style={{ overflow: 'hidden', padding: 'var(--space-10) 0' }}>
         <div className="container">
           <div className="section-title">
             <h2>Just a Few of Our Clients</h2>
           </div>
-          <div className="clients-grid">
-            {clientLogos.map((client, index) => (
-              <img
-                key={index}
-                src={client.logo}
-                alt={client.name}
-                className="client-logo"
-                style={{ maxHeight: '60px', maxWidth: '150px' }}
-              />
+        </div>
+        <div className="clients-carousel-wrapper" style={{ position: 'relative', overflow: 'hidden', padding: 'var(--space-6) 0' }}>
+          <div className="clients-carousel" style={{ display: 'flex', animation: 'scroll 30s linear infinite', width: 'fit-content' }}>
+            {[...clientLogos, ...clientLogos].map((client, index) => (
+              <div key={index} className="client-logo-wrapper" style={{ flex: '0 0 180px', padding: '0 var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  className="client-logo"
+                  style={{ maxHeight: '60px', maxWidth: '150px', objectFit: 'contain', filter: 'grayscale(100%)', transition: 'filter 0.3s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.filter = 'grayscale(0%)'}
+                  onMouseLeave={(e) => e.currentTarget.style.filter = 'grayscale(100%)'}
+                />
+              </div>
             ))}
           </div>
         </div>
