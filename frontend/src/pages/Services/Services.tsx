@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
-// Services organized by category with sub-items
-const servicesByCategory = [
+// Each service is a separate card with title + description + optional sub-items
+const servicesData = [
+  // 1. Strategy - left side
   {
-    category: 'Strategy',
     title: 'strategy',
     description: 'Strategy is the first step, the cornerstone upon which successful journeys are built. At Satoris PR & Digital Communication Studio, we understand that a well-crafted strategy is not just a roadmap; it\'s the key to unlocking your brand\'s full potential. We dive deep into the heart of your goals, challenges, and aspirations, crafting personalised strategies that illuminate the path to success. With our commitment to strategy, we ensure that every move is purposeful, every decision is informed, and every outcome is exceptional.',
     subItems: [
@@ -17,38 +17,38 @@ const servicesByCategory = [
       { title: 'content strategy', description: 'Fueling engagement through compelling storytelling. Our content strategy harmonizes brand narratives with audience interests, creating meaningful connections' },
     ]
   },
+  // 2. Branding - right side (alternated)
   {
-    category: 'Branding',
     title: 'branding',
     description: 'Our branding crafts narratives that resonate, transforming your identity into an unforgettable story.',
     subItems: []
   },
+  // 3. Website design - left side
   {
-    category: 'Digital Marketing',
     title: 'website design',
     description: 'Our websites are more than pages; they\'re canvases of expression and user-friendliness into every click',
     subItems: []
   },
+  // 4. User experience - right side
   {
-    category: 'Digital Marketing',
     title: 'user experience',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.',
     subItems: []
   },
+  // 5. App design - left side
   {
-    category: 'Digital Marketing',
     title: 'app design',
     description: 'In the mobile realm, we create apps that blend aesthetics with seamless functionality, delivering user experiences that captivate.',
     subItems: []
   },
+  // 6. Creative & Design - right side (alternated)
   {
-    category: 'Creative & Design',
     title: 'creative & design',
     description: 'We believe that the most impactful solutions are born from the fusion of artistry and forward-thinking strategies. Explore our array of services designed to elevate your brand, captivate your audience, and redefine industry standards',
     subItems: []
   },
+  // 7. Technology - left side
   {
-    category: 'Technology',
     title: 'technology',
     description: 'We\'re passionate enthusiasts of technology. We firmly believe that technology isn\'t just a tool; it\'s a powerful accelerator on our journey to success. Our in-house technology expertise empowers innovation, ensuring that your vision becomes reality with the speed and precision that modern technology allows',
     subItems: [
@@ -58,10 +58,16 @@ const servicesByCategory = [
       { title: 'ecommerce', description: 'From idea to marketplace, our in-house ecommerce solutions build robust online stores that thrive in the digital realm' },
     ]
   },
+  // 8. Events (short) - right side
   {
-    category: 'Events',
     title: 'Events',
     description: 'From memorable corporate gatherings to immersive product launches, our event marketing expertise brings your brand to life',
+    subItems: []
+  },
+  // 9. Events with sub-items - left side
+  {
+    title: 'Events',
+    description: 'At Satoris PR & Digital Communication Studio, we are masters of transforming fleeting moments into enduring memories. With over 15 years of hands-on experience in orchestrating events, ranging from intimate teambuilding sessions to grand-scale exhibitions that draw crowds from far and wide, we have honed our craft to perfection.',
     subItems: [
       { title: 'Content Creation', description: 'Crafting compelling stories, visuals and engaging content that resonate with and capture attention of your audience and drive meaningful connections' },
       { title: 'social Media managment', description: 'From content creation to engagement, our social media management ensures your brand shines in the digital spotlight' },
@@ -70,16 +76,16 @@ const servicesByCategory = [
       { title: 'Email Marketing', description: 'Engaging your audience directly through personalized and effective email campaigns that convert' },
     ]
   },
+  // 10. Marketing - right side
   {
-    category: 'Marketing',
     title: 'marketing',
-    description: 'Marketing isn\'t just a service; it\'s the heartbeat of your brand\'s journey. At Satoris Communication Studio, we view marketing as the engine that propels your brand forward. Our strategic marketing expertise serves as the compass guiding your path to success. We\'re passionate about crafting marketing solutions that elevate your brand, captivate your audience, and drive results. From the art of storytelling to the science of data-driven strategies, we are your partners in creating marketing experiences that resonate, engage, and leave a lasting impact',
+    description: 'Marketing isn\'t just a service; it\'s the heartbeat of your brand\'s journey. At Satoris Communication Studio, we view marketing as the engine that propels your brand forward. Our strategic marketing expertise serves as the compass guiding your path to success.',
     subItems: []
   },
+  // 11. Events (detailed) - left side
   {
-    category: 'Events',
     title: 'Events',
-    description: 'At Satoris PR & Digital Communication Studio, we are masters of transforming fleeting moments into enduring memories. With over 15 years of hands-on experience in orchestrating events, ranging from intimate teambuilding sessions to grand-scale exhibitions that draw crowds from far and wide, we have honed our craft to perfection. Events are more than just gatherings; they are the stages upon which your brand\'s essence takes center stage.',
+    description: 'Events are more than just gatherings; they are the stages upon which your brand\'s essence takes center stage. We\'re dedicated to turning your vision into a tangible reality, creating experiences that captivate, inspire, and resonate.',
     subItems: [
       { title: 'Custom Events', description: 'For any occasion that demands excellence, our custom events deliver tailored solutions that exceed expectations' },
       { title: 'Conventions', description: 'Crafting immersive convention experiences that engage attendees and convey your brand\'s essence' },
@@ -89,22 +95,22 @@ const servicesByCategory = [
       { title: 'Partner Meetups', description: 'Strengthening partnerships and fostering collaboration through meticulously planned meetups' },
     ]
   },
+  // 12. Relationship Management - right side
   {
-    category: 'Financial PR',
     title: 'Relationship Management',
     description: 'Building and nurturing strong, lasting relationships that are the foundation of successful financial communication',
     subItems: []
   },
+  // 13. Investor Relations - left side
   {
-    category: 'Financial PR',
     title: 'Investor Relations',
     description: 'Crafting strategic and transparent communication that fosters investor trust and confidence in your financial journey',
     subItems: []
   },
+  // 14. Financial PR - right side
   {
-    category: 'Financial PR',
     title: 'Financial PR',
-    description: 'We specialise in Financial PR, where every word and message matters, we understand the nuances of financial communication, from investor relations to market announcements. Our goal is to take the burden of this often tedious and complex task off your shoulders, passing it on to a dedicated key manager who ensures seamless communication across different departments and countries, allowing you to focus on what matters most: your financial success.',
+    description: 'We specialise in Financial PR, where every word and message matters, we understand the nuances of financial communication, from investor relations to market announcements. Our goal is to take the burden of this often tedious and complex task off your shoulders.',
     subItems: []
   },
 ];
@@ -156,16 +162,16 @@ function Services() {
       {/* Services Cards - 3 columns: 1 for category, 2 for subcategories */}
       <section className="section" style={{ background: '#fff' }}>
         <div className="container">
-          {servicesByCategory.map((service, index) => {
+          {servicesData.map((service, index) => {
             const { left, right } = splitSubItems(service.subItems);
-            const isReversed = index % 2 === 1;
+            const isReversed = index % 2 === 1; // Alternates: odd = left, even = right
             
             return (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                transition={{ duration: 0.4, delay: index * 0.03 }}
                 style={{ 
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
