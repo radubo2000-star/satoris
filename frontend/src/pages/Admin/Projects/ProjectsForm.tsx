@@ -62,8 +62,11 @@ const ProjectsForm: React.FC = () => {
     setIsLoading(true);
 
     const token = localStorage.getItem('admin_token');
-    const url = isEdit ? `${API_BASE}/projects/${id}` : `${API_BASE}/projects`;
+    const url = isEdit ? `${API_BASE}/projects` : `${API_BASE}/projects`;
     const method = isEdit ? 'PUT' : 'POST';
+    
+    // For PUT, include ID in body
+    const body = isEdit && id ? { ...formData, id: parseInt(id) } : formData;
 
     try {
       const response = await fetch(url, {
@@ -72,7 +75,7 @@ const ProjectsForm: React.FC = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(body)
       });
 
       if (response.ok) {

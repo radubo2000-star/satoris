@@ -184,6 +184,15 @@ if (file_exists($dataFile)) {
             ['id' => 6, 'name' => 'Trends', 'slug' => 'trends'],
             ['id' => 7, 'name' => 'Case Study', 'slug' => 'case-study'],
         ],
+        'services' => [
+            ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'category' => 'Events', 'sort_order' => 1, 'is_active' => true],
+            ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.', 'category' => 'Events', 'sort_order' => 2, 'is_active' => true],
+            ['id' => 3, 'icon' => '💻', 'title' => 'Digital', 'description' => 'Websites, Landing pages, Email campaigns, Live streaming.', 'category' => 'Digital', 'sort_order' => 3, 'is_active' => true],
+            ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.', 'category' => 'Creative', 'sort_order' => 4, 'is_active' => true],
+        ],
+        'projects' => [
+            ['id' => 1, 'name' => 'Marie', 'slug' => 'marie', 'category' => 'Branding', 'description' => 'Event Concept, Event Management & Implementation', 'image' => '', 'is_featured' => false, 'is_active' => true],
+        ],
     ];
 }
 
@@ -237,6 +246,23 @@ if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
 // Handle services/:id
 if (preg_match('#^services/(\d+)$#', $path, $matches)) {
     $id = (int)$matches[1];
+    error_log("services/$id: method=$method");
+    if ($method === 'PUT') {
+        error_log("PUT request with input: " . json_encode($input));
+        foreach ($services as &$s) {
+            if ($s['id'] === $id) {
+                $s = array_merge($s, $input);
+                $s['id'] = $id;
+                $response = $s;
+                echo json_encode($response);
+                exit;
+            }
+        }
+        http_response_code(404);
+        echo json_encode(['error' => 'Service not found']);
+        exit;
+    }
+    // GET
     $service = array_values(array_filter($services, fn($s) => $s['id'] === $id));
     if (empty($service)) {
         http_response_code(404);
@@ -251,6 +277,23 @@ if (preg_match('#^services/(\d+)$#', $path, $matches)) {
 // Handle projects/:id
 if (preg_match('#^projects/(\d+)$#', $path, $matches)) {
     $id = (int)$matches[1];
+    error_log("projects/$id: method=$method");
+    if ($method === 'PUT') {
+        error_log("PUT request with input: " . json_encode($input));
+        foreach ($projects as &$p) {
+            if ($p['id'] === $id) {
+                $p = array_merge($p, $input);
+                $p['id'] = $id;
+                $response = $p;
+                echo json_encode($response);
+                exit;
+            }
+        }
+        http_response_code(404);
+        echo json_encode(['error' => 'Project not found']);
+        exit;
+    }
+    // GET
     $project = array_values(array_filter($projects, fn($p) => $p['id'] === $id));
     if (empty($project)) {
         http_response_code(404);
@@ -647,15 +690,18 @@ switch ($path) {
                 'is_active' => $input['is_active'] ?? true
             ];
             $services[] = $newService;
+            $data['services'] = $services;
+            saveData($data);
             $response = $newService;
             http_response_code(201);
-        } elseif ($method === 'PUT' && preg_match('#^services/(\d+)$#', $path, $matches)) {
-            $id = (int)$matches[1];
-            foreach ($services as &$s) {
+        } elseif ($method === 'PUT') {
+            $id = (int)$input['id'];
+            foreach ($services as $i => $s) {
                 if ($s['id'] === $id) {
-                    $s = array_merge($s, $input);
-                    $s['id'] = $id;
-                    $response = $s;
+                    $services[$i] = array_merge($s, $input);
+                    $data['services'] = $services;
+                    saveData($data);
+                    $response = $services[$i];
                     break;
                 }
             }
@@ -678,15 +724,18 @@ switch ($path) {
                 'is_active' => $input['is_active'] ?? true
             ];
             $projects[] = $newProject;
+            $data['projects'] = $projects;
+            saveData($data);
             $response = $newProject;
             http_response_code(201);
-        } elseif ($method === 'PUT' && preg_match('#^projects/(\d+)$#', $path, $matches)) {
-            $id = (int)$matches[1];
-            foreach ($projects as &$p) {
+        } elseif ($method === 'PUT') {
+            $id = (int)$input['id'];
+            foreach ($projects as $i => $p) {
                 if ($p['id'] === $id) {
-                    $p = array_merge($p, $input);
-                    $p['id'] = $id;
-                    $response = $p;
+                    $projects[$i] = array_merge($p, $input);
+                    $data['projects'] = $projects;
+                    saveData($data);
+                    $response = $projects[$i];
                     break;
                 }
             }
