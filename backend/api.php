@@ -233,6 +233,46 @@ if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
     }
 }
 
+// Handle services/:id
+if (preg_match('#^services/(\d+)$#', $path, $matches)) {
+    $id = (int)$matches[1];
+    $service = array_values(array_filter($services, fn($s) => $s['id'] === $id));
+    if (empty($service)) {
+        http_response_code(404);
+        $response = ['error' => 'Service not found'];
+    } else {
+        $response = $service[0];
+    }
+    break;
+}
+
+// Handle projects/:id
+if (preg_match('#^projects/(\d+)$#', $path, $matches)) {
+    $id = (int)$matches[1];
+    $project = array_values(array_filter($projects, fn($p) => $p['id'] === $id));
+    if (empty($project)) {
+        http_response_code(404);
+        $response = ['error' => 'Project not found'];
+    } else {
+        $response = $project[0];
+    }
+    break;
+}
+
+// Handle users/:id
+if (preg_match('#^users/(\d+)$#', $path, $matches)) {
+    $id = (int)$matches[1];
+    $user = findUserById($id);
+    if (!$user) {
+        http_response_code(404);
+        $response = ['error' => 'User not found'];
+    } else {
+        unset($user['password_hash']);
+        $response = $user;
+    }
+    break;
+}
+
 switch ($path) {
     // HEALTH
     case 'health':
