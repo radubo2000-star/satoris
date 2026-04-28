@@ -218,7 +218,12 @@ switch ($path) {
 
     // AUTH: REGISTER
     case 'auth/register':
-        if ($method === 'POST') {
+        // Support both POST and GET for testing
+        if ($method === 'POST' || $method === 'GET') {
+            if ($method === 'GET') {
+                $response = ['message' => 'Use POST to register', 'example' => ['email'=>'test@test.ro','password'=>'123456','name'=>'Test']];
+                break;
+            }
             $email = $input['email'] ?? null;
             $password = $input['password'] ?? null;
             $name = $input['name'] ?? null;
