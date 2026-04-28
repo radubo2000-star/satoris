@@ -23,8 +23,16 @@ $path = parse_url($requestUri, PHP_URL_PATH);
 $path = str_replace('/api/', '', $path);
 $path = trim($path, '/');
 
+// Debug: log actual path
+$debugFile = __DIR__ . '/debug.log';
+$debug = date('c') . " | $method | $requestUri | $path | " . json_encode($input) . "\n";
+@file_put_contents($debugFile, $debug, FILE_APPEND);
+
 // Get input data
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
+if (empty($input) && !empty($_POST)) {
+    $input = $_POST;
+}
 
 // Get headers
 $headers = getallheaders();
@@ -193,7 +201,10 @@ function saveData($data) {
 }
 
 // Router
-$response = ['error' => 'Endpoint not found'];
+$response = ['error' => 'Endpoint not found', 'debug' => $path];
+
+// Normalize path to lowercase for case-insensitive matching
+$path = strtolower($path);
 
 switch ($path) {
     // HEALTH
