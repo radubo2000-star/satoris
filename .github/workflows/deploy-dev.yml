@@ -35,12 +35,12 @@ jobs:
           # Upload frontend dist to public root
           local-dir: frontend/dist/
           # Upload to /dev.satoris.ro/
-          destination-dir: /dev.satoris.ro/
+          server-dir: /dev.satoris.ro/
           # Delete files on server that don't exist locally
           dry-run: false
 
       - name: Deploy API to cPanel
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
         with:
           server: ${{ secrets.CPANEL_FTP_SERVER }}
           username: ${{ secrets.CPANEL_FTP_USER }}
@@ -48,5 +48,5 @@ jobs:
           port: 21
           # Upload API files to /dev.satoris.ro/api/
           local-dir: backend/
-          destination-dir: /dev.satoris.ro/api/
+          server-dir: /dev.satoris.ro/api/
           dry-run: false
