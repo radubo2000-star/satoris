@@ -229,7 +229,7 @@ if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
         } else {
             $response = $post[0];
         }
-        break;
+        goto sendResponse;
     }
 }
 
@@ -826,4 +826,5 @@ switch ($path) {
 }
 
 // Send response
+sendResponse:
 echo json_encode($response);
