@@ -196,24 +196,38 @@ if (file_exists($dataFile)) {
     ];
 }
 
-// Services data (needed for handlers)
-$services = [
-    ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.'],
-    ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.'],
-    ['id' => 3, 'icon' => '💻', 'title' => 'Digital', 'description' => 'Websites, Landing pages, Email campaigns, Live streaming.'],
-    ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.'],
-    ['id' => 5, 'icon' => '🏢', 'title' => 'Full Service', 'description' => 'AV - Staging, Staffing, Catering.'],
-    ['id' => 6, 'icon' => '📈', 'title' => 'Marketing', 'description' => 'Digital Marketing, Ads, Sales Funnel, E-commerce.'],
-    ['id' => 7, 'icon' => '⚡', 'title' => 'Implementation & On-Site', 'description' => 'Your agenda, our playbook, no surprises.'],
-    ['id' => 8, 'icon' => '🌍', 'title' => 'Go Big', 'description' => 'International events, Global Events.'],
+// Services default data
+$defaultServices = [
+    ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'category' => 'Events', 'sort_order' => 1, 'is_active' => true],
+    ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.', 'category' => 'Events', 'sort_order' => 2, 'is_active' => true],
+    ['id' => 3, 'icon' => '💻', 'title' => 'Digital', 'description' => 'Websites, Landing pages, Email campaigns, Live streaming.', 'category' => 'Digital', 'sort_order' => 3, 'is_active' => true],
+    ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.', 'category' => 'Creative', 'sort_order' => 4, 'is_active' => true],
+    ['id' => 5, 'icon' => '🏢', 'title' => 'Full Service', 'description' => 'AV - Staging, Staffing, Catering.', 'category' => 'Events', 'sort_order' => 5, 'is_active' => true],
+    ['id' => 6, 'icon' => '📈', 'title' => 'Marketing', 'description' => 'Digital Marketing, Ads, Sales Funnel, E-commerce.', 'category' => 'Digital', 'sort_order' => 6, 'is_active' => true],
+    ['id' => 7, 'icon' => '⚡', 'title' => 'Implementation & On-Site', 'description' => 'Your agenda, our playbook, no surprises.', 'category' => 'Events', 'sort_order' => 7, 'is_active' => true],
+    ['id' => 8, 'icon' => '🌍', 'title' => 'Go Big', 'description' => 'International events, Global Events.', 'category' => 'Events', 'sort_order' => 8, 'is_active' => true],
 ];
 
-$projects = [
-    ['id' => 1, 'name' => 'marie', 'slug' => 'marie', 'category' => 'Branding', 'description' => 'Event Concept, Event Management & Implementation', 'image' => 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png'],
-    ['id' => 2, 'name' => 'softy', 'slug' => 'softy', 'category' => 'Digital', 'description' => 'Digital Audit, Market Research', 'image' => 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg'],
-    ['id' => 3, 'name' => 'cela', 'slug' => 'cela', 'category' => 'Branding', 'description' => 'Packaging, Branding, Email Marketing', 'image' => 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg'],
-    ['id' => 4, 'name' => 'omi', 'slug' => 'omi', 'category' => 'Digital', 'description' => 'Digital Audit, Market Research', 'image' => 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg'],
+// Use from $data if exists, else use defaults
+$services = $data['services'] ?? $defaultServices;
+
+// Save to $data for persistence
+if (!isset($data['services'])) {
+    $data['services'] = $services;
+}
+
+// Projects default data
+$defaultProjects = [
+    ['id' => 1, 'name' => 'Marie', 'slug' => 'marie', 'category' => 'Branding', 'description' => 'Event Concept, Event Management & Implementation', 'image' => '', 'is_featured' => false, 'is_active' => true],
+    ['id' => 2, 'name' => 'OMI', 'slug' => 'omi', 'category' => 'Digital', 'description' => 'Brand Audit, UX/UI Design, Development', 'image' => '', 'is_featured' => false, 'is_active' => true],
+    ['id' => 3, 'name' => 'Softy', 'slug' => 'softy', 'category' => 'Digital', 'description' => 'Digital Audit, Market Research', 'image' => '', 'is_featured' => false, 'is_active' => true],
+    ['id' => 4, 'name' => 'Cela', 'slug' => 'cela', 'category' => 'Branding', 'description' => 'Packaging, Branding, Email Marketing', 'image' => '', 'is_featured' => false, 'is_active' => true],
 ];
+
+$projects = $data['projects'] ?? $defaultProjects;
+if (!isset($data['projects'])) {
+    $data['projects'] = $projects;
+}
 
 // Helper function to save data
 function saveData($data) {
