@@ -229,7 +229,8 @@ if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
         } else {
             $response = $post[0];
         }
-        goto sendResponse;
+        echo json_encode($response);
+        exit;
     }
 }
 
@@ -243,7 +244,8 @@ if (preg_match('#^services/(\d+)$#', $path, $matches)) {
     } else {
         $response = $service[0];
     }
-    break;
+    echo json_encode($response);
+    exit;
 }
 
 // Handle projects/:id
@@ -256,7 +258,8 @@ if (preg_match('#^projects/(\d+)$#', $path, $matches)) {
     } else {
         $response = $project[0];
     }
-    break;
+    echo json_encode($response);
+    exit;
 }
 
 // Handle users/:id
@@ -270,7 +273,8 @@ if (preg_match('#^users/(\d+)$#', $path, $matches)) {
         unset($user['password_hash']);
         $response = $user;
     }
-    break;
+    echo json_encode($response);
+    exit;
 }
 
 switch ($path) {
@@ -866,5 +870,4 @@ switch ($path) {
 }
 
 // Send response
-sendResponse:
 echo json_encode($response);
