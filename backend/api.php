@@ -22,9 +22,10 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
 $path = str_replace('/api/', '', $path);
 $path = trim($path, '/');
-// Clean path - remove backslashes and decode URL
-$path = stripslashes($path);
-$path = rawurldecode($path);
+
+// ULTRA CLEAN - extract only alphanumeric and slashes
+$path = preg_replace('/[^a-zA-Z0-9\/_-]/', '', $path);
+$path = strtolower($path);
 
 // Get input data
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
