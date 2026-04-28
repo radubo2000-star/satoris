@@ -277,6 +277,64 @@ if (preg_match('#^users/(\d+)$#', $path, $matches)) {
     exit;
 }
 
+// Handle file upload
+if ($path === 'upload' && $method === 'POST') {
+    $uploadDir = __DIR__ . '/uploads/';
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+    
+    $response = ['error' => 'No file uploaded'];
+    http_response_code(400);
+    
+    if (isset($_FILES['file'])) {
+        $file = $_FILES['file'];
+        if ($file['error'] === UPLOAD_ERR_OK) {
+            $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $newName = uniqid() . '.' . $ext;
+            $targetPath = $uploadDir . $newName;
+            
+            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                $response = [
+                    'success' => true,
+                    'url' => '/api/uploads/' . $newName,
+                    'filename' => $newName
+                ];
+                http_response_code(200);
+            } else {
+                $response = ['error' => 'Failed to move uploaded file'];
+            }
+        } else {
+            $response = ['error' => 'Upload error: ' . $file['error']];
+        }
+    }
+    echo json_encode($response);
+    exit;
+}
+
+// Handle uploaded files (serve static)
+if (preg_match('#^uploads/(.+)$#', $path, $matches)) {
+    $filename = $matches[1];
+    $filepath = __DIR__ . '/uploads/' . $filename;
+    if (file_exists($filepath)) {
+        $mimeTypes = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp',
+            'svg' => 'image/svg+xml',
+            'pdf' => 'application/pdf'
+        ];
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $mime = $mimeTypes[$ext] ?? 'application/octet-stream';
+        header('Content-Type: ' . $mime);
+        readfile($filepath);
+        exit;
+    }
+    http_response_code(404);
+    echo 'File not found';
+    exit;
+}
+
 switch ($path) {
     // HEALTH
     case 'health':
