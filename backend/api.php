@@ -22,8 +22,9 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
 $path = str_replace('/api/', '', $path);
 $path = trim($path, '/');
-// Clean path - remove any backslashes
-$path = str_replace('\\', '', $path);
+// Clean path - remove backslashes and decode URL
+$path = stripslashes($path);
+$path = rawurldecode($path);
 
 // Get input data
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
