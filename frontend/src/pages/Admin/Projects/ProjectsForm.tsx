@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import API_BASE from '../../../api/base';
 import '../CRUDForm.css';
 
 interface Project {
@@ -18,6 +19,7 @@ const ProjectsForm: React.FC = () => {
   const navigate = useNavigate();
   const isEdit = Boolean(id);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(isEdit);
   const [formData, setFormData] = useState<Project>({
     name: '',
     slug: '',
@@ -28,7 +30,32 @@ const ProjectsForm: React.FC = () => {
     is_active: true
   });
 
+  useEffect(() => {
+    if (isEdit && id) {
+      fetchProject(parseInt(id));
+    }
+  }, [id]);
+
+  const fetchProject = async (projectId: number) => {
+    const token = localStorage.getItem('admin_token');
+    try {
+      const response = await fetch(`${API_BASE}/projects/${projectId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setFormData(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch project:', err);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
   const generateSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+  if (isFetching) return <div className="loading">Loading...</div>;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

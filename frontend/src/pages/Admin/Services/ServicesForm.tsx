@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import API_BASE from '../../../api/base';
 import '../CRUDForm.css';
 
 const EMOJI_OPTIONS = ['📢', '🎪', '💻', '🎨', '🏢', '📈', '⚡', '🌍', '🎯', '🚀', '💡', '🎭', '📊', '🎬', '🎵', '🏆'];
@@ -19,6 +20,7 @@ const ServicesForm: React.FC = () => {
   const navigate = useNavigate();
   const isEdit = Boolean(id);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(isEdit);
   const [formData, setFormData] = useState<Service>({
     icon: '💻',
     title: '',
@@ -27,6 +29,31 @@ const ServicesForm: React.FC = () => {
     sort_order: 0,
     is_active: true
   });
+
+  useEffect(() => {
+    if (isEdit && id) {
+      fetchService(parseInt(id));
+    }
+  }, [id]);
+
+  const fetchService = async (serviceId: number) => {
+    const token = localStorage.getItem('admin_token');
+    try {
+      const response = await fetch(`${API_BASE}/services/${serviceId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setFormData(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch service:', err);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  if (isFetching) return <div className="loading">Loading...</div>;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
