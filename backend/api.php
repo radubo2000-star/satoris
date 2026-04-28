@@ -231,8 +231,8 @@ if (!isset($data['projects'])) {
 
 // Helper function to save data
 function saveData($data) {
-    global $dataFile;
-    file_put_contents($dataFile, json_encode($data, JSON_PRETTY_PRINT));
+    $file = __DIR__ . '/data.json';
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 }
 
 // Router
@@ -723,6 +723,12 @@ switch ($path) {
                 }
             }
         } else {
+            // Re-read from file to get persisted changes
+            $dataFile = __DIR__ . '/data.json';
+            if (file_exists($dataFile)) {
+                $data = json_decode(file_get_contents($dataFile), true);
+                $services = $data['services'] ?? $services;
+            }
             $response = $services;
         }
         break;
@@ -760,6 +766,12 @@ switch ($path) {
                 }
             }
         } else {
+            // Re-read from file to get persisted changes
+            $dataFile = __DIR__ . '/data.json';
+            if (file_exists($dataFile)) {
+                $data = json_decode(file_get_contents($dataFile), true);
+                $projects = $data['projects'] ?? $projects;
+            }
             $response = $projects;
         }
         break;
