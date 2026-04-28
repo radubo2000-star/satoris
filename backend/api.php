@@ -710,6 +710,9 @@ switch ($path) {
             http_response_code(201);
         } elseif ($method === 'PUT') {
             $id = (int)$input['id'];
+            // Convert string booleans from form inputs
+            $input['is_active'] = filter_var($input['is_active'] ?? true, FILTER_VALIDATE_BOOLEAN);
+            $input['is_featured'] = filter_var($input['is_featured'] ?? false, FILTER_VALIDATE_BOOLEAN);
             foreach ($services as $i => $s) {
                 if ($s['id'] === $id) {
                     $services[$i] = array_merge($s, $input);
@@ -744,6 +747,9 @@ switch ($path) {
             http_response_code(201);
         } elseif ($method === 'PUT') {
             $id = (int)$input['id'];
+            // Convert string booleans from form inputs
+            $input['is_active'] = filter_var($input['is_active'] ?? true, FILTER_VALIDATE_BOOLEAN);
+            $input['is_featured'] = filter_var($input['is_featured'] ?? false, FILTER_VALIDATE_BOOLEAN);
             foreach ($projects as $i => $p) {
                 if ($p['id'] === $id) {
                     $projects[$i] = array_merge($p, $input);
