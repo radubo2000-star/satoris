@@ -1,3 +1,5 @@
+import API_BASE from '../../../api/base';
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../Auth/Auth.css';
@@ -29,7 +31,7 @@ const Register: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(API_BASE + '/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +43,7 @@ const Register: React.FC = () => {
 
       if (response.ok && data.success) {
         // Auto-login after registration
-        const loginResponse = await fetch('/api/auth/login', {
+        const loginResponse = await fetch(API_BASE + '/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -1,3 +1,5 @@
+import API_BASE from '../../../api/base';
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../CRUDList.css';
@@ -22,7 +24,7 @@ const ServicesList: React.FC = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await fetch('/api/services');
+      const response = await fetch(API_BASE + '/services');
       if (response.ok) {
         setServices(await response.json());
       }

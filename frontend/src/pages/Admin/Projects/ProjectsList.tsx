@@ -1,3 +1,5 @@
+import API_BASE from '../../../api/base';
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../CRUDList.css';
@@ -22,7 +24,7 @@ const ProjectsList: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('/api/projects');
+      const response = await fetch(API_BASE + '/projects');
       if (response.ok) {
         setProjects(await response.json());
       }

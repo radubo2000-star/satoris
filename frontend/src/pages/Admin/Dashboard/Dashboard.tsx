@@ -1,3 +1,5 @@
+import API_BASE from '../../../api/base';
+
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 
@@ -41,9 +43,9 @@ const Dashboard: React.FC = () => {
 
     try {
       const [statsRes, pagesRes, errorsRes] = await Promise.all([
-        fetch('/api/dashboard/stats', { headers }),
-        fetch('/api/dashboard/top-pages', { headers }),
-        fetch('/api/dashboard/errors?limit=5', { headers })
+        fetch(API_BASE + '/dashboard/stats', { headers }),
+        fetch(API_BASE + '/dashboard/top-pages', { headers }),
+        fetch(API_BASE + '/dashboard/errors?limit=5', { headers })
       ]);
 
       if (statsRes.ok) {

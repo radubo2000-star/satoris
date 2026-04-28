@@ -1,3 +1,5 @@
+import API_BASE from '../../../api/base';
+
 import React, { useState, useEffect } from 'react';
 import '../CRUDForm.css';
 
@@ -32,7 +34,7 @@ const Settings: React.FC = () => {
 
   const fetchSettings = async () => {
     try {
-      const response = await fetch('/api/settings');
+      const response = await fetch(API_BASE + '/settings');
       if (response.ok) {
         const data = await response.json();
         setSettings(prev => ({ ...prev, ...data }));

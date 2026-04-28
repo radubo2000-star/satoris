@@ -1,3 +1,5 @@
+import API_BASE from '../../../api/base';
+
 import React, { useState, useEffect } from 'react';
 import '../CRUDList.css';
 
@@ -21,7 +23,7 @@ const UsersList: React.FC = () => {
   const fetchUsers = async () => {
     const token = localStorage.getItem('admin_token');
     try {
-      const response = await fetch('/api/users', { headers: { 'Authorization': `Bearer ${token}` } });
+      const response = await fetch(API_BASE + '/users', { headers: { 'Authorization': `Bearer ${token}` } });
       if (response.ok) setUsers(await response.json());
     } catch (err) { console.error('Failed to fetch users:', err); }
     finally { setIsLoading(false); }

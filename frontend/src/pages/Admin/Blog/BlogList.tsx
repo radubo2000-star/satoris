@@ -1,3 +1,5 @@
+import API_BASE from '../../../api/base';
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../CRUDList.css';
@@ -26,7 +28,7 @@ const BlogList: React.FC = () => {
   const fetchPosts = async () => {
     const token = localStorage.getItem('admin_token');
     try {
-      const response = await fetch('/api/blog?limit=100', {
+      const response = await fetch(API_BASE + '/blog?limit=100', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
