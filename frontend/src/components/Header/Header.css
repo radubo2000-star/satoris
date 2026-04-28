@@ -124,7 +124,7 @@
     transition: all var(--transition-base);
   }
 
-  .nav-open .nav {
+  .nav.nav-open {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
