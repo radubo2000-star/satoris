@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import API_BASE from '../../api/base';
 import './AdminLayout.css';
 
 interface User {
@@ -30,7 +31,7 @@ const AdminLayout: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/api/auth/me', {
+      const response = await fetch(`${API_BASE}/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -54,7 +55,7 @@ const AdminLayout: React.FC = () => {
     const token = localStorage.getItem('admin_token');
     if (token) {
       try {
-        await fetch('/api/auth/logout', {
+        await fetch(`${API_BASE}/auth/logout`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
