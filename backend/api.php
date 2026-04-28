@@ -187,7 +187,7 @@ if (file_exists($dataFile)) {
     ];
 }
 
-// Services data
+// Services data (needed for handlers)
 $services = [
     ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.'],
     ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.'],
