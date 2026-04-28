@@ -210,6 +210,21 @@ $response = ['error' => 'Endpoint not found', 'debug' => $path];
 // Normalize path to lowercase for case-insensitive matching
 $path = strtolower($path);
 
+// Handle blog/:id before switch
+if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
+    $id = (int)$matches[1];
+    if ($method === 'GET') {
+        $post = array_values(array_filter($data['blogPosts'], fn($p) => $p['id'] === $id));
+        if (empty($post)) {
+            http_response_code(404);
+            $response = ['error' => 'Post not found'];
+        } else {
+            $response = $post[0];
+        }
+        break;
+    }
+}
+
 switch ($path) {
     // HEALTH
     case 'health':
