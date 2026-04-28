@@ -62,7 +62,7 @@ const BlogForm: React.FC = () => {
     setIsLoading(true);
 
     const token = localStorage.getItem('admin_token');
-    const url = isEdit ? `/api/blog/${id}` : '/api/blog';
+    const url = isEdit ? `${API_BASE}/blog/${id}` : `${API_BASE}/blog`;
     const method = isEdit ? 'PUT' : 'POST';
 
     try {

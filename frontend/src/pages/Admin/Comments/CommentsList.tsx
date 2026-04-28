@@ -23,7 +23,7 @@ const CommentsList: React.FC = () => {
 
   const fetchComments = async () => {
     const token = localStorage.getItem('admin_token');
-    let url = '/api/comments';
+    let url = API_BASE + '/comments';
     if (filter === 'approved') url += '?approved=true';
     if (filter === 'pending') url += '?approved=false';
     
