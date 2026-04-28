@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import API_BASE from '../../../api/base';
 import '../CRUDForm.css';
 
 interface BlogPost {
@@ -42,7 +43,7 @@ const BlogForm: React.FC = () => {
   const fetchPost = async (postId: number) => {
     const token = localStorage.getItem('admin_token');
     try {
-      const response = await fetch(`/api/blog/${postId}`, {
+      const response = await fetch(`${API_BASE}/blog/${postId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {

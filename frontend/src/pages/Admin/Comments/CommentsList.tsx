@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE from '../../../api/base';
 import '../CRUDList.css';
 
 interface Comment {
@@ -36,7 +37,7 @@ const CommentsList: React.FC = () => {
   const handleApprove = async (id: number) => {
     const token = localStorage.getItem('admin_token');
     try {
-      await fetch(`/api/comments/${id}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` } });
+      await fetch(`${API_BASE}/comments/${id}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${token}` } });
       setComments(comments.map(c => c.id === id ? { ...c, is_approved: !c.is_approved } : c));
     } catch (err) { console.error('Failed to approve:', err); }
   };
@@ -45,7 +46,7 @@ const CommentsList: React.FC = () => {
     if (!confirm('Delete this comment?')) return;
     const token = localStorage.getItem('admin_token');
     try {
-      await fetch(`/api/comments/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+      await fetch(`${API_BASE}/comments/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
       setComments(comments.filter(c => c.id !== id));
     } catch (err) { console.error('Failed to delete:', err); }
   };

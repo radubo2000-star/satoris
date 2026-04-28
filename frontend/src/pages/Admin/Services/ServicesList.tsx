@@ -39,7 +39,7 @@ const ServicesList: React.FC = () => {
     const token = localStorage.getItem('admin_token');
     const updated = { ...service, is_active: !service.is_active };
     try {
-      await fetch(`/api/services/${service.id}`, {
+      await fetch(`${API_BASE}/services/${service.id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

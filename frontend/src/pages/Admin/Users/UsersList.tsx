@@ -32,7 +32,7 @@ const UsersList: React.FC = () => {
   const handleRoleChange = async (userId: number, newRole: string) => {
     const token = localStorage.getItem('admin_token');
     try {
-      await fetch(`/api/users/${userId}/role`, {
+      await fetch(`${API_BASE}/users/${userId}/role`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ role: newRole })
@@ -45,7 +45,7 @@ const UsersList: React.FC = () => {
     if (!confirm('Delete this user? This cannot be undone.')) return;
     const token = localStorage.getItem('admin_token');
     try {
-      await fetch(`/api/users/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+      await fetch(`${API_BASE}/users/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
       setUsers(users.filter(u => u.id !== id));
     } catch (err) { console.error('Failed to delete:', err); }
   };

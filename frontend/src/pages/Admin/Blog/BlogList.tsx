@@ -47,7 +47,7 @@ const BlogList: React.FC = () => {
     
     const token = localStorage.getItem('admin_token');
     try {
-      const response = await fetch(`/api/blog/${id}`, {
+      const response = await fetch(`${API_BASE}/blog/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -62,7 +62,7 @@ const BlogList: React.FC = () => {
   const handleTogglePublish = async (post: BlogPost) => {
     const token = localStorage.getItem('admin_token');
     try {
-      const response = await fetch(`/api/blog/${post.id}/publish`, {
+      const response = await fetch(`${API_BASE}/blog/${post.id}/publish`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
