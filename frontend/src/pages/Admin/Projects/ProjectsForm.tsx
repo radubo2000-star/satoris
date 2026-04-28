@@ -60,9 +60,32 @@ const ProjectsForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Store locally for now
-    navigate('/admin/projects');
-    setIsLoading(false);
+
+    const token = localStorage.getItem('admin_token');
+    const url = isEdit ? `${API_BASE}/projects/${id}` : `${API_BASE}/projects`;
+    const method = isEdit ? 'PUT' : 'POST';
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        navigate('/admin/projects');
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Failed to save project');
+      }
+    } catch (err) {
+      console.error('Save failed:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

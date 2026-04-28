@@ -58,9 +58,32 @@ const ServicesForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Store in local state for now (backend doesn't have full CRUD for services)
-    navigate('/admin/services');
-    setIsLoading(false);
+
+    const token = localStorage.getItem('admin_token');
+    const url = isEdit ? `${API_BASE}/services/${id}` : `${API_BASE}/services`;
+    const method = isEdit ? 'PUT' : 'POST';
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        navigate('/admin/services');
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Failed to save service');
+      }
+    } catch (err) {
+      console.error('Save failed:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

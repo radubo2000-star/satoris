@@ -636,12 +636,63 @@ switch ($path) {
 
     // SERVICES
     case 'services':
-        $response = $services;
+        if ($method === 'POST') {
+            $newService = [
+                'id' => count($services) + 1,
+                'icon' => $input['icon'] ?? '💻',
+                'title' => $input['title'] ?? '',
+                'description' => $input['description'] ?? '',
+                'category' => $input['category'] ?? 'Events',
+                'sort_order' => $input['sort_order'] ?? 0,
+                'is_active' => $input['is_active'] ?? true
+            ];
+            $services[] = $newService;
+            $response = $newService;
+            http_response_code(201);
+        } elseif ($method === 'PUT' && preg_match('#^services/(\d+)$#', $path, $matches)) {
+            $id = (int)$matches[1];
+            foreach ($services as &$s) {
+                if ($s['id'] === $id) {
+                    $s = array_merge($s, $input);
+                    $s['id'] = $id;
+                    $response = $s;
+                    break;
+                }
+            }
+        } else {
+            $response = $services;
+        }
         break;
 
     // PROJECTS
     case 'projects':
-        $response = $projects;
+        if ($method === 'POST') {
+            $newProject = [
+                'id' => count($projects) + 1,
+                'name' => $input['name'] ?? '',
+                'slug' => $input['slug'] ?? '',
+                'category' => $input['category'] ?? '',
+                'description' => $input['description'] ?? '',
+                'image' => $input['image'] ?? '',
+                'is_featured' => $input['is_featured'] ?? false,
+                'is_active' => $input['is_active'] ?? true
+            ];
+            $projects[] = $newProject;
+            $response = $newProject;
+            http_response_code(201);
+        } elseif ($method === 'PUT' && preg_match('#^projects/(\d+)$#', $path, $matches)) {
+            $id = (int)$matches[1];
+            foreach ($projects as &$p) {
+                if ($p['id'] === $id) {
+                    $p = array_merge($p, $input);
+                    $p['id'] = $id;
+                    $response = $p;
+                    break;
+                }
+            }
+        } else {
+            $response = $projects;
+        }
         break;
 
     // PROJECTS/:ID
