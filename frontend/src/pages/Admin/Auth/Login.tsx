@@ -20,6 +20,9 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
+      // Debug: log what API_BASE is
+      console.log('API_BASE:', API_BASE);
+      
       const response = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: {
