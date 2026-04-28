@@ -4,6 +4,18 @@
 CREATE DATABASE IF NOT EXISTS satoris_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE satoris_db;
 
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') DEFAULT 'user',
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Settings table
 CREATE TABLE IF NOT EXISTS settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -114,6 +126,83 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
     is_active TINYINT(1) DEFAULT 1,
     subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     unsubscribed_at TIMESTAMP NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Products table (e-commerce prep)
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) DEFAULT 0,
+    category VARCHAR(100) DEFAULT '',
+    stock INT DEFAULT 0,
+    image VARCHAR(500) DEFAULT '',
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Orders table
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    customer_name VARCHAR(255) NOT NULL,
+    customer_email VARCHAR(255) NOT NULL,
+    customer_phone VARCHAR(50) DEFAULT '',
+    customer_address TEXT,
+    total DECIMAL(10, 2) DEFAULT 0,
+    status ENUM('pending', 'processing', 'completed', 'cancelled') DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Order items table
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    quantity INT DEFAULT 1,
+    subtotal DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Activity log table (analytics & tracking)
+CREATE TABLE IF NOT EXISTS activity_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(50) DEFAULT '',
+    entity_id INT,
+    user_id INT,
+    user_email VARCHAR(255) DEFAULT '',
+    description TEXT,
+    metadata TEXT,
+    ip_address VARCHAR(45) DEFAULT '',
+    user_agent VARCHAR(500) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_action (action),
+    INDEX idx_entity (entity_type, entity_id),
+    INDEX idx_user (user_id),
+    INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Page views table (for analytics)
+CREATE TABLE IF NOT EXISTS page_views (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    page_path VARCHAR(500) NOT NULL,
+    page_title VARCHAR(255) DEFAULT '',
+    referrer VARCHAR(500) DEFAULT '',
+    user_id INT,
+    session_id VARCHAR(100) DEFAULT '',
+    ip_address VARCHAR(45) DEFAULT '',
+    user_agent VARCHAR(500) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_page (page_path),
+    INDEX idx_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Insert default settings

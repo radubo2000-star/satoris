@@ -26,6 +26,117 @@ $path = trim($path, '/');
 // Get input data
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
 
+// Get headers
+$headers = getallheaders();
+$authHeader = $headers['Authorization'] ?? '';
+
+// JWT helper functions (simple implementation)
+function generateJWT($user) {
+    $header = base64_encode(json_encode(['typ' => 'JWT', 'alg' => 'HS256']));
+    $payload = base64_encode(json_encode([
+        'sub' => $user['id'],
+        'email' => $user['email'],
+        'role' => $user['role'],
+        'name' => $user['name'],
+        'exp' => time() + 86400 // 24 hours
+    ]));
+    $signature = base64_encode(hash_hmac('sha256', "$header.$payload", 'satoris_secret_key_2024', true));
+    return "$header.$payload.$signature";
+}
+
+function verifyJWT($token) {
+    $parts = explode('.', $token);
+    if (count($parts) !== 3) return null;
+    $signature = base64_encode(hash_hmac('sha256', "{$parts[0]}.{$parts[1]}", 'satoris_secret_key_2024', true));
+    if ($signature !== $parts[2]) return null;
+    $payload = json_decode(base64_decode($parts[1]), true);
+    if ($payload['exp'] < time()) return null;
+    return $payload;
+}
+
+function getCurrentUser($authHeader) {
+    if (!str_starts_with($authHeader, 'Bearer ')) return null;
+    $token = substr($authHeader, 7);
+    return verifyJWT($token);
+}
+
+// Users file storage
+$usersFile = __DIR__ . '/users.json';
+if (file_exists($usersFile)) {
+    $users = json_decode(file_get_contents($usersFile), true);
+} else {
+    // Default admin user (password: admin123)
+    $users = [
+        [
+            'id' => 1,
+            'email' => 'admin@satoris.ro',
+            'password_hash' => password_hash('admin123', PASSWORD_DEFAULT),
+            'name' => 'Admin Satoris',
+            'role' => 'admin',
+            'is_active' => 1,
+            'created_at' => date('Y-m-d H:i:s')
+        ]
+    ];
+    file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+}
+
+function saveUsers($users) {
+    global $usersFile;
+    file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+}
+
+function findUserByEmail($email) {
+    global $users;
+    foreach ($users as $u) {
+        if ($u['email'] === $email) return $u;
+    }
+    return null;
+}
+
+function findUserById($id) {
+    global $users;
+    foreach ($users as $u) {
+        if ($u['id'] === $id) return $u;
+    }
+    return null;
+}
+
+function logActivity($action, $entityType = '', $entityId = null, $userId = null, $description = '') {
+    $logFile = __DIR__ . '/activity.json';
+    $log = file_exists($logFile) ? json_decode(file_get_contents($logFile), true) : [];
+    $log[] = [
+        'id' => count($log) + 1,
+        'action' => $action,
+        'entity_type' => $entityType,
+        'entity_id' => $entityId,
+        'user_id' => $userId,
+        'description' => $description,
+        'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+        'created_at' => date('Y-m-d H:i:s')
+    ];
+    // Keep only last 1000 entries
+    if (count($log) > 1000) $log = array_slice($log, -1000);
+    file_put_contents($logFile, json_encode($log, JSON_PRETTY_PRINT));
+}
+
+function logPageView($pagePath) {
+    $viewsFile = __DIR__ . '/page_views.json';
+    $views = file_exists($viewsFile) ? json_decode(file_get_contents($viewsFile), true) : [];
+    $views[] = [
+        'id' => count($views) + 1,
+        'page_path' => $pagePath,
+        'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+        'created_at' => date('Y-m-d H:i:s')
+    ];
+    if (count($views) > 2000) $views = array_slice($views, -2000);
+    file_put_contents($viewsFile, json_encode($views, JSON_PRETTY_PRINT));
+}
+
+// Current user from token
+$currentUser = getCurrentUser($authHeader);
+
 // In-memory data stores (saved to JSON file)
 $dataFile = __DIR__ . '/data.json';
 if (file_exists($dataFile)) {
@@ -88,6 +199,294 @@ switch ($path) {
     // HEALTH
     case 'health':
         $response = ['status' => 'ok', 'timestamp' => date('c')];
+        break;
+
+    // AUTH: REGISTER
+    case 'auth/register':
+        if ($method === 'POST') {
+            $email = $input['email'] ?? null;
+            $password = $input['password'] ?? null;
+            $name = $input['name'] ?? null;
+            
+            if (!$email || !$password || !$name) {
+                http_response_code(400);
+                $response = ['error' => 'Name, email and password are required'];
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                http_response_code(400);
+                $response = ['error' => 'Invalid email format'];
+            } elseif (findUserByEmail($email)) {
+                http_response_code(400);
+                $response = ['error' => 'Email already registered'];
+            } else {
+                $newUser = [
+                    'id' => count($users) + 1,
+                    'email' => $email,
+                    'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+                    'name' => $name,
+                    'role' => 'user',
+                    'is_active' => 1,
+                    'created_at' => date('Y-m-d H:i:s')
+                ];
+                $users[] = $newUser;
+                saveUsers($users);
+                logActivity('register', 'user', $newUser['id'], $newUser['id'], 'User registered');
+                unset($newUser['password_hash']);
+                http_response_code(201);
+                $response = ['success' => true, 'message' => 'Registration successful', 'user' => $newUser];
+            }
+        }
+        break;
+
+    // AUTH: LOGIN
+    case 'auth/login':
+        if ($method === 'POST') {
+            $email = $input['email'] ?? null;
+            $password = $input['password'] ?? null;
+            
+            if (!$email || !$password) {
+                http_response_code(400);
+                $response = ['error' => 'Email and password are required'];
+            } else {
+                $user = findUserByEmail($email);
+                if (!$user || !password_verify($password, $user['password_hash'])) {
+                    http_response_code(401);
+                    $response = ['error' => 'Invalid credentials'];
+                } elseif (!$user['is_active']) {
+                    http_response_code(403);
+                    $response = ['error' => 'Account is disabled'];
+                } else {
+                    $token = generateJWT($user);
+                    logActivity('login', 'user', $user['id'], $user['id'], 'User logged in');
+                    unset($user['password_hash']);
+                    $response = ['success' => true, 'message' => 'Login successful', 'token' => $token, 'user' => $user];
+                }
+            }
+        }
+        break;
+
+    // AUTH: LOGOUT
+    case 'auth/logout':
+        if ($method === 'POST' && $currentUser) {
+            logActivity('logout', 'user', $currentUser['sub'], $currentUser['sub'], 'User logged out');
+            $response = ['success' => true, 'message' => 'Logout successful'];
+        } else {
+            http_response_code(401);
+            $response = ['error' => 'Not authenticated'];
+        }
+        break;
+
+    // AUTH: ME (get current user)
+    case 'auth/me':
+        if ($method === 'GET' && $currentUser) {
+            $user = findUserById($currentUser['sub']);
+            if ($user) {
+                unset($user['password_hash']);
+                $response = $user;
+            } else {
+                http_response_code(404);
+                $response = ['error' => 'User not found'];
+            }
+        } else {
+            http_response_code(401);
+            $response = ['error' => 'Not authenticated'];
+        }
+        break;
+
+    // AUTH: PROFILE UPDATE
+    case 'auth/profile':
+        if ($method === 'PUT' && $currentUser) {
+            $name = $input['name'] ?? null;
+            $password = $input['password'] ?? null;
+            
+            foreach ($users as $i => $u) {
+                if ($u['id'] === $currentUser['sub']) {
+                    if ($name) $users[$i]['name'] = $name;
+                    if ($password) $users[$i]['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+                    saveUsers($users);
+                    logActivity('profile_update', 'user', $users[$i]['id'], $users[$i]['id'], 'Profile updated');
+                    unset($users[$i]['password_hash']);
+                    $response = $users[$i];
+                    break;
+                }
+            }
+        } else {
+            http_response_code(401);
+            $response = ['error' => 'Not authenticated'];
+        }
+        break;
+
+    // DASHBOARD: STATS
+    case 'dashboard/stats':
+        if ($method === 'GET') {
+            // Load activity data
+            $activityFile = __DIR__ . '/activity.json';
+            $activities = file_exists($activityFile) ? json_decode(file_get_contents($activityFile), true) : [];
+            
+            // Load page views
+            $viewsFile = __DIR__ . '/page_views.json';
+            $pageViews = file_exists($viewsFile) ? json_decode(file_get_contents($viewsFile), true) : [];
+            
+            $today = date('Y-m-d');
+            $todayViews = array_values(array_filter($pageViews, fn($v) => str_starts_with($v['created_at'], $today)));
+            
+            $response = [
+                'total_visits' => count($pageViews),
+                'today_visits' => count($todayViews),
+                'total_users' => count($users),
+                'total_blog_posts' => count($data['blogPosts']),
+                'published_posts' => count(array_filter($data['blogPosts'], fn($p) => $p['is_published'])),
+                'pending_comments' => count(array_filter($data['comments'], fn($c) => !$c['is_approved'])),
+                'total_services' => count($services),
+                'total_projects' => count($projects),
+                'recent_activities' => array_slice(array_reverse($activities), 0, 10)
+            ];
+        }
+        break;
+
+    // DASHBOARD: ACTIVITY
+    case 'dashboard/activity':
+        if ($method === 'GET') {
+            $activityFile = __DIR__ . '/activity.json';
+            $activities = file_exists($activityFile) ? json_decode(file_get_contents($activityFile), true) : [];
+            $limit = (int)($_GET['limit'] ?? 50);
+            $response = array_slice(array_reverse($activities), 0, $limit);
+        }
+        break;
+
+    // DASHBOARD: ERRORS
+    case 'dashboard/errors':
+        if ($method === 'GET') {
+            $activityFile = __DIR__ . '/activity.json';
+            $activities = file_exists($activityFile) ? json_decode(file_get_contents($activityFile), true) : [];
+            $errors = array_values(array_filter($activities, fn($a) => $a['action'] === 'error'));
+            $limit = (int)($_GET['limit'] ?? 20);
+            $response = array_slice(array_reverse($errors), 0, $limit);
+        }
+        break;
+
+    // DASHBOARD: TOP PAGES
+    case 'dashboard/top-pages':
+        if ($method === 'GET') {
+            $viewsFile = __DIR__ . '/page_views.json';
+            $pageViews = file_exists($viewsFile) ? json_decode(file_get_contents($viewsFile), true) : [];
+            
+            $pageCounts = [];
+            foreach ($pageViews as $v) {
+                $path = $v['page_path'];
+                $pageCounts[$path] = ($pageCounts[$path] ?? 0) + 1;
+            }
+            arsort($pageCounts);
+            $response = array_slice($pageCounts, 0, 10, true);
+        }
+        break;
+
+    // ANALYTICS: PAGE VIEW
+    case 'analytics/page-view':
+        if ($method === 'POST') {
+            $pagePath = $input['page_path'] ?? $_SERVER['REQUEST_URI'];
+            logPageView($pagePath);
+            $response = ['success' => true];
+        }
+        break;
+
+    // ANALYTICS: ERROR LOG
+    case 'analytics/error':
+        if ($method === 'POST') {
+            $errorMessage = $input['message'] ?? 'Unknown error';
+            $errorStack = $input['stack'] ?? '';
+            logActivity('error', 'js_error', null, $currentUser['sub'] ?? null, $errorMessage);
+            $response = ['success' => true];
+        }
+        break;
+
+    // ANALYTICS: SUMMARY
+    case 'analytics/summary':
+        if ($method === 'GET') {
+            $viewsFile = __DIR__ . '/page_views.json';
+            $pageViews = file_exists($viewsFile) ? json_decode(file_get_contents($viewsFile), true) : [];
+            
+            $today = date('Y-m-d');
+            $weekAgo = date('Y-m-d', strtotime('-7 days'));
+            $monthAgo = date('Y-m-d', strtotime('-30 days'));
+            
+            $todayViews = array_values(array_filter($pageViews, fn($v) => str_starts_with($v['created_at'], $today)));
+            $weekViews = array_values(array_filter($pageViews, fn($v) => $v['created_at'] >= $weekAgo));
+            $monthViews = array_values(array_filter($pageViews, fn($v) => $v['created_at'] >= $monthAgo));
+            
+            $response = [
+                'today' => count($todayViews),
+                'this_week' => count($weekViews),
+                'this_month' => count($monthViews),
+                'all_time' => count($pageViews)
+            ];
+        }
+        break;
+
+    // USERS (admin only)
+    case 'users':
+        if ($method === 'GET') {
+            if (!$currentUser || $currentUser['role'] !== 'admin') {
+                http_response_code(403);
+                $response = ['error' => 'Admin access required'];
+            } else {
+                $safeUsers = array_map(fn($u) => [
+                    'id' => $u['id'],
+                    'email' => $u['email'],
+                    'name' => $u['name'],
+                    'role' => $u['role'],
+                    'is_active' => $u['is_active'],
+                    'created_at' => $u['created_at']
+                ], $users);
+                $response = $safeUsers;
+            }
+        }
+        break;
+
+    // USERS/:ID/ROLE
+    case preg_match('/^users\/(\d+)\/role$/', $path, $m) ? $path = $m[0] : '':
+        if ($method === 'PUT' && $currentUser && $currentUser['role'] === 'admin') {
+            $userId = (int)$m[1];
+            $newRole = $input['role'] ?? null;
+            
+            if (!in_array($newRole, ['admin', 'user'])) {
+                http_response_code(400);
+                $response = ['error' => 'Invalid role'];
+            } else {
+                foreach ($users as $i => $u) {
+                    if ($u['id'] === $userId) {
+                        $users[$i]['role'] = $newRole;
+                        saveUsers($users);
+                        logActivity('role_change', 'user', $userId, $currentUser['sub'], "Role changed to $newRole");
+                        $response = ['success' => true, 'role' => $newRole];
+                        break;
+                    }
+                }
+            }
+        } else {
+            http_response_code(403);
+            $response = ['error' => 'Admin access required'];
+        }
+        break;
+
+    // USERS/:ID
+    case preg_match('/^users\/(\d+)$/', $path, $m) ? true : false:
+        $userId = (int)$m[1];
+        if ($method === 'DELETE' && $currentUser && $currentUser['role'] === 'admin') {
+            foreach ($users as $i => $u) {
+                if ($u['id'] === $userId) {
+                    if ($u['id'] === $currentUser['sub']) {
+                        http_response_code(400);
+                        $response = ['error' => 'Cannot delete yourself'];
+                    } else {
+                        array_splice($users, $i, 1);
+                        saveUsers($users);
+                        logActivity('user_delete', 'user', $userId, $currentUser['sub'], 'User deleted');
+                        $response = ['success' => true, 'message' => 'User deleted'];
+                    }
+                    break;
+                }
+            }
+        }
         break;
 
     // SERVICES

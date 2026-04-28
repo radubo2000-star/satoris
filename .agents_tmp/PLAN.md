@@ -1,181 +1,279 @@
-# PLAN: Blog Profesional Satoris
+# PLAN: Sistem Profesional de Administrare Satoris
 
 ## 1. OBJECTIVE
 
-Implementare blog profesional complet pentru Satoris cu sistem de comentarii, tags, categorii, admin dashboard și toate funcționalitățile cerute.
+Implementez sistem complet de administrare profesionist pentru Satoris cu:
+- Sistem de autentificare/înregistrare utilizatori cu roluri (admin, user)
+- Dashboard cu metrici și analytics (activitate site, erori, top pagini)
+- Pagini de administrare pentru toate tipurile de conținut
+- Arhitectură pregătită pentru e-commerce (produse, comenzi)
 
 ---
 
-## 2. DATABASE (Faza 1)
+## 2. CONTEXT SUMMARY
 
-### 2.1 Schema MySQL
+### Stack tehnologic actual
+- **Frontend:** React + Vite + TypeScript + Framer Motion
+- **Backend:** PHP API (file-based JSON storage)
+- **Database:** MySQL (schema disponibilă dar nefolosită)
 
-```sql
--- Comments table
-CREATE TABLE comments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    blog_post_id INT NOT NULL,
-    author_name VARCHAR(255) NOT NULL,
-    author_email VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL,
-    is_approved TINYINT(1) DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (blog_post_id) REFERENCES blog_posts(id) ON DELETE CASCADE
-);
-
--- Tags table
-CREATE TABLE tags (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) UNIQUE NOT NULL,
-    slug VARCHAR(100) UNIQUE NOT NULL
-);
-
--- Blog-Tags relationship (many-to-many)
-CREATE TABLE blog_tags (
-    blog_post_id INT NOT NULL,
-    tag_id INT NOT NULL,
-    PRIMARY KEY (blog_post_id, tag_id),
-    FOREIGN KEY (blog_post_id) REFERENCES blog_posts(id) ON DELETE CASCADE,
-    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
-);
-
--- Add author field to blog_posts
-ALTER TABLE blog_posts ADD COLUMN author VARCHAR(255) DEFAULT 'Satoris Team';
-```
+### Componente existente de integrat în admin
+- Blog posts, Comments, Tags
+- Services
+- Projects
+- Testimonials
+- Settings
+- Contact submissions
+- Newsletter subscribers
 
 ---
 
-## 3. BACKEND PHP API (Faza 2)
+## 3. APPROACH OVERVIEW
 
-### 3.1 Endpoints
+### Arhitectura aleasă:
+1. **Backend PHP** - Extind API cu autentificare JWT și endpoints noi CRUD
+2. **Database MySQL** - Tabele noi pentru users, products, orders, analytics  
+3. **Frontend React** - Admin layout profesional cu sidebar, dashboard, pagini CRUD
 
-```
-GET    /api/blog              - Lista articole (cu paginare, filtrare)
-GET    /api/blog/:slug        - Articol detaliu (cu comments, tags)
-POST   /api/blog              - Creare articol (admin)
-PUT    /api/blog/:id          - Update articol (admin)
-DELETE /api/blog/:id          - Ștergere articol (admin)
-POST   /api/blog/:id/publish  - Publicare (admin)
-
-GET    /api/comments          - Lista comentarii (admin)
-POST   /api/comments          - Adaugă comentariu (public)
-PUT    /api/comments/:id      - Aprobare comentariu (admin)
-DELETE /api/comments/:id      - Stergere comentariu (admin)
-
-GET    /api/tags              - Lista tags
-POST   /api/tags              - Creare tag (admin)
-```
-
-### 3.2 Funcționalități
-
-- Conectare PDO la MySQL
-- Upload imagini pe server (local storage)
-- Căutare articole (titlu, conținut)
-- Validare și sanitization input
+### Model de date:
+- **users** - id, email, password_hash, name, role, is_active, created_at
+- **products** - pregătire e-commerce
+- **orders / order_items** - pregătire e-commerce
+- **activity_log** - analytics și erori
 
 ---
 
-## 4. FRONTEND REACT (Faza 3)
+## 4. IMPLEMENTATION STEPS
 
-### 4.1 Pagini
+### Faza 1: Database & Backend Core
 
-- `/blog` - Blog listing cu search și filtrare categorii
-- `/blog/:slug` - Blog post detail cu comentarii
-- `/admin/posts` - Lista toate articolele
-- `/admin/posts/new` - Creare articol nou
-- `/admin/posts/edit/:id` - Editare articol
+#### 1.1 Actualizare Schema MySQL (`database/schema.sql`)
+- Adaugare tabel `users` cu câmpuri: id, email, password_hash, name, role (admin/user), is_active, created_at
+- Adaugare tabel `products` pentru e-commerce pregătire
+- Adaugare tabele `orders`, `order_items` pentru e-commerce
+- Adaugare tabel `activity_log` pentru analytics și tracking erori
 
-### 4.2 Componente
+#### 1.2 Extend Backend API (`backend/api.php`)
 
-- SearchBar cu debounce
-- CategoryFilter
-- TagSelector
-- ImageUploader cu drag & drop
-- CommentForm
-- CommentList
+**Auth endpoints:**
+- POST /api/auth/register - Înregistrare utilizator
+- POST /api/auth/login - Login (return JWT)
+- POST /api/auth/logout - Logout
+- GET /api/auth/me - Get current user
+- PUT /api/auth/profile - Update profil
 
----
+**Dashboard endpoints:**
+- GET /api/dashboard/stats - Statistici generale
+- GET /api/dashboard/activity - Activitate recentă
+- GET /api/dashboard/errors - Erori recente
+- GET /api/dashboard/top-pages - Top pagini vizitate
 
-## 5. ADMIN DASHBOARD (Faza 4)
+**Users (admin only):**
+- GET /api/users - Lista users
+- PUT /api/users/:id/role - Schimbare rol
+- DELETE /api/users/:id - Stergere user
 
-### 5.1 Funcționalități
+**Products (e-commerce prep):**
+- GET /api/products - Lista produse
+- POST /api/products - Creare produs
+- PUT /api/products/:id - Update produs
+- DELETE /api/products/:id - Stergere produs
 
-- Auth simplu (admin password)
-- CRUD complet pentru posts
-- Image upload cu preview
-- Publish/Unpublish toggle
-- Aprobare comentarii
+**Orders:**
+- GET /api/orders - Lista comenzi
+- PUT /api/orders/:id/status - Update status
 
-### 5.2 UI Components
-
-- Sidebar navigare
-- DataTable pentru posts
-- Rich Text Editor pentru conținut
-- Drag & drop image uploader
-
----
-
-## 6. EXTRA FEATURES (Faza 5)
-
-### 6.1 Comentarii
-
-- Formular public cu validare
-- Aprobare admin înainte de afișare
-- Notificare pentru comentarii noi (console log pentru demo)
-
-### 6.2 Căutare
-
-- Debounce 300ms
-- Caută în titlu și conținut
-- Rezultate în timp real
-
-### 6.3 Categorii și Tags
-
-- Filtrare pe blog listing
-- Tag cloud pe sidebar
-- Link căutare per tag
+**Analytics:**
+- POST /api/analytics/page-view - Log page view
+- POST /api/analytics/error - Log error
+- GET /api/analytics/summary - Statistici
 
 ---
 
-## 7. IMPLEMENTATION STEPS
+### Faza 2: Frontend Admin Core
 
-### Faza 1: Database
-1. Update schema.sql cu tables noi
-2. Populare date de test
+#### 2.1 Admin Layout Component
+**Files:** `frontend/src/components/AdminLayout/`
+- AdminLayout.tsx - Layout principal cu sidebar
+- Sidebar.tsx - Navigare sidebar
+- Header.tsx - Header cu user menu
+- AdminLayout.css - Stiluri
 
-### Faza 2: Backend
-1. Update api.php cu endpoints noi
-2. Implementare upload imagini
-3. Implementare search
-4. Implementare comments CRUD
+**Caracteristici:**
+- Sidebar cu links la toate secțiunile admin
+- Responsive (mobile hamburger menu)
+- User dropdown cu logout
+- Notifications bell
+- Active route highlighting
 
-### Faza 3: Frontend
-1. Blog listing page cu search/filter
-2. Blog post detail cu comments
-3. Testare API integration
+#### 2.2 Auth Pages
+**Files:** `frontend/src/pages/Admin/Auth/`
+- Login.tsx - Login form
+- Register.tsx - Registration form
+- ProtectedRoute.tsx - Route guard (verifică auth și rol)
 
-### Faza 4: Admin
-1. Admin layout și auth
-2. Posts CRUD pages
-3. Image uploader component
-4. Comments approval UI
+**Caracteristici:**
+- Validare formulare
+- Remember me option
+- Password visibility toggle
+- Error messages
+- Redirect după login
 
-### Faza 5: Polish
-1. Debounce search
-2. Error handling
-3. Loading states
-4. Empty states
+#### 2.3 Dashboard Page Principal
+**File:** `frontend/src/pages/Admin/Dashboard/Dashboard.tsx`
+- StatsCard.tsx - Card metric individual
+- ActivityChart.tsx - Grafic activitate (opțional)
+- RecentActivity.tsx - Lista activitate recentă
+
+**Metrici de afișat:**
+- Total vizite / vizite azi
+- Comentarii noi (pending)
+- Articole publicate
+- Produse (dacă există)
+- Utilizatori înregistrați
+- Erori recente
+
+**Topuri:**
+- Top pagini vizitate
+- Activitate recentă (listă cu timestamp)
+- Erori recente (listă)
 
 ---
 
-## 8. TESTING
+### Faza 3: Admin CRUD Pages
 
-- [ ] Blog listing afișează articole
-- [ ] Căutare funcționează cu debounce
-- [ ] Filtrare categorii funcționează
-- [ ] Blog post detail afișează comentarii
-- [ ] Adăugare comentariu funcționează
-- [ ] Admin: creare articol cu imagine
-- [ ] Admin: editare articol
-- [ ] Admin: aprobare comentarii
-- [ ] Publish/Unpublish funcționează
+#### 3.1 Blog Management
+**Files:** `frontend/src/pages/Admin/Blog/`
+- BlogList.tsx - Lista articole (tabel cu search/filter)
+- BlogCreate.tsx - Creare articol
+- BlogEdit.tsx - Editare articol
+- BlogForm.tsx - Formular comun (shared)
+
+**Caracteristici:**
+- Tabel cu search, sort, pagination
+- Bulk actions (delete, publish)
+- Image upload pentru cover
+- Rich text editor pentru content
+- Tag/Categorie selector
+
+#### 3.2 Services Management  
+**Files:** `frontend/src/pages/Admin/Services/`
+- ServicesList.tsx - Lista servicii
+- ServiceCreate.tsx - Creare serviciu
+- ServiceEdit.tsx - Editare serviciu
+- ServiceForm.tsx - Formular
+
+**Campuri:** Icon (emoji), Title, Description, Category, Sort order, Active toggle
+
+#### 3.3 Projects Management
+**Files:** `frontend/src/pages/Admin/Projects/`
+- ProjectsList.tsx - Lista proiecte
+- ProjectCreate.tsx - Creare proiect
+- ProjectEdit.tsx - Editare proiect
+- ProjectForm.tsx - Formular
+
+**Campuri:** Name, Slug, Category, Description, Image, Featured toggle
+
+#### 3.4 Comments Management
+**Files:** `frontend/src/pages/Admin/Comments/`
+- CommentsList.tsx - Lista comentarii
+- CommentItem.tsx - Comentariu individual
+
+**Caracteristici:**
+- Filtru: all/approved/pending
+- Aprobare cu 1 click
+- Stergere cu confirmare
+
+#### 3.5 Users Management (Admin only)
+**Files:** `frontend/src/pages/Admin/Users/`
+- UsersList.tsx - Lista utilizatori
+- UserEdit.tsx - Editare utilizator
+
+**Caracteristici:**
+- Schimbare rol (admin/user)
+- Activare/Dezactivare cont
+- Stergere user
+
+#### 3.6 Settings Page
+**File:** `frontend/src/pages/Admin/Settings/Settings.tsx`
+
+**Campuri:** Site name, Tagline, Email, Phone, Address, Social links
+
+---
+
+### Faza 4: Products & E-commerce Prep
+
+#### 4.1 Products Management
+**Files:** `frontend/src/pages/Admin/Products/`
+- ProductsList.tsx - Lista produse
+- ProductCreate.tsx - Creare produs
+- ProductEdit.tsx - Editare produs
+- ProductForm.tsx - Formular
+
+**Campuri:** Name, Slug, Description, Price, Category, Stock, Images, Active toggle
+
+#### 4.2 Orders Management
+**Files:** `frontend/src/pages/Admin/Orders/`
+- OrdersList.tsx - Lista comenzi
+- OrderDetail.tsx - Detalii comandă
+- OrderStatus.tsx - Status updater
+
+**Status workflow:** pending → processing → completed / cancelled
+
+---
+
+### Faza 5: Analytics & Monitoring
+
+#### 5.1 Activity Logging (Backend)
+- Page views tracking (automat pe fiecare request)
+- Errors (JS errors, API errors)
+- User actions (login, logout, create, update, delete)
+- Form submissions
+
+#### 5.2 Dashboard Metrics
+- Vizite total / azi / saptamana
+- Top 5 pagini vizitate
+- Error count (recent)
+- Ultimii utilizatori activi
+- Activitate pe site (grafice optional)
+
+---
+
+## 5. TESTING AND VALIDATION
+
+### Funcționalități de testat:
+
+#### Autentificare
+- [ ] Înregistrare cu email valid
+- [ ] Înregistrare cu email existent (eroare)
+- [ ] Login cu credențiale corecte
+- [ ] Login cu credențiale greșite (eroare)
+- [ ] Logout șterge token-ul
+- [ ] Protected routes nu permit neautentificat
+
+#### Autorizare
+- [ ] User normal nu poate accesa pagini admin
+- [ ] User normal nu poate crea/șterge conținut
+- [ ] Admin poate accesa tot
+- [ ] Schimbare rol funcționează
+
+#### Dashboard
+- [ ] Stats se încarcă corect
+- [ ] Activitate recentă afișează
+- [ ] Top pages afișează corect
+- [ ] Errors afișează corect
+
+#### CRUD Operations
+- [ ] Blog: Create, Read, Update, Delete
+- [ ] Services: Create, Read, Update, Delete
+- [ ] Projects: Create, Read, Update, Delete
+- [ ] Comments: Approve, Delete
+- [ ] Products: Create, Read, Update, Delete (prep)
+- [ ] Users: View, Change role, Delete (admin only)
+
+#### UX
+- [ ] Loading states
+- [ ] Error messages
+- [ ] Success notifications
+- [ ] Responsive design
+- [ ] Form validation
