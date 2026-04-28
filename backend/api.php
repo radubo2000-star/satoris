@@ -22,17 +22,19 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
 $path = str_replace('/api/', '', $path);
 $path = trim($path, '/');
-
-// Debug: log actual path
-$debugFile = __DIR__ . '/debug.log';
-$debug = date('c') . " | $method | $requestUri | $path | " . json_encode($input) . "\n";
-@file_put_contents($debugFile, $debug, FILE_APPEND);
+// Clean path - remove any backslashes
+$path = str_replace('\\', '', $path);
 
 // Get input data
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
 if (empty($input) && !empty($_POST)) {
     $input = $_POST;
 }
+
+// Debug: log actual path
+$debugFile = __DIR__ . '/debug.log';
+$debug = date('c') . " | $method | $requestUri | $path | " . json_encode($input) . "\n";
+@file_put_contents($debugFile, $debug, FILE_APPEND);
 
 // Get headers
 $headers = getallheaders();
