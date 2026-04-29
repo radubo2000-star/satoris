@@ -710,9 +710,13 @@ switch ($path) {
             http_response_code(201);
         } elseif ($method === 'PUT') {
             $id = (int)$input['id'];
-            // Convert string booleans from form inputs
-            $input['is_active'] = filter_var($input['is_active'] ?? true, FILTER_VALIDATE_BOOLEAN);
-            $input['is_featured'] = filter_var($input['is_featured'] ?? false, FILTER_VALIDATE_BOOLEAN);
+            // Convert string booleans from form inputs - handle "false"/"true" strings
+            if (isset($input['is_active'])) {
+                $input['is_active'] = ($input['is_active'] === 'true' || $input['is_active'] === '1' || $input['is_active'] === 'on');
+            }
+            if (isset($input['is_featured'])) {
+                $input['is_featured'] = ($input['is_featured'] === 'true' || $input['is_featured'] === '1' || $input['is_featured'] === 'on');
+            }
             foreach ($services as $i => $s) {
                 if ($s['id'] === $id) {
                     $services[$i] = array_merge($s, $input);
@@ -753,9 +757,13 @@ switch ($path) {
             http_response_code(201);
         } elseif ($method === 'PUT') {
             $id = (int)$input['id'];
-            // Convert string booleans from form inputs
-            $input['is_active'] = filter_var($input['is_active'] ?? true, FILTER_VALIDATE_BOOLEAN);
-            $input['is_featured'] = filter_var($input['is_featured'] ?? false, FILTER_VALIDATE_BOOLEAN);
+            // Convert string booleans from form inputs - handle "false"/"true" strings
+            if (isset($input['is_active'])) {
+                $input['is_active'] = ($input['is_active'] === 'true' || $input['is_active'] === '1' || $input['is_active'] === 'on');
+            }
+            if (isset($input['is_featured'])) {
+                $input['is_featured'] = ($input['is_featured'] === 'true' || $input['is_featured'] === '1' || $input['is_featured'] === 'on');
+            }
             foreach ($projects as $i => $p) {
                 if ($p['id'] === $id) {
                     $projects[$i] = array_merge($p, $input);
