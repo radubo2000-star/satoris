@@ -710,12 +710,12 @@ switch ($path) {
             http_response_code(201);
         } elseif ($method === 'PUT') {
             $id = (int)$input['id'];
-            // Convert string booleans from form inputs - handle "false"/"true" strings
+            // Convert booleans - accept both strings and actual booleans
             if (isset($input['is_active'])) {
-                $input['is_active'] = ($input['is_active'] === 'true' || $input['is_active'] === '1' || $input['is_active'] === 'on');
+                $input['is_active'] = in_array($input['is_active'], ['true', '1', 'on', true], true);
             }
             if (isset($input['is_featured'])) {
-                $input['is_featured'] = ($input['is_featured'] === 'true' || $input['is_featured'] === '1' || $input['is_featured'] === 'on');
+                $input['is_featured'] = in_array($input['is_featured'], ['true', '1', 'on', true], true);
             }
             foreach ($services as $i => $s) {
                 if ($s['id'] === $id) {
@@ -763,12 +763,12 @@ switch ($path) {
             http_response_code(201);
         } elseif ($method === 'PUT') {
             $id = (int)$input['id'];
-            // Convert string booleans from form inputs - handle "false"/"true" strings
+            // Convert booleans - accept both strings and actual booleans
             if (isset($input['is_active'])) {
-                $input['is_active'] = ($input['is_active'] === 'true' || $input['is_active'] === '1' || $input['is_active'] === 'on');
+                $input['is_active'] = in_array($input['is_active'], ['true', '1', 'on', true], true);
             }
             if (isset($input['is_featured'])) {
-                $input['is_featured'] = ($input['is_featured'] === 'true' || $input['is_featured'] === '1' || $input['is_featured'] === 'on');
+                $input['is_featured'] = in_array($input['is_featured'], ['true', '1', 'on', true], true);
             }
             foreach ($projects as $i => $p) {
                 if ($p['id'] === $id) {
