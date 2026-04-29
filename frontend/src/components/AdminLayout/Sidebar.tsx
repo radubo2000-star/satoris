@@ -11,9 +11,10 @@ interface SidebarProps {
     name: string;
     role: 'admin' | 'user';
   };
+  onLogout: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout }) => {
   const adminLinks = [
     { path: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
     { path: '/admin/blog', label: 'Blog', icon: '📝' },
@@ -58,6 +59,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user }) => {
       </nav>
 
       <div className="sidebar-footer">
+        <button className="logout-btn" onClick={onLogout}>
+          <span>🚪</span> Logout
+        </button>
         <a href="/" target="_blank" className="view-site-link">
           <span>🌐</span> View Site
         </a>
