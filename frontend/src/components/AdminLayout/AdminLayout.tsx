@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import Header from './Header';
+import Header from '../Header/Header';
 import API_BASE from '../../api/base';
 import './AdminLayout.css';
 
@@ -85,9 +85,9 @@ const AdminLayout: React.FC = () => {
 
   return (
     <div className={`admin-layout ${sidebarOpen ? 'sidebar-open' : ''}`}>
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} user={user} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} user={user} onLogout={handleLogout} />
       <div className="admin-main">
-        <Header user={user} onMenuClick={() => setSidebarOpen(!sidebarOpen)} onLogout={handleLogout} />
+        <Header />
         <main className="admin-content">
           <Outlet context={{ user, setUser }} />
         </main>
