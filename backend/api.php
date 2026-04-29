@@ -725,6 +725,9 @@ switch ($path) {
                     }
                     $data['services'] = $services;
                     saveData($data);
+                    // Debug: log what was saved
+                    $debugFile = __DIR__ . '/debug.log';
+                    file_put_contents($debugFile, date('Y-m-d H:i:s') . " PUT services id=$id is_active=" . ($services[$i]['is_active'] ?? 'N/A') . "\n", FILE_APPEND);
                     $response = $services[$i];
                     break;
                 }
