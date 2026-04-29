@@ -87,7 +87,7 @@ const AdminLayout: React.FC = () => {
     <div className={`admin-layout ${sidebarOpen ? 'sidebar-open' : ''}`}>
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} user={user} />
       <div className="admin-main">
-        <Header user={user} onMenuClick={() => setSidebarOpen(!sidebarOpen)} onLogout={handleLogout} />
+        <Header onLogout={handleLogout} />
         <main className="admin-content">
           <Outlet context={{ user, setUser }} />
         </main>
