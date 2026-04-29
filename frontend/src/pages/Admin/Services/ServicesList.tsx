@@ -37,15 +37,16 @@ const ServicesList: React.FC = () => {
 
   const handleToggleActive = async (service: Service) => {
     const token = localStorage.getItem('admin_token');
+    // Flip the boolean value
     const updated = { ...service, is_active: !service.is_active };
     try {
-      await fetch(`${API_BASE}/services/${service.id}`, {
+      await fetch(`${API_BASE}/services`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(updated)
+        body: JSON.stringify({ id: service.id, is_active: updated.is_active })
       });
       setServices(services.map(s => s.id === service.id ? updated : s));
     } catch (err) {
