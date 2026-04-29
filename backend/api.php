@@ -719,7 +719,10 @@ switch ($path) {
             }
             foreach ($services as $i => $s) {
                 if ($s['id'] === $id) {
-                    $services[$i] = array_merge($s, $input);
+                    // Update fields one by one instead of array_merge
+                    foreach ($input as $key => $value) {
+                        $services[$i][$key] = $value;
+                    }
                     $data['services'] = $services;
                     saveData($data);
                     $response = $services[$i];
@@ -766,7 +769,10 @@ switch ($path) {
             }
             foreach ($projects as $i => $p) {
                 if ($p['id'] === $id) {
-                    $projects[$i] = array_merge($p, $input);
+                    // Update fields one by one instead of array_merge
+                    foreach ($input as $key => $value) {
+                        $projects[$i][$key] = $value;
+                    }
                     $data['projects'] = $projects;
                     saveData($data);
                     $response = $projects[$i];
