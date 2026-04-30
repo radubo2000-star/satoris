@@ -78,14 +78,15 @@ function Work() {
   
   return (
     <div className="work-page">
-      <section className="hero" style={{ minHeight: '50vh' }}>
+      <section className="hero" style={{ minHeight: '30vh', padding: 'var(--space-8) 0' }}>
         <div className="hero-content">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            style={{ color: '#FF9100' }}
           >
-            Our Work
+            Explore Our Work
           </motion.h1>
           <motion.p
             className="hero-description"
@@ -125,15 +126,15 @@ function Work() {
 
       {/* Only show filter and grid if no single project */}
       {!slug && (
-      <section className="section">
+      <section className="section" style={{ padding: 'var(--space-8) 0' }}>
         <div className="container">
           {/* Filter with animation */}
           <motion.div 
             style={{ 
               display: 'flex', 
-              gap: 'var(--space-3)', 
+              gap: 'var(--space-2)', 
               justifyContent: 'center', 
-              marginBottom: 'var(--space-10)', 
+              marginBottom: 'var(--space-6)', 
               flexWrap: 'wrap' 
             }}
           >
@@ -163,7 +164,7 @@ function Work() {
           <motion.div 
             layout
             className="projects-grid"
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-6)' }}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-4)' }}
           >
             <AnimatePresence>
               {filteredProjects.map((project, index) => (
