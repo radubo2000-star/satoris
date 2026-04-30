@@ -5,8 +5,6 @@ import { getProjects } from '../../api/client';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
-const categories = ['All', 'Branding', 'Digital', 'Event'];
-
 function Work() {
   const { slug } = useParams<{ slug: string }>();
   const [filter, setFilter] = useState('All');
@@ -78,7 +76,7 @@ function Work() {
   
   return (
     <div className="work-page">
-      <section className="hero" style={{ minHeight: '30vh', padding: 'var(--space-8) 0' }}>
+      <section className="hero" style={{ minHeight: '30vh', padding: 'var(--space-4) 0' }}>
         <div className="hero-content">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -126,7 +124,7 @@ function Work() {
 
       {/* Only show filter and grid if no single project */}
       {!slug && (
-      <section className="section" style={{ padding: 'var(--space-8) 0' }}>
+      <section className="section" style={{ padding: 'var(--space-2) 0' }}>
         <div className="container">
           {/* Filter with animation */}
           <motion.div 
@@ -134,7 +132,7 @@ function Work() {
               display: 'flex', 
               gap: 'var(--space-2)', 
               justifyContent: 'center', 
-              marginBottom: 'var(--space-6)', 
+              marginBottom: 'var(--space-2)', 
               flexWrap: 'wrap' 
             }}
           >
