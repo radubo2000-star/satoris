@@ -32,13 +32,13 @@
 .admin-header .logo .logo-text {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #818cf8;
+  color: #f97316;
   letter-spacing: 2px;
 }
 
 .admin-header .logo .logo-subtitle {
   font-size: 0.75rem;
-  color: #a5b4fc;
+  color: #fb923c;
   letter-spacing: 1px;
 }
 
@@ -58,7 +58,7 @@
 .admin-header .nav-link {
   position: relative;
   padding: 8px 16px;
-  color: #c7d2fe;
+  color: #fb923c;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -77,7 +77,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: #818cf8;
+  background: #f97316;
   transition: all var(--transition-fast);
   transform: translateX(-50%);
 }
@@ -89,7 +89,7 @@
 
 .admin-header .nav-link:hover,
 .admin-header .nav-link.active {
-  color: #a5b4fc;
+  color: #fdba74;
 }
 
 .admin-header .logout-btn:hover,
@@ -111,7 +111,7 @@
   display: block;
   width: 24px;
   height: 2px;
-  background: #818cf8;
+  background: #f97316;
   border-radius: 2px;
 }
 
