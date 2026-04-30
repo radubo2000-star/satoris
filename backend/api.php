@@ -181,12 +181,6 @@ $defaultData = [
         ['id' => 6, 'name' => 'Trends', 'slug' => 'trends'],
         ['id' => 7, 'name' => 'Case Study', 'slug' => 'case-study'],
     ],
-    'services' => [
-        ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'category' => 'Events', 'sort_order' => 1, 'is_active' => true],
-        ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.', 'category' => 'Events', 'sort_order' => 2, 'is_active' => true],
-        ['id' => 3, 'icon' => '💻', 'title' => 'Digital', 'description' => 'Websites, Landing pages, Email campaigns, Live streaming.', 'category' => 'Digital', 'sort_order' => 3, 'is_active' => true],
-        ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.', 'category' => 'Creative', 'sort_order' => 4, 'is_active' => true],
-    ],
     'projects' => [
         ['id' => 1, 'name' => 'Târg de Crăciun Dalles 2025', 'slug' => 'targ-de-craciun-dalles-2025', 'category' => 'Event', 'description' => 'Event Concept, Event Management & Implementation, Research, Print Design', 'image' => 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png', 'is_featured' => false, 'is_active' => true],
         ['id' => 2, 'name' => 'Softy', 'slug' => 'softy', 'category' => 'Branding', 'description' => 'Research, Branding, Packaging, Ad Design, PPC Management', 'image' => 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg', 'is_featured' => false, 'is_active' => true],
@@ -202,26 +196,6 @@ if (file_exists($dataFile)) {
     $data = array_merge($defaultData, is_array($data) ? $data : []);
 } else {
     $data = $defaultData;
-}
-
-// Services default data
-$defaultServices = [
-    ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'category' => 'Events', 'sort_order' => 1, 'is_active' => true],
-    ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.', 'category' => 'Events', 'sort_order' => 2, 'is_active' => true],
-    ['id' => 3, 'icon' => '💻', 'title' => 'Digital', 'description' => 'Websites, Landing pages, Email campaigns, Live streaming.', 'category' => 'Digital', 'sort_order' => 3, 'is_active' => true],
-    ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.', 'category' => 'Creative', 'sort_order' => 4, 'is_active' => true],
-    ['id' => 5, 'icon' => '🏢', 'title' => 'Full Service', 'description' => 'AV - Staging, Staffing, Catering.', 'category' => 'Events', 'sort_order' => 5, 'is_active' => true],
-    ['id' => 6, 'icon' => '📈', 'title' => 'Marketing', 'description' => 'Digital Marketing, Ads, Sales Funnel, E-commerce.', 'category' => 'Digital', 'sort_order' => 6, 'is_active' => true],
-    ['id' => 7, 'icon' => '⚡', 'title' => 'Implementation & On-Site', 'description' => 'Your agenda, our playbook, no surprises.', 'category' => 'Events', 'sort_order' => 7, 'is_active' => true],
-    ['id' => 8, 'icon' => '🌍', 'title' => 'Go Big', 'description' => 'International events, Global Events.', 'category' => 'Events', 'sort_order' => 8, 'is_active' => true],
-];
-
-// Use from $data if exists, else use defaults
-$services = $data['services'] ?? $defaultServices;
-
-// Save to $data for persistence
-if (!isset($data['services'])) {
-    $data['services'] = $services;
 }
 
 // Projects default data
@@ -263,37 +237,6 @@ if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
         echo json_encode($response);
         exit;
     }
-}
-
-// Handle services/:id
-if (preg_match('#^services/(\d+)$#', $path, $matches)) {
-    $id = (int)$matches[1];
-    error_log("services/$id: method=$method");
-    if ($method === 'PUT') {
-        error_log("PUT request with input: " . json_encode($input));
-        foreach ($services as &$s) {
-            if ($s['id'] === $id) {
-                $s = array_merge($s, $input);
-                $s['id'] = $id;
-                $response = $s;
-                echo json_encode($response);
-                exit;
-            }
-        }
-        http_response_code(404);
-        echo json_encode(['error' => 'Service not found']);
-        exit;
-    }
-    // GET
-    $service = array_values(array_filter($services, fn($s) => $s['id'] === $id));
-    if (empty($service)) {
-        http_response_code(404);
-        $response = ['error' => 'Service not found'];
-    } else {
-        $response = $service[0];
-    }
-    echo json_encode($response);
-    exit;
 }
 
 // Handle projects/:id
@@ -713,11 +656,6 @@ switch ($path) {
                 }
             }
         }
-        break;
-
-    // SERVICES (read-only - managed statically on site)
-    case 'services':
-        $response = $services;
         break;
 
     // PROJECTS
