@@ -694,56 +694,9 @@ switch ($path) {
         }
         break;
 
-    // SERVICES
+    // SERVICES (read-only - managed statically on site)
     case 'services':
-        if ($method === 'POST') {
-            $newService = [
-                'id' => count($services) + 1,
-                'icon' => $input['icon'] ?? '💻',
-                'title' => $input['title'] ?? '',
-                'description' => $input['description'] ?? '',
-                'category' => $input['category'] ?? 'Events',
-                'sort_order' => $input['sort_order'] ?? 0,
-                'is_active' => $input['is_active'] ?? true
-            ];
-            $services[] = $newService;
-            $data['services'] = $services;
-            saveData($data);
-            $response = $newService;
-            http_response_code(201);
-        } elseif ($method === 'PUT') {
-            $id = (int)$input['id'];
-            // Convert booleans - accept both strings and actual booleans
-            if (isset($input['is_active'])) {
-                $input['is_active'] = in_array($input['is_active'], ['true', '1', 'on', true], true);
-            }
-            if (isset($input['is_featured'])) {
-                $input['is_featured'] = in_array($input['is_featured'], ['true', '1', 'on', true], true);
-            }
-            foreach ($services as $i => $s) {
-                if ($s['id'] === $id) {
-                    // Update fields one by one instead of array_merge
-                    foreach ($input as $key => $value) {
-                        $services[$i][$key] = $value;
-                    }
-                    $data['services'] = $services;
-                    saveData($data);
-                    // Debug: log what was saved
-                    $debugFile = __DIR__ . '/debug.log';
-                    file_put_contents($debugFile, date('Y-m-d H:i:s') . " PUT services id=$id is_active=" . ($services[$i]['is_active'] ?? 'N/A') . "\n", FILE_APPEND);
-                    $response = $services[$i];
-                    break;
-                }
-            }
-        } else {
-            // Re-read from file to get persisted changes
-            $dataFile = __DIR__ . '/data.json';
-            if (file_exists($dataFile)) {
-                $data = json_decode(file_get_contents($dataFile), true);
-                $services = $data['services'] ?? $services;
-            }
-            $response = $services;
-        }
+        $response = $services;
         break;
 
     // PROJECTS

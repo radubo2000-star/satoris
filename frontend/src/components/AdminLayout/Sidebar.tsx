@@ -17,7 +17,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user }) => {
   const adminLinks = [
     { path: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
     { path: '/admin/blog', label: 'Blog', icon: '📝' },
-    { path: '/admin/services', label: 'Services', icon: '🛠️' },
     { path: '/admin/projects', label: 'Projects', icon: '📁' },
     { path: '/admin/comments', label: 'Comments', icon: '💬' },
     { path: '/admin/products', label: 'Products', icon: '🛒' },

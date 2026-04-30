@@ -14,8 +14,6 @@ import Register from './pages/Admin/Auth/Register';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import BlogList from './pages/Admin/Blog/BlogList';
 import BlogForm from './pages/Admin/Blog/BlogForm';
-import ServicesList from './pages/Admin/Services/ServicesList';
-import ServicesForm from './pages/Admin/Services/ServicesForm';
 import ProjectsList from './pages/Admin/Projects/ProjectsList';
 import ProjectsForm from './pages/Admin/Projects/ProjectsForm';
 import CommentsList from './pages/Admin/Comments/CommentsList';
@@ -59,9 +57,6 @@ function App() {
             <Route path="blog" element={<BlogList />} />
             <Route path="blog/new" element={<BlogForm />} />
             <Route path="blog/:id" element={<BlogForm />} />
-            <Route path="services" element={<ServicesList />} />
-            <Route path="services/new" element={<ServicesForm />} />
-            <Route path="services/:id" element={<ServicesForm />} />
             <Route path="projects" element={<ProjectsList />} />
             <Route path="projects/new" element={<ProjectsForm />} />
             <Route path="projects/:id" element={<ProjectsForm />} />

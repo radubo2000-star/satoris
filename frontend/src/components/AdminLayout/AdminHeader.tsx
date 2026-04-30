@@ -13,7 +13,6 @@ const AdminHeader: React.FC<HeaderProps> = ({ onLogout }) => {
   const adminLinks = [
     { path: '/admin/dashboard', label: 'Dashboard' },
     { path: '/admin/blog', label: 'Blog' },
-    { path: '/admin/services', label: 'Services' },
     { path: '/admin/projects', label: 'Projects' },
     { path: '/admin/comments', label: 'Comments' },
     { path: '/admin/users', label: 'Users' },
