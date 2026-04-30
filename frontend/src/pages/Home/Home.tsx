@@ -91,21 +91,23 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
   );
 }
 
-const [projects, setProjects] = useState<any[]>([]);
-const [projectsLoaded, setProjectsLoaded] = useState(false);
+function Home() {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  getProjects({ active: true })
-    .then(res => {
-      setProjects(res.data);
-      setProjectsLoaded(true);
-    })
-    .catch(console.error);
-}, []);
+  useEffect(() => {
+    getProjects({ active: true })
+      .then(res => {
+        setProjects(res.data);
+        setLoading(false);
+      })
+      .catch(console.error);
+  }, []);
 
-if (!projectsLoaded) return <div style={{padding:'50px',textAlign:'center'}}>Loading...</div>;
+  if (loading) return <div style={{padding:'50px',textAlign:'center'}}>Loading...</div>;
 
-const testimonials = [
+  const testimonials = [
   {
     text: "Very good service and helpful person. Natalia handled all issues very professional. I recommend.",
     author: 'Olimpiu G',
@@ -155,11 +157,7 @@ const clientLogos = [
   { name: 'Miresmei', logo: 'https://satoris.ro/wp-content/uploads/2021/09/sigla-ME-e1631537317688.jpeg' },
 ];
 
-function Home() {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-// ProjectCard with 3D tilt effect
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   
