@@ -26,7 +26,7 @@ const ProjectsList: React.FC = () => {
   const fetchProjects = async () => {
     try {
       // Fetch all projects for admin (including inactive)
-      const response = await fetch(API_BASE + '/projects?all=true');
+      const response = await fetch(API_BASE + '/projects');
       if (response.ok) {
         setProjects(await response.json());
       }

@@ -16,7 +16,7 @@ export const getServices = () => apiClient.get('/services');
 export const getServiceById = (id: number) => apiClient.get(`/services/${id}`);
 
 // Projects API
-export const getProjects = () => apiClient.get('/projects');
+export const getProjects = (params?: { active?: boolean }) => apiClient.get('/projects', { params });
 export const getProjectById = (id: number) => apiClient.get(`/projects/${id}`);
 
 // Blog API

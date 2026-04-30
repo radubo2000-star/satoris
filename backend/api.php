@@ -698,11 +698,11 @@ switch ($path) {
                 }
             }
         } else {
-            // Return active projects by default (for site). With ?all=true return all (for admin)
-            $includeAll = isset($_GET['all']) && $_GET['all'] === 'true';
-            $projectsToReturn = $includeAll 
-                ? $projects 
-                : array_values(array_filter($projects, fn($p) => $p['is_active']));
+            // Return all projects by default (for admin). With ?active=true return only active (for site)
+            $activeOnly = isset($_GET['active']) && $_GET['active'] === 'true';
+            $projectsToReturn = $activeOnly 
+                ? array_values(array_filter($projects, fn($p) => $p['is_active']))
+                : $projects;
             // Re-read from file to get persisted changes
             $dataFile = __DIR__ . '/data.json';
             if (file_exists($dataFile)) {
