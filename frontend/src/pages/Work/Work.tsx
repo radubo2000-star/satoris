@@ -92,7 +92,7 @@ function Work() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Explore our portfolio of featured work, where precision meets creativity.
+            Check out some of the amazing projects we’ve helped bring to life
           </motion.p>
         </div>
       </section>
