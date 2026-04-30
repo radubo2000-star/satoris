@@ -188,7 +188,12 @@ $defaultData = [
         ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.', 'category' => 'Creative', 'sort_order' => 4, 'is_active' => true],
     ],
     'projects' => [
-        ['id' => 1, 'name' => 'Marie', 'slug' => 'marie', 'category' => 'Branding', 'description' => 'Event Concept, Event Management & Implementation', 'image' => '', 'is_featured' => false, 'is_active' => true],
+        ['id' => 1, 'name' => 'Târg de Crăciun Dalles 2025', 'slug' => 'targ-de-craciun-dalles-2025', 'category' => 'Event', 'description' => 'Event Concept, Event Management & Implementation, Research, Print Design', 'image' => 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png', 'is_featured' => false, 'is_active' => true],
+        ['id' => 2, 'name' => 'Softy', 'slug' => 'softy', 'category' => 'Branding', 'description' => 'Research, Branding, Packaging, Ad Design, PPC Management', 'image' => 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg', 'is_featured' => false, 'is_active' => true],
+        ['id' => 3, 'name' => 'Cela Jewelry', 'slug' => 'cela', 'category' => 'Digital', 'description' => 'Ecommerce, Website Development, PPC Campaigns, SEO', 'image' => 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg', 'is_featured' => false, 'is_active' => true],
+        ['id' => 4, 'name' => 'Omi', 'slug' => 'omi', 'category' => 'Digital', 'description' => 'Digital Audit, Market Research, User Experience', 'image' => 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg', 'is_featured' => false, 'is_active' => true],
+        ['id' => 5, 'name' => 'Holarnia', 'slug' => 'holarnia', 'category' => 'Branding', 'description' => 'Packaging, Branding, Email Marketing, Affiliate Management', 'image' => 'https://satoris.ro/wp-content/uploads/2022/01/Post_Holandria_Img_Featured-260x300.jpg', 'is_featured' => false, 'is_active' => true],
+        ['id' => 6, 'name' => 'Exhibition Blueprint', 'slug' => 'exhibition-blueprint', 'category' => 'Event', 'description' => 'Event Management, Expo Strategy, Print Design, Content Strategy', 'image' => 'https://satoris.ro/wp-content/uploads/2023/10/blurred-background-people-shopping-market-fair-sunny-day-blur-background-with-bokeh-1-300x200.jpg', 'is_featured' => false, 'is_active' => true],
     ],
 ];
 if (file_exists($dataFile)) {
