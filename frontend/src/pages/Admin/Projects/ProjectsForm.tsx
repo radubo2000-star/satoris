@@ -141,7 +141,7 @@ const ProjectsForm: React.FC = () => {
                 <option value="">Select category</option>
                 <option value="Branding">Branding</option>
                 <option value="Digital">Digital</option>
-                <option value="Events">Events</option>
+                <option value="Event">Event</option>
                 <option value="Strategy">Strategy</option>
               </select>
             </div>
