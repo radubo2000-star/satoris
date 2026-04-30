@@ -82,14 +82,14 @@
   margin-bottom: 4px;
 }
 
-.nav-link:hover {
+.admin-sidebar .nav-link:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: var(--color-primary);
 }
 
-.nav-link.active {
-  background: #4f46e5;
-  color: #fff;
+.admin-sidebar .nav-link.active {
+  background: var(--color-primary);
+  color: var(--color-black);
 }
 
 .nav-icon {
