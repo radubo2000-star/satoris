@@ -1,6 +1,7 @@
 import API_BASE from '../../../api/base';
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './Dashboard.css';
 
 interface Stats {
@@ -73,11 +74,11 @@ const Dashboard: React.FC = () => {
   }
 
   const statCards = [
-    { label: 'Total Visits', value: stats?.total_visits || 0, icon: '👁️', color: '#6366f1' },
-    { label: "Today's Visits", value: stats?.today_visits || 0, icon: '📈', color: '#10b981' },
-    { label: 'Blog Posts', value: stats?.published_posts || 0, icon: '📝', color: '#8b5cf6' },
-    { label: 'Pending Comments', value: stats?.pending_comments || 0, icon: '💬', color: '#f59e0b' },
-    { label: 'Projects', value: stats?.total_projects || 0, icon: '📁', color: '#06b6d4' },
+    { label: 'Total Visits', value: stats?.total_visits || 0, icon: '👁️', color: '#6366f1', link: '/admin/analytics' },
+    { label: "Today's Visits", value: stats?.today_visits || 0, icon: '📈', color: '#10b981', link: '/admin/analytics' },
+    { label: 'Blog Posts', value: stats?.published_posts || 0, icon: '📝', color: '#8b5cf6', link: '/admin/blog' },
+    { label: 'Pending Comments', value: stats?.pending_comments || 0, icon: '💬', color: '#f59e0b', link: '/admin/comments' },
+    { label: 'Projects', value: stats?.total_projects || 0, icon: '📁', color: '#06b6d4', link: '/admin/projects' },
   ];
 
   return (
@@ -89,13 +90,13 @@ const Dashboard: React.FC = () => {
 
       <div className="stats-grid">
         {statCards.map((stat, index) => (
-          <div key={index} className="stat-card" style={{ '--accent-color': stat.color } as React.CSSProperties}>
+          <Link key={index} to={stat.link} className="stat-card" style={{ '--accent-color': stat.color } as React.CSSProperties}>
             <div className="stat-icon">{stat.icon}</div>
             <div className="stat-content">
               <span className="stat-value">{stat.value.toLocaleString()}</span>
               <span className="stat-label">{stat.label}</span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
