@@ -22,6 +22,7 @@ import ProductsList from './pages/Admin/Products/ProductsList';
 import ProductsForm from './pages/Admin/Products/ProductsForm';
 import OrdersList from './pages/Admin/Orders/OrdersList';
 import Settings from './pages/Admin/Settings/Settings';
+import Analytics from './pages/Admin/Analytics/Analytics';
 import { trackPageView } from './api/analytics';
 
 function ScrollToTop() {
@@ -70,6 +71,7 @@ function App() {
             <Route path="products/:id" element={<ProductsForm />} />
             <Route path="orders" element={<OrdersList />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="analytics" element={<Analytics />} />
           </Route>
         </Routes>
       </Layout>

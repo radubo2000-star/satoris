@@ -602,26 +602,43 @@ switch ($path) {
             $response = ['success' => true];
         }
         break;
-
     // ANALYTICS: SUMMARY
     case 'analytics/summary':
         if ($method === 'GET') {
             $viewsFile = __DIR__ . '/page_views.json';
             $pageViews = file_exists($viewsFile) ? json_decode(file_get_contents($viewsFile), true) : [];
             
+            // Aggregate by page path
+            $byPage = [];
+            foreach ($pageViews as $v) {
+                $path = $v['page_path'] ?: '/';
+                if (!isset($byPage[$path])) {
+                    $byPage[$path] = ['page_path' => $path, 'views' => 0, 'last_viewed' => ''];
+                }
+                $byPage[$path]['views']++;
+                if ($v['created_at'] > $byPage[$path]['last_viewed']) {
+                    $byPage[$path]['last_viewed'] = $v['created_at'];
+                }
+            }
+            uasort($byPage, fn($a, $b) => $b['views'] <=> $a['views']);
+            $topPages = array_values(array_slice($byPage, 0, 20, true));
+            
+            // Daily views for last 7 days
+            $dailyViews = [];
+            for ($i = 6; $i >= 0; $i--) {
+                $d = date('Y-m-d', strtotime("-{$i} days"));
+                $count = count(array_values(array_filter($pageViews, fn($v) => str_starts_with($v['created_at'], $d))));
+                $dailyViews[] = ['date' => $d, 'views' => $count];
+            }
+
             $today = date('Y-m-d');
-            $weekAgo = date('Y-m-d', strtotime('-7 days'));
-            $monthAgo = date('Y-m-d', strtotime('-30 days'));
-            
             $todayViews = array_values(array_filter($pageViews, fn($v) => str_starts_with($v['created_at'], $today)));
-            $weekViews = array_values(array_filter($pageViews, fn($v) => $v['created_at'] >= $weekAgo));
-            $monthViews = array_values(array_filter($pageViews, fn($v) => $v['created_at'] >= $monthAgo));
-            
+
             $response = [
-                'today' => count($todayViews),
-                'this_week' => count($weekViews),
-                'this_month' => count($monthViews),
-                'all_time' => count($pageViews)
+                'total_views' => count($pageViews),
+                'today_views' => count($todayViews),
+                'top_pages' => $topPages,
+                'daily_views' => $dailyViews
             ];
         }
         break;
