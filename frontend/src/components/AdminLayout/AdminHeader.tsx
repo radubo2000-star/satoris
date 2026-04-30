@@ -25,7 +25,7 @@ const AdminHeader: React.FC<HeaderProps> = ({ onLogout }) => {
   return (
     <header className="admin-header">
       <div className="header-container">
-        <Link to="/admin/dashboard" className="logo">
+        <Link to="/" className="logo">
           <span className="logo-text">SATORIS</span>
           <span className="logo-subtitle">Admin</span>
         </Link>
