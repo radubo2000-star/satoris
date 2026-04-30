@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
-import Sidebar from './Sidebar';
 import Header from './AdminHeader';
 import API_BASE from '../../api/base';
 import './AdminLayout.css';
@@ -17,7 +16,6 @@ const AdminLayout: React.FC = () => {
   const location = useLocation();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -84,15 +82,11 @@ const AdminLayout: React.FC = () => {
   }
 
   return (
-    <div className={`admin-layout ${sidebarOpen ? 'sidebar-open' : ''}`}>
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} user={user} />
-      <div className="admin-main">
-        <Header onLogout={handleLogout} />
-        <main className="admin-content">
-          <Outlet context={{ user, setUser }} />
-        </main>
-      </div>
-      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)}></div>}
+    <div className="admin-layout">
+      <Header onLogout={handleLogout} />
+      <main className="admin-content">
+        <Outlet context={{ user, setUser }} />
+      </main>
     </div>
   );
 };
