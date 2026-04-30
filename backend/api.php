@@ -822,7 +822,8 @@ switch ($path) {
         
         if ($idx !== null) {
             if ($method === 'PUT') {
-                $data['blogPosts'][$idx] = array_merge($data['blogPosts'][$idx], array_filter($input));
+                // Keep all input fields, do not use array_filter which removes false values
+                $data['blogPosts'][$idx] = array_merge($data['blogPosts'][$idx], $input);
                 saveData($data);
                 $response = $data['blogPosts'][$idx];
             } elseif ($method === 'DELETE') {
