@@ -698,13 +698,18 @@ switch ($path) {
                 }
             }
         } else {
+            // Return active projects by default (for site). With ?all=true return all (for admin)
+            $includeAll = isset($_GET['all']) && $_GET['all'] === 'true';
+            $projectsToReturn = $includeAll 
+                ? $projects 
+                : array_values(array_filter($projects, fn($p) => $p['is_active']));
             // Re-read from file to get persisted changes
             $dataFile = __DIR__ . '/data.json';
             if (file_exists($dataFile)) {
                 $data = json_decode(file_get_contents($dataFile), true);
                 $projects = $data['projects'] ?? $projects;
             }
-            $response = $projects;
+            $response = $projectsToReturn;
         }
         break;
 

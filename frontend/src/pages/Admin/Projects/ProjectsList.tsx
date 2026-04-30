@@ -12,6 +12,7 @@ interface Project {
   description: string;
   image: string;
   is_featured: boolean;
+  is_active: boolean;
 }
 
 const ProjectsList: React.FC = () => {
@@ -24,7 +25,8 @@ const ProjectsList: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch(API_BASE + '/projects');
+      // Fetch all projects for admin (including inactive)
+      const response = await fetch(API_BASE + '/projects?all=true');
       if (response.ok) {
         setProjects(await response.json());
       }
@@ -57,6 +59,7 @@ const ProjectsList: React.FC = () => {
               <h3>{project.name}</h3>
               <span className="category-badge">{project.category}</span>
               {project.is_featured && <span className="featured-badge">Featured</span>}
+              {!project.is_active && <span style={{ background: '#fef3c7', color: '#92400e', padding: '2px 8px', borderRadius: '4px', fontSize: '12px' }}>Inactive</span>}
             </div>
             <div className="project-actions">
               <Link to={`/admin/projects/${project.id}`} className="btn-icon">✏️</Link>
