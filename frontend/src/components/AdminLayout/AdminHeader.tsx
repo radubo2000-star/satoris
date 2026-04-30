@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../Header/Header.css';
-// Import site header styles
+import './AdminHeader.css';
 
 interface HeaderProps {
   onLogout: () => void;
@@ -18,21 +17,18 @@ const AdminHeader: React.FC<HeaderProps> = ({ onLogout }) => {
     { path: '/admin/projects', label: 'Projects' },
     { path: '/admin/comments', label: 'Comments' },
     { path: '/admin/users', label: 'Users' },
+    { path: '/admin/products', label: 'Products' },
+    { path: '/admin/orders', label: 'Orders' },
+    { path: '/admin/settings', label: 'Settings' },
   ];
 
   return (
     <header className="admin-header">
       <div className="header-container">
-        <Link to="/admin/dashboard" className="admin-logo">
+        <Link to="/admin/dashboard" className="logo">
           <span className="logo-text">SATORIS</span>
           <span className="logo-subtitle">Admin</span>
         </Link>
-
-        <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
 
         <nav className={`admin-nav ${isMenuOpen ? 'open' : ''}`}>
           <ul className="nav-list">
@@ -54,6 +50,12 @@ const AdminHeader: React.FC<HeaderProps> = ({ onLogout }) => {
             </li>
           </ul>
         </nav>
+
+        <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </header>
   );
