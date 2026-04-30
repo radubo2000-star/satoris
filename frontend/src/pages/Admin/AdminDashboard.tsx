@@ -22,9 +22,9 @@ function AdminDashboard() {
     }
   }, [navigate]);
 
-  // Fetch posts
+  // Fetch posts (include all for admin - both published and drafts)
   useEffect(() => {
-    getBlogPosts({ limit: 100 })
+    getBlogPosts({ all: true, limit: 100 })
       .then(res => setPosts(res.data.posts))
       .catch(console.error)
       .finally(() => setIsLoading(false));

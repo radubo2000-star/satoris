@@ -726,7 +726,9 @@ switch ($path) {
     // BLOG
     case 'blog':
         if ($method === 'GET') {
-            $posts = array_values(array_filter($data['blogPosts'], fn($p) => $p['is_published']));
+            // Return all posts for admin (with ?all=true), otherwise only published
+            $includeAll = $_GET['all'] ?? false;
+            $posts = $includeAll ? $data['blogPosts'] : array_values(array_filter($data['blogPosts'], fn($p) => $p['is_published']));
             
             // Search
             if (!empty($_GET['search'])) {
