@@ -726,9 +726,11 @@ switch ($path) {
     // BLOG
     case 'blog':
         if ($method === 'GET') {
-            // Return all posts for admin (with ?all=true), otherwise only published
-            $includeAll = isset($_GET['all']) && $_GET['all'] === 'true';
-            $posts = $includeAll ? $data['blogPosts'] : array_values(array_filter($data['blogPosts'], fn($p) => $p['is_published']));
+            // Return all posts by default (for admin). With ?published=true return only published (for site)
+            $publishedOnly = isset($_GET['published']) && $_GET['published'] === 'true';
+            $posts = $publishedOnly 
+                ? array_values(array_filter($data['blogPosts'], fn($p) => $p['is_published']))
+                : $data['blogPosts'];
             
             // Search
             if (!empty($_GET['search'])) {

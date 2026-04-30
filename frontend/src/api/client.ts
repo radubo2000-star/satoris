@@ -42,7 +42,7 @@ export interface BlogListResponse {
   totalPages: number;
 }
 
-export const getBlogPosts = (params?: { search?: string; category?: string; tag?: string; page?: number; limit?: number; all?: boolean }) => 
+export const getBlogPosts = (params?: { search?: string; category?: string; tag?: string; page?: number; limit?: number; published?: boolean }) => 
   apiClient.get<BlogListResponse>('/blog', { params });
 
 export const getBlogPostBySlug = (slug: string) => apiClient.get<BlogPost>(`/blog/${slug}`);

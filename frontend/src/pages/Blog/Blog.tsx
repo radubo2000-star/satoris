@@ -45,10 +45,10 @@ function Blog() {
   }, []);
 
   // Fetch posts with filters
-  const fetchPosts = useCallback(async () => {
+  const fetchPosts = useCallback(async (extraParams: { published?: boolean } = {}) => {
     setIsLoading(true);
     try {
-      const params: { category?: string; tag?: string; search?: string } = {};
+      const params: { category?: string; tag?: string; search?: string; published?: boolean } = extraParams;
       
       if (selectedCategory !== 'All') {
         params.category = selectedCategory;
@@ -70,7 +70,7 @@ function Blog() {
   }, [selectedCategory, selectedTag, debouncedSearch]);
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts({ published: true });
   }, [fetchPosts]);
 
   const handleTagClick = (tagSlug: string) => {
