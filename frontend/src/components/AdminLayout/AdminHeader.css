@@ -4,11 +4,12 @@
   left: 0;
   right: 0;
   height: 70px;
-  background: var(--color-black);
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   display: flex;
   align-items: center;
   padding: 0 32px;
   z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .admin-header .header-container {
@@ -128,7 +129,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--color-black);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     padding: 16px;
     display: none;
   }
