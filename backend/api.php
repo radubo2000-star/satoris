@@ -159,41 +159,44 @@ $currentUser = getCurrentUser($authHeader);
 
 // In-memory data stores (saved to JSON file)
 $dataFile = __DIR__ . '/data.json';
+$defaultData = [
+    'blogPosts' => [
+        ['id' => 1, 'title' => 'Târg de Crăciun Dalles 2025', 'slug' => 'targ-de-craciun-dalles-2025', 'excerpt' => 'Event Concept, Event Management & Implementation for the Christmas market.', 'content' => '<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025.</p>', 'category' => 'Events', 'author' => 'Satoris Team', 'image' => 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png', 'is_published' => true, 'created_at' => '2025-12-01', 'tags' => ['events', 'case-study']],
+        ['id' => 2, 'title' => 'Exhibition Success Blueprint', 'slug' => 'exhibition-success-blueprint', 'excerpt' => 'Event Management, Expo Strategy, Print Design.', 'content' => '<p>Attending or exhibiting at trade shows can be a game-changer.</p>', 'category' => 'Strategy', 'author' => 'Natalia Pruteanu', 'image' => 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg', 'is_published' => true, 'created_at' => '2025-10-15', 'tags' => ['strategy', 'marketing']],
+        ['id' => 3, 'title' => 'Omi Brand Digital Strategy', 'slug' => 'omi-digital-strategy', 'excerpt' => 'Digital Audit, Market Research, User Experience for Omi brand.', 'content' => '<p>Working with Omi allowed us to completely transform their digital presence.</p>', 'category' => 'Digital', 'author' => 'Satoris Team', 'image' => 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg', 'is_published' => true, 'created_at' => '2022-01-10', 'tags' => ['digital', 'strategy']],
+        ['id' => 4, 'title' => 'Holandria Branding Journey', 'slug' => 'holandria-branding', 'excerpt' => 'Packaging, Branding, Email Marketing for Holandria.', 'content' => '<p>Holandria approached us for a complete brand refresh.</p>', 'category' => 'Branding', 'author' => 'Satoris Team', 'image' => 'https://satoris.ro/wp-content/uploads/2022/01/Post_Holandria_Img_Featured-260x300.jpg', 'is_published' => true, 'created_at' => '2022-01-05', 'tags' => ['branding', 'case-study']],
+    ],
+    'comments' => [
+        ['id' => 1, 'blog_post_id' => 1, 'author_name' => 'Maria Popescu', 'author_email' => 'maria@example.com', 'content' => 'Excelent eveniment!', 'is_approved' => true, 'created_at' => '2025-12-05'],
+        ['id' => 2, 'blog_post_id' => 1, 'author_name' => 'Ion Georgescu', 'author_email' => 'ion@example.com', 'content' => 'Când va fi următorul târg?', 'is_approved' => true, 'created_at' => '2025-12-06'],
+        ['id' => 3, 'blog_post_id' => 2, 'author_name' => 'Elena Dumitrescu', 'author_email' => 'elena@example.com', 'content' => 'Sfaturile sunt foarte utile!', 'is_approved' => true, 'created_at' => '2025-10-20'],
+        ['id' => 4, 'blog_post_id' => 3, 'author_name' => 'Andrei Marin', 'author_email' => 'andrei@example.com', 'content' => 'Impresionant!', 'is_approved' => false, 'created_at' => '2022-01-15'],
+    ],
+    'tags' => [
+        ['id' => 1, 'name' => 'Events', 'slug' => 'events'],
+        ['id' => 2, 'name' => 'Strategy', 'slug' => 'strategy'],
+        ['id' => 3, 'name' => 'Digital', 'slug' => 'digital'],
+        ['id' => 4, 'name' => 'Branding', 'slug' => 'branding'],
+        ['id' => 5, 'name' => 'Marketing', 'slug' => 'marketing'],
+        ['id' => 6, 'name' => 'Trends', 'slug' => 'trends'],
+        ['id' => 7, 'name' => 'Case Study', 'slug' => 'case-study'],
+    ],
+    'services' => [
+        ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'category' => 'Events', 'sort_order' => 1, 'is_active' => true],
+        ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.', 'category' => 'Events', 'sort_order' => 2, 'is_active' => true],
+        ['id' => 3, 'icon' => '💻', 'title' => 'Digital', 'description' => 'Websites, Landing pages, Email campaigns, Live streaming.', 'category' => 'Digital', 'sort_order' => 3, 'is_active' => true],
+        ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.', 'category' => 'Creative', 'sort_order' => 4, 'is_active' => true],
+    ],
+    'projects' => [
+        ['id' => 1, 'name' => 'Marie', 'slug' => 'marie', 'category' => 'Branding', 'description' => 'Event Concept, Event Management & Implementation', 'image' => '', 'is_featured' => false, 'is_active' => true],
+    ],
+];
 if (file_exists($dataFile)) {
     $data = json_decode(file_get_contents($dataFile), true);
+    // Merge with defaults for missing keys
+    $data = array_merge($defaultData, is_array($data) ? $data : []);
 } else {
-    $data = [
-        'blogPosts' => [
-            ['id' => 1, 'title' => 'Târg de Crăciun Dalles 2025', 'slug' => 'targ-de-craciun-dalles-2025', 'excerpt' => 'Event Concept, Event Management & Implementation for the Christmas market.', 'content' => '<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025.</p>', 'category' => 'Events', 'author' => 'Satoris Team', 'image' => 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png', 'is_published' => true, 'created_at' => '2025-12-01', 'tags' => ['events', 'case-study']],
-            ['id' => 2, 'title' => 'Exhibition Success Blueprint', 'slug' => 'exhibition-success-blueprint', 'excerpt' => 'Event Management, Expo Strategy, Print Design.', 'content' => '<p>Attending or exhibiting at trade shows can be a game-changer.</p>', 'category' => 'Strategy', 'author' => 'Natalia Pruteanu', 'image' => 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg', 'is_published' => true, 'created_at' => '2025-10-15', 'tags' => ['strategy', 'marketing']],
-            ['id' => 3, 'title' => 'Omi Brand Digital Strategy', 'slug' => 'omi-digital-strategy', 'excerpt' => 'Digital Audit, Market Research, User Experience for Omi brand.', 'content' => '<p>Working with Omi allowed us to completely transform their digital presence.</p>', 'category' => 'Digital', 'author' => 'Satoris Team', 'image' => 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg', 'is_published' => true, 'created_at' => '2022-01-10', 'tags' => ['digital', 'strategy']],
-            ['id' => 4, 'title' => 'Holandria Branding Journey', 'slug' => 'holandria-branding', 'excerpt' => 'Packaging, Branding, Email Marketing for Holandria.', 'content' => '<p>Holandria approached us for a complete brand refresh.</p>', 'category' => 'Branding', 'author' => 'Satoris Team', 'image' => 'https://satoris.ro/wp-content/uploads/2022/01/Post_Holandria_Img_Featured-260x300.jpg', 'is_published' => true, 'created_at' => '2022-01-05', 'tags' => ['branding', 'case-study']],
-        ],
-        'comments' => [
-            ['id' => 1, 'blog_post_id' => 1, 'author_name' => 'Maria Popescu', 'author_email' => 'maria@example.com', 'content' => 'Excelent eveniment!', 'is_approved' => true, 'created_at' => '2025-12-05'],
-            ['id' => 2, 'blog_post_id' => 1, 'author_name' => 'Ion Georgescu', 'author_email' => 'ion@example.com', 'content' => 'Când va fi următorul târg?', 'is_approved' => true, 'created_at' => '2025-12-06'],
-            ['id' => 3, 'blog_post_id' => 2, 'author_name' => 'Elena Dumitrescu', 'author_email' => 'elena@example.com', 'content' => 'Sfaturile sunt foarte utile!', 'is_approved' => true, 'created_at' => '2025-10-20'],
-            ['id' => 4, 'blog_post_id' => 3, 'author_name' => 'Andrei Marin', 'author_email' => 'andrei@example.com', 'content' => 'Impresionant!', 'is_approved' => false, 'created_at' => '2022-01-15'],
-        ],
-        'tags' => [
-            ['id' => 1, 'name' => 'Events', 'slug' => 'events'],
-            ['id' => 2, 'name' => 'Strategy', 'slug' => 'strategy'],
-            ['id' => 3, 'name' => 'Digital', 'slug' => 'digital'],
-            ['id' => 4, 'name' => 'Branding', 'slug' => 'branding'],
-            ['id' => 5, 'name' => 'Marketing', 'slug' => 'marketing'],
-            ['id' => 6, 'name' => 'Trends', 'slug' => 'trends'],
-            ['id' => 7, 'name' => 'Case Study', 'slug' => 'case-study'],
-        ],
-        'services' => [
-            ['id' => 1, 'icon' => '📢', 'title' => 'PR & Communication', 'description' => 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'category' => 'Events', 'sort_order' => 1, 'is_active' => true],
-            ['id' => 2, 'icon' => '🎪', 'title' => 'Exhibitions & Trade Fairs', 'description' => 'From 9 sqm booths to full pavilions.', 'category' => 'Events', 'sort_order' => 2, 'is_active' => true],
-            ['id' => 3, 'icon' => '💻', 'title' => 'Digital', 'description' => 'Websites, Landing pages, Email campaigns, Live streaming.', 'category' => 'Digital', 'sort_order' => 3, 'is_active' => true],
-            ['id' => 4, 'icon' => '🎨', 'title' => 'Concept & Creative', 'description' => 'Events Concept, Visual Content, Themes, formats.', 'category' => 'Creative', 'sort_order' => 4, 'is_active' => true],
-        ],
-        'projects' => [
-            ['id' => 1, 'name' => 'Marie', 'slug' => 'marie', 'category' => 'Branding', 'description' => 'Event Concept, Event Management & Implementation', 'image' => '', 'is_featured' => false, 'is_active' => true],
-        ],
-    ];
+    $data = $defaultData;
 }
 
 // Services default data
