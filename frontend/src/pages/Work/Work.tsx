@@ -21,8 +21,11 @@ function Work() {
       })
       .catch(console.error);
   }, []);
-  
+
   if (loading) return <div style={{padding:'50px',textAlign:'center'}}>Loading...</div>;
+  
+  // Extract unique categories from projects
+  const uniqueCategories = ['All', ...new Set(projectsData.map(p => p.category).filter(Boolean))];
   
   // If there's a slug, find the project
   const currentProject = slug ? projectsData.find(p => p.slug === slug) : null;
@@ -134,7 +137,7 @@ function Work() {
               flexWrap: 'wrap' 
             }}
           >
-            {categories.map(cat => (
+            {uniqueCategories.map(cat => (
               <motion.button
                 key={cat}
                 onClick={() => setFilter(cat)}
