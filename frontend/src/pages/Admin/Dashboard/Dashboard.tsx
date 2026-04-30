@@ -10,7 +10,6 @@ interface Stats {
   total_blog_posts: number;
   published_posts: number;
   pending_comments: number;
-  total_services: number;
   total_projects: number;
   recent_activities: Array<{
     id: number;
@@ -78,7 +77,6 @@ const Dashboard: React.FC = () => {
     { label: "Today's Visits", value: stats?.today_visits || 0, icon: '📈', color: '#10b981' },
     { label: 'Blog Posts', value: stats?.published_posts || 0, icon: '📝', color: '#8b5cf6' },
     { label: 'Pending Comments', value: stats?.pending_comments || 0, icon: '💬', color: '#f59e0b' },
-    { label: 'Services', value: stats?.total_services || 0, icon: '🛠️', color: '#ec4899' },
     { label: 'Projects', value: stats?.total_projects || 0, icon: '📁', color: '#06b6d4' },
   ];
 
@@ -188,9 +186,6 @@ const Dashboard: React.FC = () => {
             <div className="actions-grid">
               <a href="/admin/blog/new" className="action-btn">
                 <span>➕</span> New Post
-              </a>
-              <a href="/admin/services" className="action-btn">
-                <span>🛠️</span> Manage Services
               </a>
               <a href="/admin/projects" className="action-btn">
                 <span>📁</span> Manage Projects

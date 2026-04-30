@@ -541,7 +541,6 @@ switch ($path) {
                 'total_blog_posts' => count($data['blogPosts']),
                 'published_posts' => count(array_filter($data['blogPosts'], fn($p) => $p['is_published'])),
                 'pending_comments' => count(array_filter($data['comments'], fn($c) => !$c['is_approved'])),
-                'total_services' => count($services),
                 'total_projects' => count($projects),
                 'recent_activities' => array_slice(array_reverse($activities), 0, 10)
             ];
