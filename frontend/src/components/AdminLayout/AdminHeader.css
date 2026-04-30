@@ -30,13 +30,13 @@
 .admin-header .logo .logo-text {
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--color-primary);
+  color: #f97316;
   letter-spacing: 2px;
 }
 
 .admin-header .logo .logo-subtitle {
   font-size: 0.75rem;
-  color: var(--color-gray);
+  color: #fb923c;
   letter-spacing: 1px;
 }
 
@@ -75,7 +75,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: #fff;
+  background: #f97316;
   transition: all var(--transition-fast);
   transform: translateX(-50%);
 }
@@ -109,7 +109,7 @@
   display: block;
   width: 24px;
   height: 2px;
-  background: #fff;
+  background: #f97316;
   border-radius: 2px;
 }
 
