@@ -1,65 +1,28 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { getProjects } from '../../api/client';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
-
-const projectsData = [
-  {
-    id: 1,
-    name: 'Târg de Crăciun Dalles 2025',
-    category: 'Event',
-    description: 'Event Concept, Event Management & Implementation, Research, Print Design',
-    image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png',
-    slug: 'targ-de-craciun-dalles-2025',
-  },
-  {
-    id: 2,
-    name: 'Softy',
-    category: 'Branding',
-    description: 'Research, Branding, Packaging, Ad Design, PPC Management',
-    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg',
-    slug: 'softy',
-  },
-  {
-    id: 3,
-    name: 'Cela Jewelry',
-    category: 'Digital',
-    description: 'Ecommerce, Website Development, PPC Campaigns, SEO',
-    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg',
-    slug: 'cela',
-  },
-  {
-    id: 4,
-    name: 'Omi',
-    category: 'Digital',
-    description: 'Digital Audit, Market Research, User Experience',
-    image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg',
-    slug: 'omi',
-  },
-  {
-    id: 5,
-    name: 'Holarnia',
-    category: 'Branding',
-    description: 'Packaging, Branding, Email Marketing, Affiliate Management',
-    image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Holandria_Img_Featured-260x300.jpg',
-    slug: 'holarnia',
-  },
-  {
-    id: 6,
-    name: 'Exhibition Blueprint',
-    category: 'Event',
-    description: 'Event Management, Expo Strategy, Print Design, Content Strategy',
-    image: 'https://satoris.ro/wp-content/uploads/2023/10/blurred-background-people-shopping-market-fair-sunny-day-blur-background-with-bokeh-1-300x200.jpg',
-    slug: 'exhibition-blueprint',
-  },
-];
 
 const categories = ['All', 'Branding', 'Digital', 'Event'];
 
 function Work() {
   const { slug } = useParams<{ slug: string }>();
   const [filter, setFilter] = useState('All');
+  const [projectsData, setProjectsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    getProjects({ active: true })
+      .then(res => {
+        setProjectsData(res.data);
+        setLoading(false);
+      })
+      .catch(console.error);
+  }, []);
+  
+  if (loading) return <div style={{padding:'50px',textAlign:'center'}}>Loading...</div>;
   
   // If there's a slug, find the project
   const currentProject = slug ? projectsData.find(p => p.slug === slug) : null;

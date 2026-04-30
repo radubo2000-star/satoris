@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getProjects } from '../../api/client';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 
@@ -90,36 +91,19 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
   );
 }
 
-const projects = [
-  { 
-    id: 1, 
-    name: 'Târg de Crăciun Dalles 2025', 
-    category: 'Event Concept, Event Management', 
-    image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png',
-    slug: 'targ-de-craciun-dalles-2025'
-  },
-  { 
-    id: 2, 
-    name: 'Omi', 
-    category: 'Digital Audit, Market Research, User Experience', 
-    image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg',
-    slug: 'omi'
-  },
-  { 
-    id: 3, 
-    name: 'Softy', 
-    category: 'Research, Branding, Packaging, Ad Design, PPC', 
-    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg',
-    slug: 'softy'
-  },
-  { 
-    id: 4, 
-    name: 'Cela Jewelry', 
-    category: 'Ecommerce, Website Development, PPC, SEO', 
-    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg',
-    slug: 'cela'
-  },
-];
+const [projects, setProjects] = useState<any[]>([]);
+const [projectsLoaded, setProjectsLoaded] = useState(false);
+
+useEffect(() => {
+  getProjects({ active: true })
+    .then(res => {
+      setProjects(res.data);
+      setProjectsLoaded(true);
+    })
+    .catch(console.error);
+}, []);
+
+if (!projectsLoaded) return <div style={{padding:'50px',textAlign:'center'}}>Loading...</div>;
 
 const testimonials = [
   {
