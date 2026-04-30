@@ -22,12 +22,15 @@ import ProductsList from './pages/Admin/Products/ProductsList';
 import ProductsForm from './pages/Admin/Products/ProductsForm';
 import OrdersList from './pages/Admin/Orders/OrdersList';
 import Settings from './pages/Admin/Settings/Settings';
+import { trackPageView } from './api/analytics';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
   
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Track page view on navigation
+    trackPageView(pathname);
   }, [pathname]);
   
   return null;
