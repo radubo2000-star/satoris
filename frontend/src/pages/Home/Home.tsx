@@ -214,8 +214,10 @@ const clientLogos = [
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ display: 'block' }}
           >
-            We make brands <span style={{ color: 'var(--color-primary)' }}>Visible & Digital</span>
+            We make brands<br />
+            <span style={{ color: '#FF9100' }}>Visible & Digital</span>
           </motion.h1>
           <motion.p
             className="hero-description"
