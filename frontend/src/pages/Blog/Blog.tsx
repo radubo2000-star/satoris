@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
@@ -72,6 +72,83 @@ function Blog() {
     setSelectedTag(selectedTag === tagSlug ? null : tagSlug);
   };
 
+  // Blog card with 3D tilt effect like Work page
+  function BlogCard({ post, index }: { post: BlogPost; index: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+    const [rotate, setRotate] = useState({ x: 0, y: 0 });
+    
+    const handleMouseMove = (e: any) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      setRotate({ x: y * 15, y: -x * 15 });
+    };
+    
+    return (
+      <motion.div
+        ref={ref}
+        layout
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.3, delay: index * 0.05 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setRotate({ x: 0, y: 0 })}
+        whileHover={{ scale: 1.02 }}
+        style={{ perspective: '1000px', cursor: 'pointer' }}
+      >
+        <motion.div
+          animate={{ rotateX: rotate.x, rotateY: rotate.y }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          style={{ borderRadius: '12px', overflow: 'hidden', background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}
+        >
+          <Link to={'/blog/' + post.slug} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+            <img src={post.image} alt={post.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+            <div style={{ padding: 'var(--space-4)' }}>
+              <span style={{ 
+                fontSize: '12px', 
+                color: '#FF9100', 
+                fontWeight: 600,
+                fontFamily: "'Montserrat', sans-serif",
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}>
+                {post.category}
+              </span>
+              <h3 style={{ 
+                margin: '12px 0', 
+                color: '#FF9100',
+                fontSize: '20px',
+                fontWeight: 700,
+                fontFamily: "'Montserrat', sans-serif",
+                lineHeight: 1.4
+              }}>
+                {post.title}
+              </h3>
+              <p style={{ 
+                color: '#71717a', 
+                marginBottom: '16px',
+                fontSize: '14px',
+                fontFamily: "'Montserrat', sans-serif",
+                lineHeight: 1.6
+              }}>
+                {post.excerpt}
+              </p>
+              <span style={{ 
+                fontSize: '12px', 
+                color: '#a1a1aa',
+                fontFamily: "'Montserrat', sans-serif"
+              }}>
+                {post.created_at}
+              </span>
+            </div>
+          </Link>
+        </motion.div>
+      </motion.div>
+    );
+  }
+
   return (
     <div className="blog-page">
       {/* Hero Section - Simplified like satoris.ro */}
@@ -140,27 +217,26 @@ function Blog() {
             />
           </motion.div>
           
-          {/* Category Filter - Horizontal tabs like satoris */}
+          {/* Category Filter - Work style */}
           <motion.div 
-            style={{ display: 'flex', gap: '0', justifyContent: 'center', marginBottom: '20px', flexWrap: 'wrap' }}
+            style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center', marginBottom: '20px', flexWrap: 'wrap' }}
           >
             {categories.map(cat => (
               <motion.button
                 key={cat}
                 onClick={() => { setSelectedCategory(cat); setSelectedTag(null); }}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 style={{
-                  padding: '10px 24px',
-                  border: 'none',
-                  borderBottom: selectedCategory === cat ? '2px solid #FF9100' : '2px solid transparent',
-                  background: 'transparent',
-                  color: selectedCategory === cat ? '#FF9100' : '#71717a',
-                  fontSize: '14px',
+                  padding: 'var(--space-3) var(--space-5)',
+                  borderRadius: '8px',
+                  border: selectedCategory === cat ? 'none' : '2px solid #e5e7eb',
+                  background: selectedCategory === cat ? '#FF9100' : '#fff',
+                  color: selectedCategory === cat ? '#fff' : '#374151',
                   fontWeight: 600,
                   fontFamily: "'Montserrat', sans-serif",
                   cursor: 'pointer',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  transition: 'all 0.3s'
                 }}
               >
                 {cat}
@@ -209,71 +285,17 @@ function Blog() {
               <p style={{ color: '#71717a', fontFamily: "'Montserrat', sans-serif" }}>Nu există articole.</p>
             </div>
           ) : (
-            /* Blog Posts Grid - satoris style */
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
-              gap: '30px' 
-            }}>
-              {posts.map((post) => (
-                <motion.div
-                  key={post.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  whileHover={{ y: -5 }}
-                  style={{ 
-                    borderRadius: '4px', 
-                    overflow: 'hidden', 
-                    background: '#fff', 
-                    cursor: 'pointer',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
-                  }}
-                >
-                  <Link to={'/blog/' + post.slug} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                    <img src={post.image} alt={post.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
-                    <div style={{ padding: '24px' }}>
-                      <span style={{ 
-                        fontSize: '12px', 
-                        color: '#FF9100', 
-                        fontWeight: 600,
-                        fontFamily: "'Montserrat', sans-serif",
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px'
-                      }}>
-                        {post.category}
-                      </span>
-                      <h3 style={{ 
-                        margin: '12px 0', 
-                        color: '#FF9100',
-                        fontSize: '20px',
-                        fontWeight: 700,
-                        fontFamily: "'Montserrat', sans-serif",
-                        lineHeight: 1.4
-                      }}>
-                        {post.title}
-                      </h3>
-                      <p style={{ 
-                        color: '#71717a', 
-                        marginBottom: '16px',
-                        fontSize: '14px',
-                        fontFamily: "'Montserrat', sans-serif",
-                        lineHeight: 1.6
-                      }}>
-                        {post.excerpt}
-                      </p>
-                      <span style={{ 
-                        fontSize: '12px', 
-                        color: '#a1a1aa',
-                        fontFamily: "'Montserrat', sans-serif"
-                      }}>
-                        {post.created_at}
-                      </span>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+            /* Blog Posts Grid - Work style with 3D cards */
+            <motion.div 
+              layout
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-4)' }}
+            >
+              <AnimatePresence>
+                {posts.map((post, index) => (
+                  <BlogCard key={post.id} post={post} index={index} />
+                ))}
+              </AnimatePresence>
+            </motion.div>
           )}
         </div>
       </section>
