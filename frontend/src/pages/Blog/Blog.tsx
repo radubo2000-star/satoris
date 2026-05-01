@@ -31,7 +31,8 @@ function Blog() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   
   const debouncedSearch = useDebounce(searchQuery, 300);
-  const categories = ['All', ...new Set(posts.map(p => p.category).filter(Boolean))];
+  // Always show all categories, regardless of selected filter
+  const categories = ['All', 'Events', 'Strategy', 'Digital', 'Branding'];
 
   useEffect(() => {
     getTags()
