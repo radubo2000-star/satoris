@@ -226,7 +226,7 @@ const clientLogos = [
             transition={{ duration: 0.6, delay: 0.4 }}
             style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-4)' }}
           >
-            Celebrating Success Through Unforgettable Events, Social, PR, Digital Brilliance, and Financial PR Expertise.{' '}
+            Celebrating Success Through Unforgettable Events,<br/> Social, PR, Digital Brilliance, and Financial PR Expertise. <br/>{' '}
             <span style={{ color: '#FF9100', fontSize: 'var(--text-xl)', fontWeight: 700 }}>We are Your Action Team.</span>
           </motion.p>
           <motion.div
