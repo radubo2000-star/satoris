@@ -202,11 +202,13 @@ INSERT INTO settings (setting_key, setting_value) VALUES
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
 
 -- Insert default projects
-INSERT INTO projects (name, slug, category, description, is_featured) VALUES
-    ('marie', 'marie', 'Branding', 'Event Concept, Event Management & Implementation, Research, Print Design', 1),
-    ('softy', 'softy', 'Digital', 'Digital Audit, Market Research, User Experience', 1),
-    ('cela', 'cela', 'Branding', 'Packaging, Branding, Email Marketing, Affiliate Management', 1),
-    ('omi', 'omi', 'Digital', 'Digital Audit, Market Research, User Experience', 1)
+INSERT INTO projects (name, slug, category, description, is_featured, created_at) VALUES
+    ('Târg de Crăciun Dalles 2025', 'targ-de-craciun-dalles-2025', 'Digital', 'Event Concept, Event Management & Implementation, Research, Print Design', 0, '2025-12-01'),
+    ('Softy', 'softy', 'Branding', 'Research, Branding, Packaging, Ad Design, PPC Management', 0, '2025-10-15'),
+    ('Cela Jewelry', 'cela', 'Digital', 'Ecommerce, Website Development, PPC Campaigns, SEO', 0, '2025-06-20'),
+    ('Omi', 'omi', 'Digital', 'Digital Audit, Market Research, User Experience', 0, '2022-01-10'),
+    ('Holarnia', 'holarnia', 'Branding', 'Packaging, Branding, Email Marketing, Affiliate Management', 0, '2022-01-05'),
+    ('Exhibition Blueprint', 'exhibition-blueprint', 'Events', 'Event Management, Expo Strategy, Print Design, Content Strategy', 0, '2025-08-01')
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Insert default blog posts
