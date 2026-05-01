@@ -1105,7 +1105,19 @@ switch ($path) {
 
     // SETTINGS
     case 'settings':
-        $response = get_settings();
+        if ($method === 'POST') {
+            $input_data = json_decode(file_get_contents('php://input'), true);
+            if ($input_data) {
+                // Save settings to file
+                $settingsFile = __DIR__ . '/settings.json';
+                file_put_contents($settingsFile, json_encode($input_data, JSON_PRETTY_PRINT));
+                $response = ['success' => true, 'settings' => get_settings()];
+            } else {
+                $response = ['error' => 'Invalid data'];
+            }
+        } else {
+            $response = get_settings();
+        }
         break;
 
     default:

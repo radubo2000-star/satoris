@@ -9,6 +9,8 @@ interface Settings {
   email: string;
   phone: string;
   address: string;
+  contact_email: string;
+  join_team_email: string;
   social_facebook: string;
   social_instagram: string;
   social_linkedin: string;
@@ -21,6 +23,8 @@ const Settings: React.FC = () => {
     email: 'contact@satoris.ro',
     phone: '+4 0723257755',
     address: '70-84 Ion Mihalache Bd, b.45, S1, Bucharest, RO',
+    contact_email: 'hello@satoris.ro',
+    join_team_email: 'team@satoris.ro',
     social_facebook: '',
     social_instagram: '',
     social_linkedin: ''
@@ -47,12 +51,23 @@ const Settings: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Save settings (would need backend endpoint)
-    setTimeout(() => {
+    
+    try {
+      const response = await fetch(API_BASE + '/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings)
+      });
+      
+      if (response.ok) {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      }
+    } catch (err) {
+      console.error('Failed to save settings:', err);
+    } finally {
       setIsLoading(false);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    }, 500);
+    }
   };
 
   return (
@@ -87,6 +102,16 @@ const Settings: React.FC = () => {
             <div className="form-group">
               <label>Address</label>
               <textarea value={settings.address} onChange={(e) => setSettings({ ...settings, address: e.target.value })} rows={3} />
+            </div>
+
+            <h3 className="section-title" style={{ marginTop: 32 }}>Email Notifications</h3>
+            <div className="form-group">
+              <label>Contact Form Email</label>
+              <input type="email" value={settings.contact_email} onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })} placeholder="Where contact form submissions are sent" />
+            </div>
+            <div className="form-group">
+              <label>Join Team Email</label>
+              <input type="email" value={settings.join_team_email} onChange={(e) => setSettings({ ...settings, join_team_email: e.target.value })} placeholder="Where join team applications are sent" />
             </div>
 
             <h3 className="section-title" style={{ marginTop: 32 }}>Social Media</h3>
