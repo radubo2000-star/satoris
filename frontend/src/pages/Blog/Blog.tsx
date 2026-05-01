@@ -41,7 +41,7 @@ function Blog() {
       .catch(console.error);
   }, []);
 
-  const fetchPosts = useCallback(async (extraParams: { published?: boolean } = {}) => {
+  const fetchPosts = useCallback(async () => {
     setIsLoading(true);
     try {
       // Build category list from posts or use fixed categories for display
@@ -72,7 +72,7 @@ function Blog() {
   }, [selectedCategory, selectedTag, debouncedSearch]);
 
   useEffect(() => {
-    fetchPosts({ published: true });
+    fetchPosts();
   }, [fetchPosts]);
 
   const handleTagClick = (tagSlug: string) => {
