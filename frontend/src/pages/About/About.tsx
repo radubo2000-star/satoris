@@ -173,23 +173,39 @@ function About() {
       </section>
 
       {/* Join Team Section */}
-      <section className="section">
-        <div className="container">
-          <div className="section-title">
-            <h2>Join Satoris team</h2>
-            <p>
-              Are you a volunteer or student? You will get our support in whatever you wish to learn. 
-              Just drop us a line. Are you a specialist wishing to develop? We welcome you!
-            </p>
-          </div>
+      <section className="section" style={{ background: '#f8f8f8', padding: 'var(--space-8) 0' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <h5 style={{ 
+            fontSize: 'var(--text-2xl)', 
+            marginBottom: 'var(--space-4)',
+            color: '#1a1a2e',
+            fontWeight: 600
+          }}>
+            Join Satoris team
+          </h5>
+          <p style={{ 
+            maxWidth: '700px', 
+            margin: '0 auto var(--space-6)',
+            color: '#666',
+            lineHeight: 1.8
+          }}>
+            Are you a volunteer or student? You will get our support in whatever you wish to learn. 
+            Just drop us a line. Are you a specialist wishing to develop? We welcome you! Drop us your CV and intention.
+          </p>
           
-          <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-            <img 
-              src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
-              alt="Join Satoris Team" 
-              style={{ width: '100%', borderRadius: '8px', marginBottom: 'var(--space-4)' }}
-            />
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
+          <img 
+            src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
+            alt="Join Satoris Team" 
+            style={{ 
+              width: '100%', 
+              maxWidth: '800px', 
+              borderRadius: '4px',
+              marginBottom: 'var(--space-6)'
+            }}
+          />
+          
+          <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-3)' }}>
               <input
                 type="text"
                 name="fullName"
@@ -197,7 +213,12 @@ function About() {
                 value={formData.fullName}
                 onChange={handleChange}
                 required
-                style={inputStyle}
+                style={{ 
+                  ...inputStyle, 
+                  padding: '12px 16px',
+                  borderRadius: '4px',
+                  border: '1px solid #ddd'
+                }}
               />
               <input
                 type="email"
@@ -206,9 +227,27 @@ function About() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                style={inputStyle}
+                style={{ 
+                  ...inputStyle, 
+                  padding: '12px 16px',
+                  borderRadius: '4px',
+                  border: '1px solid #ddd'
+                }}
               />
-              <button type="submit" className="btn btn-primary" style={{ justifySelf: 'center' }}>
+              <button 
+                type="submit" 
+                style={{ 
+                  background: '#FF9100', 
+                  color: '#fff',
+                  border: 'none',
+                  padding: '14px 32px',
+                  borderRadius: '4px',
+                  fontSize: 'var(--text-base)',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'background 0.3s'
+                }}
+              >
                 SEND
               </button>
             </form>
