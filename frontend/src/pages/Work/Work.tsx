@@ -175,9 +175,7 @@ function Work() {
       )}
     </div>
 
-    <>
-      <LetsTalk />
-    </>
+    <LetsTalk />
   );
 }
 

@@ -296,9 +296,7 @@ function Blog() {
         </div>
       </section>
 
-      <>
-        <LetsTalk />
-      </>
+      <LetsTalk />
     </div>
   );
 }
