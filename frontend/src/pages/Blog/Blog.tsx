@@ -35,17 +35,9 @@ function Blog() {
   const categories = ['All', 'Events', 'Strategy', 'Digital', 'Branding', 'Marketing', 'Trends', 'Case Study'];
 
   useEffect(() => {
-    // Fixed tags list like categories
-    const fixedTags: Tag[] = [
-      { id: 1, name: 'Events', slug: 'events' },
-      { id: 2, name: 'Strategy', slug: 'strategy' },
-      { id: 3, name: 'Digital', slug: 'digital' },
-      { id: 4, name: 'Branding', slug: 'branding' },
-      { id: 5, name: 'Marketing', slug: 'marketing' },
-      { id: 6, name: 'Trends', slug: 'trends' },
-      { id: 7, name: 'Case Study', slug: 'case-study' }
-    ];
-    setTags(fixedTags);
+    getTags()
+      .then(res => setTags(res.data))
+      .catch(console.error);
   }, []);
 
   const fetchPosts = useCallback(async (extraParams: { published?: boolean } = {}) => {
@@ -259,6 +251,7 @@ function Blog() {
           </motion.div>
 
           {/* Tags Cloud - Work style */}
+          {tags.length > 0 && (
           <motion.div 
             style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}
             initial={{ opacity: 0 }}
@@ -286,6 +279,7 @@ function Blog() {
               </motion.button>
             ))}
           </motion.div>
+          )}
 
           {/* Loading State */}
           {isLoading ? (
