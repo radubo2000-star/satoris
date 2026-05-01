@@ -24,19 +24,6 @@ CREATE TABLE IF NOT EXISTS settings (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Services table
-CREATE TABLE IF NOT EXISTS services (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    icon VARCHAR(10) DEFAULT '',
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    category VARCHAR(100) DEFAULT '',
-    sort_order INT DEFAULT 0,
-    is_active TINYINT(1) DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 -- Projects table
 CREATE TABLE IF NOT EXISTS projects (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -213,18 +200,6 @@ INSERT INTO settings (setting_key, setting_value) VALUES
     ('phone', '+4 0723257755'),
     ('address', '70-84 Ion Mihalache Bd, b.45, S1, Bucharest, RO')
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
-
--- Insert default services
-INSERT INTO services (icon, title, description, category, sort_order) VALUES
-    ('📢', 'PR & Communication', 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'Events', 1),
-    ('🎪', 'Exhibitions & Trade Fairs', 'From 9 sqm booths to full pavilions.', 'Events', 2),
-    ('💻', 'Digital', 'Websites, Landing pages, Email campaigns, Live streaming.', 'Digital', 3),
-    ('🎨', 'Concept & Creative', 'Events Concept, Visual Content, Themes, formats.', 'Creative', 4),
-    ('🏢', 'Full Service', 'AV - Staging, Staffing, Catering, goody bags.', 'Events', 5),
-    ('📈', 'Marketing', 'Digital Marketing, Ads, Sales Funnel, E-commerce.', 'Digital', 6),
-    ('⚡', 'Implementation & On-Site', 'Your agenda, our playbook, no surprises.', 'Events', 7),
-    ('🌍', 'Go Big', 'International events, Global Events, Team Buildings.', 'Events', 8)
-ON DUPLICATE KEY UPDATE title = VALUES(title);
 
 -- Insert default projects
 INSERT INTO projects (name, slug, category, description, is_featured) VALUES

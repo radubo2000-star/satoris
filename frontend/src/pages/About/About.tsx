@@ -6,7 +6,7 @@ import '../../styles/sections.css';
 const teamMembers = [
   {
     name: 'Natalia Pruteanu',
-    role: 'Founder, PR, PR FIN, Event',
+    role: 'Founder, PR, PR FIN, Events',
     image: 'https://satoris.ro/wp-content/uploads/2023/09/c530c303-53e2-423f-8c38-2e4570e1dce3.jpg',
   },
   {
@@ -16,7 +16,7 @@ const teamMembers = [
   },
   {
     name: 'Dragos C',
-    role: 'TECH, IT, EVENT, Strategy',
+    role: 'TECH, IT, EVENTS, Strategy',
     image: 'https://satoris.ro/wp-content/uploads/2021/09/1524227999864.jpeg',
   },
 ];
