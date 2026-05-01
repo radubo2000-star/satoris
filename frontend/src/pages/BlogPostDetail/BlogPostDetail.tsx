@@ -239,7 +239,9 @@ function BlogPostDetail() {
         </div>
       </section>
 
-      <LetsTalk />
+      <>
+        <LetsTalk />
+      </>
     </div>
   );
 }
