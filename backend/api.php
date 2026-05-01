@@ -947,6 +947,8 @@ switch ($path) {
             $name = $input['name'] ?? null;
             $email = $input['email'] ?? null;
             $phone = $input['phone'] ?? null;
+            $organization = $input['organization'] ?? null;
+            $website = $input['website'] ?? null;
             $message = $input['message'] ?? null;
             
             if (!$name || !$email || !$message) {
@@ -962,6 +964,8 @@ switch ($path) {
                     'name' => $name,
                     'email' => $email,
                     'phone' => $phone,
+                    'organization' => $organization,
+                    'website' => $website,
                     'message' => $message,
                     'created_at' => date('Y-m-d H:i:s'),
                     'ip_address' => $_SERVER['REMOTE_ADDR'] ?? ''
@@ -982,6 +986,8 @@ switch ($path) {
                 $body .= "<p><strong>Name:</strong> " . htmlspecialchars($name) . "</p>";
                 $body .= "<p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>";
                 $body .= "<p><strong>Phone:</strong> " . htmlspecialchars($phone ?? 'Not provided') . "</p>";
+                $body .= "<p><strong>Organization:</strong> " . htmlspecialchars($organization ?? 'Not provided') . "</p>";
+                $body .= "<p><strong>Website:</strong> " . htmlspecialchars($website ?? 'Not provided') . "</p>";
                 $body .= "<p><strong>Message:</strong> " . nl2br(htmlspecialchars($message)) . "</p>";
                 $body .= "<p><strong>Date:</strong> " . date('Y-m-d H:i:s') . "</p>";
                 $body .= "</body></html>";
