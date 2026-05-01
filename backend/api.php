@@ -665,7 +665,8 @@ switch ($path) {
                 'description' => $input['description'] ?? '',
                 'image' => $input['image'] ?? '',
                 'is_featured' => $input['is_featured'] ?? false,
-                'is_active' => $input['is_active'] ?? true
+                'is_active' => $input['is_active'] ?? true,
+                'created_at' => date('Y-m-d')
             ];
             $projects[] = $newProject;
             $data['projects'] = $projects;
@@ -705,6 +706,12 @@ switch ($path) {
                 $data = json_decode(file_get_contents($dataFile), true);
                 $projects = $data['projects'] ?? $projects;
             }
+            // Sort by created_at descending (newest first)
+            usort($projectsToReturn, function($a, $b) {
+                $dateA = $a['created_at'] ?? '1970-01-01';
+                $dateB = $b['created_at'] ?? '1970-01-01';
+                return strcmp($dateB, $dateA);
+            });
             $response = $projectsToReturn;
         }
         break;
