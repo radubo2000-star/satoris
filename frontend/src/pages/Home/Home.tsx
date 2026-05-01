@@ -216,7 +216,7 @@ const clientLogos = [
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ display: 'block' }}
           >
-            We make brands<br />
+            <span style={{ color: '#000' }}>We make brands</span><br />
             <span style={{ color: '#FF9100' }}>Visible & Digital</span>
           </motion.h1>
           <motion.p
