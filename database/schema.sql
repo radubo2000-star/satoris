@@ -97,13 +97,32 @@ CREATE TABLE IF NOT EXISTS testimonials (
 -- Contacts table (from contact form)
 CREATE TABLE IF NOT EXISTS contacts (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) DEFAULT '',
+    phone VARCHAR(50) NOT NULL,
+    organization VARCHAR(255) DEFAULT '',
+    website VARCHAR(500) DEFAULT '',
     subject VARCHAR(255) DEFAULT '',
     message TEXT,
     is_read TINYINT(1) DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email (email),
+    INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Join Team applications table
+CREATE TABLE IF NOT EXISTS join_team_applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT,
+    cv_file VARCHAR(500) DEFAULT '',
+    cv_original_name VARCHAR(255) DEFAULT '',
+    is_read TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email (email),
+    INDEX idx_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Newsletter subscribers table
