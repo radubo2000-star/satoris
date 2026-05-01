@@ -28,6 +28,26 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 $method = $_SERVER['REQUEST_METHOD'];
 $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
+
+// Helper function to get settings
+function get_settings() {
+    $settingsFile = __DIR__ . '/settings.json';
+    $defaults = [
+        'site_name' => 'Satoris Events',
+        'tagline' => 'We make brands Visible & Digital',
+        'email' => 'hello@satoris.ro',
+        'phone' => '+4 0723257755',
+        'address' => '70-84 Ion Mihalache Bd, b.45, S1, Bucharest, RO',
+    ];
+    
+    if (file_exists($settingsFile)) {
+        $saved = json_decode(file_get_contents($settingsFile), true);
+        if (is_array($saved)) {
+            return array_merge($defaults, $saved);
+        }
+    }
+    return $defaults;
+}
 $path = str_replace('/api/', '', $path);
 $path = trim($path, '/');
 
@@ -976,7 +996,8 @@ switch ($path) {
                 file_put_contents($submissionsFile, json_encode($submissions, JSON_PRETTY_PRINT));
                 
                 // Send email notification
-                $to = 'hello@satoris.ro';
+                $settings = get_settings();
+                $to = $settings['contact_email'] ?? $settings['email'] ?? 'hello@satoris.ro';
                 $subject = 'New Contact Form - ' . $first_name . ' ' . $last_name;
                 $headers = "From: noreply@satoris.ro\r\n";
                 $headers .= "Reply-To: " . $email . "\r\n";
@@ -1031,7 +1052,8 @@ switch ($path) {
                 file_put_contents($submissionsFile, json_encode($submissions, JSON_PRETTY_PRINT));
                 
                 // Send email notification (using PHP mail)
-                $to = 'team@satoris.ro';
+                $settings = get_settings();
+                $to = $settings['join_team_email'] ?? $settings['email'] ?? 'team@satoris.ro';
                 $subject = 'New Join Team Application - ' . $fullName;
                 $headers = "From: noreply@satoris.ro\r\n";
                 $headers .= "Reply-To: " . $email . "\r\n";
@@ -1083,14 +1105,7 @@ switch ($path) {
 
     // SETTINGS
     case 'settings':
-        $settings = [
-            'site_name' => 'Satoris Events',
-            'tagline' => 'We make brands Visible & Digital',
-            'email' => 'contact@satoris.ro',
-            'phone' => '+4 0723257755',
-            'address' => '70-84 Ion Mihalache Bd, b.45, S1, Bucharest, RO',
-        ];
-        $response = $settings;
+        $response = get_settings();
         break;
 
     default:
