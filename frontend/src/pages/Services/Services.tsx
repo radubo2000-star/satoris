@@ -110,12 +110,6 @@ function Services() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ 
-              color: '#FF9100', 
-              fontSize: 'var(--text-5xl)',
-              fontFamily: "'Lora', serif",
-              fontWeight: 800
-            }}
           >
             Grow & Stand Out
           </motion.h1>
@@ -123,12 +117,6 @@ function Services() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ 
-              color: '#FF9100', 
-              fontSize: 'var(--text-5xl)',
-              fontFamily: "'Lora', serif",
-              fontWeight: 800
-            }}
           >
             From The Crowd
           </motion.h1>

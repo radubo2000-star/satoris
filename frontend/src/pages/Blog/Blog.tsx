@@ -168,13 +168,6 @@ function Blog() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            style={{ 
-              color: '#FF9100',
-              fontSize: 'var(--text-3xl)',
-              fontWeight: 800,
-              fontFamily: "'Lora', serif",
-              marginBottom: 'var(--space-2)'
-            }}
           >
             Satoris Blog
           </motion.h1>
@@ -182,11 +175,6 @@ function Blog() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{
-              color: '#71717a',
-              fontSize: 'var(--text-base)',
-              fontFamily: "'Lora', serif"
-            }}
           >
             Sharing the wisdom - learning everyday is a must.
           </motion.p>

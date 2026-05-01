@@ -82,7 +82,6 @@ function Work() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            style={{ color: '#FF9100', fontFamily: "'Lora', serif" }}
           >
             Explore Our Work
           </motion.h1>
@@ -91,7 +90,6 @@ function Work() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ fontSize: 'var(--text-sm)', fontFamily: "'Lora', serif" }}
           >
             Check out some of the amazing projects we’ve helped bring to life
           </motion.p>
