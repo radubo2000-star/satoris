@@ -35,6 +35,8 @@ function Contact() {
         name: fullName,
         email: formData.email,
         phone: formData.phone,
+        organization: formData.organization,
+        website: formData.website,
         message: formData.message,
       });
       setIsSubmitted(true);

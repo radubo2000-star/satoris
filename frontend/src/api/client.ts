@@ -83,7 +83,17 @@ export const getTags = () => apiClient.get<Tag[]>('/tags');
 export const createTag = (name: string) => apiClient.post('/tags', { name });
 
 // Contact API
-export const submitContact = (data: { name: string; email: string; phone?: string; subject?: string; message: string }) =>
+export interface ContactData {
+  name: string;
+  email: string;
+  phone?: string;
+  organization?: string;
+  website?: string;
+  subject?: string;
+  message: string;
+}
+
+export const submitContact = (data: ContactData) =>
   apiClient.post('/contact', data);
 
 // Join Team API
