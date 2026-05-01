@@ -225,7 +225,7 @@ const clientLogos = [
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Celebrating Success Through Unforgettable Events, Social, PR, Digital Brilliance, and Financial PR Expertise. 
+            Celebrating Success Through Unforgettable Events, <br/> Social, PR, Digital Brilliance, and Financial PR Expertise. <br/>
             We are Your Action Team.
           </motion.p>
           <motion.div

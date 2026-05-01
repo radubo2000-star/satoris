@@ -62,7 +62,7 @@
 }
 
 .hero-description {
-  font-family: 'Lora', var(--font-primary);
+  font-family: 'Lora', serif, var(--font-primary);
   font-size: var(--text-sm);
   color: var(--color-black);
   margin-bottom: var(--space-4);
