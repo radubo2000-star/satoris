@@ -167,6 +167,11 @@ function About() {
           </div>
           
           <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <img 
+              src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
+              alt="Join Satoris Team" 
+              style={{ width: '100%', borderRadius: '8px', marginBottom: 'var(--space-4)' }}
+            />
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
               <input
                 type="text"
