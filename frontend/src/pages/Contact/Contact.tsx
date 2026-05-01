@@ -30,9 +30,9 @@ function Contact() {
     setError(null);
     
     try {
-      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
       await submitContact({
-        name: fullName,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
         email: formData.email,
         phone: formData.phone,
         organization: formData.organization,

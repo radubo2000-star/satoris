@@ -944,16 +944,17 @@ switch ($path) {
     // CONTACT
     case 'contact':
         if ($method === 'POST') {
-            $name = $input['name'] ?? null;
+            $first_name = $input['first_name'] ?? null;
+            $last_name = $input['last_name'] ?? null;
             $email = $input['email'] ?? null;
             $phone = $input['phone'] ?? null;
             $organization = $input['organization'] ?? null;
             $website = $input['website'] ?? null;
             $message = $input['message'] ?? null;
             
-            if (!$name || !$email || !$message) {
+            if (!$first_name || !$last_name || !$email || !$message) {
                 http_response_code(400);
-                $response = ['error' => 'Name, email and message are required'];
+                $response = ['error' => 'First name, last name, email and message are required'];
             } else {
                 // Save submission to file
                 $submissionsFile = __DIR__ . '/contact_submissions.json';
@@ -961,7 +962,8 @@ switch ($path) {
                 
                 $submission = [
                     'id' => count($submissions) + 1,
-                    'name' => $name,
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
                     'email' => $email,
                     'phone' => $phone,
                     'organization' => $organization,
@@ -975,7 +977,7 @@ switch ($path) {
                 
                 // Send email notification
                 $to = 'hello@satoris.ro';
-                $subject = 'New Contact Form - ' . $name;
+                $subject = 'New Contact Form - ' . $first_name . ' ' . $last_name;
                 $headers = "From: noreply@satoris.ro\r\n";
                 $headers .= "Reply-To: " . $email . "\r\n";
                 $headers .= "MIME-Version: 1.0\r\n";
@@ -983,7 +985,8 @@ switch ($path) {
                 
                 $body = "<html><body>";
                 $body .= "<h2>New Contact Form Submission</h2>";
-                $body .= "<p><strong>Name:</strong> " . htmlspecialchars($name) . "</p>";
+                $body .= "<p><strong>First Name:</strong> " . htmlspecialchars($first_name) . "</p>";
+                $body .= "<p><strong>Last Name:</strong> " . htmlspecialchars($last_name) . "</p>";
                 $body .= "<p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>";
                 $body .= "<p><strong>Phone:</strong> " . htmlspecialchars($phone ?? 'Not provided') . "</p>";
                 $body .= "<p><strong>Organization:</strong> " . htmlspecialchars($organization ?? 'Not provided') . "</p>";

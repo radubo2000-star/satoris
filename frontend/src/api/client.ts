@@ -84,7 +84,8 @@ export const createTag = (name: string) => apiClient.post('/tags', { name });
 
 // Contact API
 export interface ContactData {
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone?: string;
   organization?: string;
