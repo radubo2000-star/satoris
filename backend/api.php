@@ -946,13 +946,48 @@ switch ($path) {
         if ($method === 'POST') {
             $name = $input['name'] ?? null;
             $email = $input['email'] ?? null;
+            $phone = $input['phone'] ?? null;
             $message = $input['message'] ?? null;
             
             if (!$name || !$email || !$message) {
                 http_response_code(400);
                 $response = ['error' => 'Name, email and message are required'];
             } else {
-                // In production, you would send email here
+                // Save submission to file
+                $submissionsFile = __DIR__ . '/contact_submissions.json';
+                $submissions = file_exists($submissionsFile) ? json_decode(file_get_contents($submissionsFile), true) : [];
+                
+                $submission = [
+                    'id' => count($submissions) + 1,
+                    'name' => $name,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'message' => $message,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'ip_address' => $_SERVER['REMOTE_ADDR'] ?? ''
+                ];
+                $submissions[] = $submission;
+                file_put_contents($submissionsFile, json_encode($submissions, JSON_PRETTY_PRINT));
+                
+                // Send email notification
+                $to = 'hello@satoris.ro';
+                $subject = 'New Contact Form - ' . $name;
+                $headers = "From: noreply@satoris.ro\r\n";
+                $headers .= "Reply-To: " . $email . "\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+                
+                $body = "<html><body>";
+                $body .= "<h2>New Contact Form Submission</h2>";
+                $body .= "<p><strong>Name:</strong> " . htmlspecialchars($name) . "</p>";
+                $body .= "<p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>";
+                $body .= "<p><strong>Phone:</strong> " . htmlspecialchars($phone ?? 'Not provided') . "</p>";
+                $body .= "<p><strong>Message:</strong> " . nl2br(htmlspecialchars($message)) . "</p>";
+                $body .= "<p><strong>Date:</strong> " . date('Y-m-d H:i:s') . "</p>";
+                $body .= "</body></html>";
+                
+                @mail($to, $subject, $body, $headers);
+                
                 $response = ['success' => true, 'message' => 'Thank you! We will contact you soon.'];
             }
         }
