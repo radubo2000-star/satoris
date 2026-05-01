@@ -5,6 +5,7 @@ import '../../styles/globals.css';
 import '../../styles/sections.css';
 import { getBlogPostBySlug, addComment } from '../../api/client';
 import type { BlogPost, Comment } from '../../api/client';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 function BlogPostDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -237,6 +238,8 @@ function BlogPostDetail() {
           )}
         </div>
       </section>
+
+      <LetsTalk />
     </div>
   );
 }

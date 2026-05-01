@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getProjects } from '../../api/client';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 function Work() {
   const { slug } = useParams<{ slug: string }>();
@@ -173,6 +174,8 @@ function Work() {
       </section>
       )}
     </div>
+
+    <LetsTalk />
   );
 }
 

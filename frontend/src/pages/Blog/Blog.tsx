@@ -5,6 +5,7 @@ import '../../styles/globals.css';
 import '../../styles/sections.css';
 import { getBlogPosts, getTags } from '../../api/client';
 import type { BlogPost, Tag } from '../../api/client';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -294,6 +295,8 @@ function Blog() {
           )}
         </div>
       </section>
+
+      <LetsTalk />
     </div>
   );
 }
