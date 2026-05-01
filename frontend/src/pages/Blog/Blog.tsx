@@ -76,7 +76,7 @@ function Blog() {
       {/* Hero Section - Simplified like satoris.ro */}
       <section className="hero" style={{ 
         minHeight: 'auto', 
-        padding: '80px 0 60px',
+        padding: '40px 0 30px',
         background: '#fff'
       }}>
         <div className="hero-content">
@@ -85,7 +85,7 @@ function Blog() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             style={{ 
-              color: '#1a1a2e',
+              color: '#FF9100',
               fontSize: 'var(--text-4xl)',
               fontWeight: 800,
               fontFamily: "'Montserrat', sans-serif",
@@ -115,7 +115,7 @@ function Blog() {
           
           {/* Search Bar - Minimal */}
           <motion.div 
-            style={{ marginBottom: '40px', textAlign: 'center' }}
+            style={{ marginBottom: '20px', textAlign: 'center' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -134,7 +134,7 @@ function Blog() {
                 fontFamily: "'Montserrat', sans-serif",
                 outline: 'none',
                 background: '#fff',
-                color: '#1a1a2e'
+                color: '#FF9100'
               }}
             />
           </motion.div>
@@ -170,7 +170,7 @@ function Blog() {
           {/* Tags Cloud */}
           {tags.length > 0 && (
             <motion.div 
-              style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '50px', flexWrap: 'wrap' }}
+              style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '20px', flexWrap: 'wrap' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -244,7 +244,7 @@ function Blog() {
                       </span>
                       <h3 style={{ 
                         margin: '12px 0', 
-                        color: '#1a1a2e',
+                        color: '#FF9100',
                         fontSize: '20px',
                         fontWeight: 700,
                         fontFamily: "'Montserrat', sans-serif",
