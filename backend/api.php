@@ -41,10 +41,6 @@ if (empty($input) && !empty($_POST)) {
     $input = $_POST;
 }
 
-// Debug: log actual path
-$debugFile = __DIR__ . '/debug.log';
-$debug = date('c') . " | $method | $requestUri | $path | " . json_encode($input) . "\n";
-@file_put_contents($debugFile, $debug, FILE_APPEND);
 
 // Get headers
 $headers = getallheaders();
