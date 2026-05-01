@@ -32,18 +32,28 @@ function Blog() {
   
   const debouncedSearch = useDebounce(searchQuery, 300);
   // Always show all categories, regardless of selected filter
-  const categories = ['All', 'Events', 'Strategy', 'Digital', 'Branding'];
+  const categories = ['All', 'Events', 'Strategy', 'Digital', 'Branding', 'Marketing', 'Trends', 'Case Study'];
 
   useEffect(() => {
-    getTags()
-      .then(res => setTags(res.data))
-      .catch(console.error);
+    // Fixed tags list like categories
+    const fixedTags: Tag[] = [
+      { id: 1, name: 'Events', slug: 'events' },
+      { id: 2, name: 'Strategy', slug: 'strategy' },
+      { id: 3, name: 'Digital', slug: 'digital' },
+      { id: 4, name: 'Branding', slug: 'branding' },
+      { id: 5, name: 'Marketing', slug: 'marketing' },
+      { id: 6, name: 'Trends', slug: 'trends' },
+      { id: 7, name: 'Case Study', slug: 'case-study' }
+    ];
+    setTags(fixedTags);
   }, []);
 
   const fetchPosts = useCallback(async (extraParams: { published?: boolean } = {}) => {
     setIsLoading(true);
     try {
-      const params: { category?: string; tag?: string; search?: string; published?: boolean } = {};
+      // Build category list from posts or use fixed categories for display
+      // Filter posts client-side for now, API returns all published posts
+      const params: { category?: string; tag?: string; search?: string; published?: boolean } = { published: true };
       
       if (selectedCategory !== 'All') {
         params.category = selectedCategory;
@@ -56,9 +66,13 @@ function Blog() {
       }
 
       const res = await getBlogPosts(params);
-      setPosts(res.data.posts);
+      
+      // Handle both API response formats: array or object with posts
+      const postsData = Array.isArray(res.data) ? res.data : res.data.posts;
+      setPosts(postsData || []);
     } catch (error) {
       console.error('Error fetching posts:', error);
+      setPosts([]);
     } finally {
       setIsLoading(false);
     }
@@ -244,36 +258,34 @@ function Blog() {
             ))}
           </motion.div>
 
-          {/* Tags Cloud */}
-          {tags.length > 0 && (
-            <motion.div 
-              style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '12px', flexWrap: 'wrap' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              {tags.map(tag => (
-                <button
-                  key={tag.id}
-                  onClick={() => handleTagClick(tag.slug)}
-                  style={{
-                    padding: '6px 14px',
-                    borderRadius: '20px',
-                    border: '1px solid',
-                    borderColor: selectedTag === tag.slug ? '#FF9100' : '#d1d5db',
-                    background: selectedTag === tag.slug ? '#FF9100' : '#fff',
-                    color: selectedTag === tag.slug ? '#fff' : '#71717a',
-                    fontSize: '12px',
-                    fontFamily: "'Montserrat', sans-serif",
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  #{tag.name}
-                </button>
-              ))}
-            </motion.div>
-          )}
+          {/* Tags Cloud - Work style */}
+          <motion.div 
+            style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {tags.map(tag => (
+              <motion.button
+                key={tag.id}
+                onClick={() => handleTagClick(tag.slug)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  border: selectedTag === tag.slug ? 'none' : '2px solid #e5e7eb',
+                  background: selectedTag === tag.slug ? '#FF9100' : '#fff',
+                  color: selectedTag === tag.slug ? '#fff' : '#374151',
+                  fontSize: '12px',
+                  fontFamily: "'Montserrat', sans-serif",
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                #{tag.name}
+              </motion.button>
+            ))}
+          </motion.div>
 
           {/* Loading State */}
           {isLoading ? (
