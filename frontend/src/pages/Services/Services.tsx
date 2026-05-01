@@ -113,7 +113,7 @@ function Services() {
             style={{ 
               color: '#FF9100', 
               fontSize: 'var(--text-5xl)',
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Lora', serif",
               fontWeight: 800
             }}
           >
@@ -126,7 +126,7 @@ function Services() {
             style={{ 
               color: '#FF9100', 
               fontSize: 'var(--text-5xl)',
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Lora', serif",
               fontWeight: 800
             }}
           >
@@ -171,7 +171,7 @@ function Services() {
                     color: '#FF9100',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    fontFamily: "'Montserrat', sans-serif",
+                    fontFamily: "'Lora', serif",
                     textTransform: 'capitalize',
                     textAlign: 'left'
                   }}>
@@ -182,7 +182,7 @@ function Services() {
                     fontSize: '0.85rem',
                     lineHeight: 1.6,
                     textAlign: 'left',
-                    fontFamily: "'Montserrat', sans-serif"
+                    fontFamily: "'Lora', serif"
                   }}>
                     {service.description}
                   </p>
@@ -197,7 +197,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: "'Montserrat', sans-serif",
+                        fontFamily: "'Lora', serif",
                         textTransform: 'capitalize',
                         textAlign: 'left'
                       }}>
@@ -208,7 +208,7 @@ function Services() {
                         fontSize: '0.85rem',
                         lineHeight: 1.6,
                         textAlign: 'left',
-                        fontFamily: "'Montserrat', sans-serif"
+                        fontFamily: "'Lora', serif"
                       }}>
                         {item.description}
                       </p>
@@ -225,7 +225,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: "'Montserrat', sans-serif",
+                        fontFamily: "'Lora', serif",
                         textTransform: 'capitalize',
                         textAlign: 'left'
                       }}>
@@ -236,7 +236,7 @@ function Services() {
                         fontSize: '0.85rem',
                         lineHeight: 1.6,
                         textAlign: 'left',
-                        fontFamily: "'Montserrat', sans-serif"
+                        fontFamily: "'Lora', serif"
                       }}>
                         {item.description}
                       </p>

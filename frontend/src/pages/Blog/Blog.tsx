@@ -116,7 +116,7 @@ function Blog() {
                 fontSize: '12px', 
                 color: '#FF9100', 
                 fontWeight: 600,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Lora', serif",
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px'
               }}>
@@ -127,7 +127,7 @@ function Blog() {
                 color: '#FF9100',
                 fontSize: '20px',
                 fontWeight: 700,
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Lora', serif",
                 lineHeight: 1.4
               }}>
                 {post.title}
@@ -136,7 +136,7 @@ function Blog() {
                 color: '#71717a', 
                 marginBottom: '16px',
                 fontSize: '14px',
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Lora', serif",
                 lineHeight: 1.6
               }}>
                 {post.excerpt}
@@ -144,7 +144,7 @@ function Blog() {
               <span style={{ 
                 fontSize: '12px', 
                 color: '#a1a1aa',
-                fontFamily: "'Montserrat', sans-serif"
+                fontFamily: "'Lora', serif"
               }}>
                 {post.created_at}
               </span>
@@ -172,7 +172,7 @@ function Blog() {
               color: '#FF9100',
               fontSize: 'var(--text-3xl)',
               fontWeight: 800,
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Lora', serif",
               marginBottom: 'var(--space-2)'
             }}
           >
@@ -185,7 +185,7 @@ function Blog() {
             style={{
               color: '#71717a',
               fontSize: 'var(--text-base)',
-              fontFamily: "'Montserrat', sans-serif"
+              fontFamily: "'Lora', serif"
             }}
           >
             Sharing the wisdom - learning everyday is a must.
@@ -215,7 +215,7 @@ function Blog() {
                 border: '1px solid #e5e7eb',
                 borderRadius: '4px',
                 fontSize: '15px',
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Lora', serif",
                 outline: 'none',
                 background: '#fff',
                 color: '#FF9100'
@@ -240,7 +240,7 @@ function Blog() {
                   background: selectedCategory === cat ? '#FF9100' : '#fff',
                   color: selectedCategory === cat ? '#fff' : '#374151',
                   fontWeight: 600,
-                  fontFamily: "'Montserrat', sans-serif",
+                  fontFamily: "'Lora', serif",
                   cursor: 'pointer',
                   transition: 'all 0.3s'
                 }}
@@ -270,7 +270,7 @@ function Blog() {
                   background: selectedTag === tag.slug ? '#FF9100' : '#fff',
                   color: selectedTag === tag.slug ? '#fff' : '#374151',
                   fontSize: '12px',
-                  fontFamily: "'Montserrat', sans-serif",
+                  fontFamily: "'Lora', serif",
                   cursor: 'pointer',
                   transition: 'all 0.2s'
                 }}
@@ -284,11 +284,11 @@ function Blog() {
           {/* Loading State */}
           {isLoading ? (
             <div style={{ textAlign: 'center', padding: '60px' }}>
-              <p style={{ color: '#71717a', fontFamily: "'Montserrat', sans-serif" }}>Se încarcă...</p>
+              <p style={{ color: '#71717a', fontFamily: "'Lora', serif" }}>Se încarcă...</p>
             </div>
           ) : posts.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px' }}>
-              <p style={{ color: '#71717a', fontFamily: "'Montserrat', sans-serif" }}>Nu există articole.</p>
+              <p style={{ color: '#71717a', fontFamily: "'Lora', serif" }}>Nu există articole.</p>
             </div>
           ) : (
             /* Blog Posts Grid - Work style with 3D cards */

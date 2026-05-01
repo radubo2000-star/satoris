@@ -27,8 +27,8 @@
   --color-info: #3b82f6;
   
   /* Typography */
-  --font-primary: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-primary: 'Lora', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, serif;
+  --font-heading: 'Lora', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, serif;
   
   /* Font Sizes */
   --text-xs: 0.75rem;
