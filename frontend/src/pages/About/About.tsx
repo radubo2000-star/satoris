@@ -53,18 +53,10 @@ function About() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    message: '',
-    cv: null as File | null,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, cv: e.target.files[0] });
-    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -181,114 +173,85 @@ function About() {
       </section>
 
       {/* Join Team Section */}
-      <section className="section" style={{ background: '#fafafa', padding: '80px 0' }}>
-        <div className="container" style={{ maxWidth: '700px' }}>
-          <motion.div
-            className="section-title"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h4 style={{ 
-              fontSize: '2.5rem', 
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 700,
-              marginBottom: 'var(--space-4)',
-              color: 'var(--color-black)'
-            }}>
-              Join Satoris team
-            </h4>
-            <p style={{ 
-              fontSize: '1.125rem', 
-              color: '#71717a',
-              lineHeight: 1.6,
-              maxWidth: '600px',
-              margin: '0 auto var(--space-8)'
-            }}>
-              Are you a volunteer or student? You will get our support in whatever you wish to learn. 
-              Just drop us a line. Are you a specialist wishing to develop? We welcome you! 
-              Drop us your CV and intention.
-            </p>
-          </motion.div>
+      <section className="section" style={{ background: '#f8f8f8', padding: 'var(--space-8) 0' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <h5 style={{ 
+            fontSize: 'var(--text-2xl)', 
+            marginBottom: 'var(--space-4)',
+            color: '#1a1a2e',
+            fontWeight: 600
+          }}>
+            Join Satoris team
+          </h5>
+          <p style={{ 
+            maxWidth: '700px', 
+            margin: '0 auto var(--space-6)',
+            color: '#666',
+            lineHeight: 1.8
+          }}>
+            Are you a volunteer or student? You will get our support in whatever you wish to learn. 
+            Just drop us a line. Are you a specialist wishing to develop? We welcome you! Drop us your CV and intention.
+          </p>
           
-          {/* Join Team Image */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ marginBottom: 'var(--space-8)' }}
-          >
-            <img 
-              src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
-              alt="Join Satoris Team" 
-              style={{ width: '100%', borderRadius: '8px', display: 'block' }}
-            />
-          </motion.div>
+          <img 
+            src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
+            alt="Join Satoris Team" 
+            style={{ 
+              width: '100%', 
+              maxWidth: '800px', 
+              borderRadius: '4px',
+              marginBottom: 'var(--space-6)'
+            }}
+          />
           
-          {/* Join Team Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-5)' }}>
-              <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Full Name"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  required
-                  style={inputStyle}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email Address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  style={inputStyle}
-                />
-                <textarea
-                  name="message"
-                  placeholder="Message / Intention"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={4}
-                  style={{ ...inputStyle, resize: 'vertical', minHeight: '100px' }}
-                />
-                <div style={fileInputContainerStyle}>
-                  <label htmlFor="cv-upload" style={fileLabelStyle}>
-                    {formData.cv ? (
-                      <span style={{ color: 'var(--color-primary)' }}>📎 {formData.cv.name}</span>
-                    ) : (
-                      <span>📎 Attach CV (PDF)</span>
-                    )}
-                  </label>
-                  <input
-                    type="file"
-                    id="cv-upload"
-                    name="cv"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileChange}
-                    style={fileInputHiddenStyle}
-                  />
-                </div>
-              </div>
-              <button type="submit" className="btn btn-primary" style={{ 
-                justifySelf: 'center',
-                padding: '1rem 3rem',
-                fontSize: '1rem',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em'
-              }}>
+          <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-3)' }}>
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Full Name"
+                value={formData.fullName}
+                onChange={handleChange}
+                required
+                style={{ 
+                  ...inputStyle, 
+                  padding: '12px 16px',
+                  borderRadius: '4px',
+                  border: '1px solid #ddd'
+                }}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                style={{ 
+                  ...inputStyle, 
+                  padding: '12px 16px',
+                  borderRadius: '4px',
+                  border: '1px solid #ddd'
+                }}
+              />
+              <button 
+                type="submit" 
+                style={{ 
+                  background: '#FF9100', 
+                  color: '#fff',
+                  border: 'none',
+                  padding: '14px 32px',
+                  borderRadius: '4px',
+                  fontSize: 'var(--text-base)',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'background 0.3s'
+                }}
+              >
                 SEND
               </button>
             </form>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -323,46 +286,11 @@ function About() {
 
 const inputStyle = {
   width: '100%',
-  padding: '1rem 1.25rem',
-  border: '1px solid #e4e4e7',
-  borderRadius: '8px',
-  fontSize: '1rem',
+  padding: '0.75rem 1rem',
+  border: '1px solid var(--color-gray-lighter)',
+  borderRadius: 'var(--radius-md)',
+  fontSize: 'var(--text-base)',
   fontFamily: 'var(--font-primary)',
-  background: '#fff',
-  transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-};
-
-const fileInputContainerStyle = {
-  position: 'relative' as const,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const fileLabelStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  padding: '1rem 1.25rem',
-  border: '2px dashed #FF9100',
-  borderRadius: '8px',
-  fontSize: '1rem',
-  fontFamily: 'var(--font-primary)',
-  background: '#fffaf5',
-  color: '#71717a',
-  cursor: 'pointer',
-  transition: 'all 0.25s ease',
-};
-
-const fileInputHiddenStyle = {
-  position: 'absolute' as const,
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  opacity: 0,
-  cursor: 'pointer',
 };
 
 export default About;
