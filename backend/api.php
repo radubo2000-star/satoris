@@ -100,16 +100,24 @@ function getCurrentUser($authHeader) {
 $usersFile = __DIR__ . '/users.json';
 if (file_exists($usersFile)) {
     $users = json_decode(file_get_contents($usersFile), true);
+    
+    // Check users array has is_primary field (for backwards compatibility)
+    if (!isset($users[0]['is_primary'])) {
+        foreach ($users as $i => $u) {
+            $users[$i]['is_primary'] = ($u['email'] === 'admin@satoris.ro') ? 1 : 0;
+        }
+    }
 } else {
-    // Default admin user (password: admin123)
+    // Default super admin user (password: Satoris2024!)
     $users = [
         [
             'id' => 1,
             'email' => 'admin@satoris.ro',
-            'password_hash' => password_hash('admin123', PASSWORD_DEFAULT),
-            'name' => 'Admin Satoris',
-            'role' => 'admin',
+            'password_hash' => password_hash('Satoris2024!', PASSWORD_DEFAULT),
+            'name' => 'Satoris Admin',
+            'role' => 'super_admin',
             'is_active' => 1,
+            'is_primary' => 1,
             'created_at' => date('Y-m-d H:i:s')
         ]
     ];
@@ -610,7 +618,7 @@ switch ($path) {
     // USERS (admin only)
     case 'users':
         if ($method === 'GET') {
-            if (!$currentUser || $currentUser['role'] !== 'admin') {
+            if (!$currentUser || !in_array($currentUser['role'], ['admin', 'super_admin'])) {
                 http_response_code(403);
                 $response = ['error' => 'Admin access required'];
             } else {
@@ -620,31 +628,95 @@ switch ($path) {
                     'name' => $u['name'],
                     'role' => $u['role'],
                     'is_active' => $u['is_active'],
+                    'is_primary' => $u['is_primary'],
                     'created_at' => $u['created_at']
                 ], $users);
                 $response = $safeUsers;
+            }
+        } elseif ($method === 'POST') {
+            // Add new user (super_admin only)
+            if (!$currentUser || $currentUser['role'] !== 'super_admin') {
+                http_response_code(403);
+                $response = ['error' => 'Super admin access required'];
+            } else {
+                $name = $input['name'] ?? null;
+                $email = $input['email'] ?? null;
+                $password = $input['password'] ?? null;
+                $role = $input['role'] ?? 'user';
+                
+                if (!$name || !$email || !$password) {
+                    http_response_code(400);
+                    $response = ['error' => 'Name, email and password are required'];
+                } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    http_response_code(400);
+                    $response = ['error' => 'Invalid email format'];
+                } else {
+                    // Check if email exists
+                    foreach ($users as $u) {
+                        if ($u['email'] === $email) {
+                            http_response_code(400);
+                            $response = ['error' => 'Email already exists'];
+                            break 2;
+                        }
+                    }
+                    
+                    $newUser = [
+                        'id' => count($users) + 1,
+                        'email' => $email,
+                        'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+                        'name' => $name,
+                        'role' => $role,
+                        'is_active' => 1,
+                        'is_primary' => 0,
+                        'created_at' => date('Y-m-d H:i:s')
+                    ];
+                    $users[] = $newUser;
+                    saveUsers($users);
+                    logActivity('user_create', 'user', $newUser['id'], $currentUser['sub'], "Created user: $email");
+                    $response = ['success' => true, 'user' => [
+                        'id' => $newUser['id'],
+                        'email' => $newUser['email'],
+                        'name' => $newUser['name'],
+                        'role' => $newUser['role'],
+                        'is_active' => $newUser['is_active'],
+                        'is_primary' => 0,
+                        'created_at' => $newUser['created_at']
+                    ]];
+                }
             }
         }
         break;
 
     // USERS/:ID/ROLE
     case preg_match('/^users\/(\d+)\/role$/', $path, $m) ? $path = $m[0] : '':
-        if ($method === 'PUT' && $currentUser && $currentUser['role'] === 'admin') {
+        if ($method === 'PUT' && $currentUser && in_array($currentUser['role'], ['admin', 'super_admin'])) {
             $userId = (int)$m[1];
             $newRole = $input['role'] ?? null;
             
-            if (!in_array($newRole, ['admin', 'user'])) {
+            if (!in_array($newRole, ['super_admin', 'admin', 'user'])) {
                 http_response_code(400);
                 $response = ['error' => 'Invalid role'];
             } else {
+                $found = false;
                 foreach ($users as $i => $u) {
                     if ($u['id'] === $userId) {
+                        if ($u['is_primary']) {
+                            http_response_code(400);
+                            $response = ['error' => 'Cannot change primary user role'];
+                            $found = true;
+                            break;
+                        }
                         $users[$i]['role'] = $newRole;
                         saveUsers($users);
                         logActivity('role_change', 'user', $userId, $currentUser['sub'], "Role changed to $newRole");
                         $response = ['success' => true, 'role' => $newRole];
+                        $found = true;
                         break;
                     }
+                }
+                if (!$found) {
+                    http_response_code(404);
+                    $response = ['error' => 'User not found'];
                 }
             }
         } else {
@@ -656,10 +728,14 @@ switch ($path) {
     // USERS/:ID
     case preg_match('/^users\/(\d+)$/', $path, $m) ? true : false:
         $userId = (int)$m[1];
-        if ($method === 'DELETE' && $currentUser && $currentUser['role'] === 'admin') {
+        if ($method === 'DELETE' && $currentUser && $currentUser['role'] === 'super_admin') {
+            $found = false;
             foreach ($users as $i => $u) {
                 if ($u['id'] === $userId) {
-                    if ($u['id'] === $currentUser['sub']) {
+                    if ($u['is_primary']) {
+                        http_response_code(400);
+                        $response = ['error' => 'Cannot delete primary user'];
+                    } elseif ($u['id'] === $currentUser['sub']) {
                         http_response_code(400);
                         $response = ['error' => 'Cannot delete yourself'];
                     } else {
@@ -668,8 +744,13 @@ switch ($path) {
                         logActivity('user_delete', 'user', $userId, $currentUser['sub'], 'User deleted');
                         $response = ['success' => true, 'message' => 'User deleted'];
                     }
+                    $found = true;
                     break;
                 }
+            }
+            if (!$found) {
+                http_response_code(404);
+                $response = ['error' => 'User not found'];
             }
         }
         break;
