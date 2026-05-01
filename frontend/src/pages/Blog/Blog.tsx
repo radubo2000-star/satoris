@@ -76,7 +76,7 @@ function Blog() {
       {/* Hero Section - Simplified like satoris.ro */}
       <section className="hero" style={{ 
         minHeight: 'auto', 
-        padding: '40px 0 30px',
+        padding: '20px 0 15px',
         background: '#fff'
       }}>
         <div className="hero-content">
@@ -86,10 +86,10 @@ function Blog() {
             transition={{ duration: 0.6 }}
             style={{ 
               color: '#FF9100',
-              fontSize: 'var(--text-4xl)',
+              fontSize: 'var(--text-3xl)',
               fontWeight: 800,
               fontFamily: "'Montserrat', sans-serif",
-              marginBottom: 'var(--space-3)'
+              marginBottom: 'var(--space-2)'
             }}
           >
             Satoris Blog
@@ -100,7 +100,7 @@ function Blog() {
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{
               color: '#71717a',
-              fontSize: 'var(--text-lg)',
+              fontSize: 'var(--text-base)',
               fontFamily: "'Montserrat', sans-serif"
             }}
           >
@@ -110,12 +110,12 @@ function Blog() {
       </section>
 
       {/* Blog Content */}
-      <section style={{ background: '#fafafa', padding: '60px 0' }}>
+      <section style={{ background: '#fafafa', padding: '30px 0' }}>
         <div className="container" style={{ maxWidth: '1100px' }}>
           
           {/* Search Bar - Minimal */}
           <motion.div 
-            style={{ marginBottom: '20px', textAlign: 'center' }}
+            style={{ marginBottom: '12px', textAlign: 'center' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -141,7 +141,7 @@ function Blog() {
           
           {/* Category Filter - Horizontal tabs like satoris */}
           <motion.div 
-            style={{ display: 'flex', gap: '0', justifyContent: 'center', marginBottom: '40px', flexWrap: 'wrap' }}
+            style={{ display: 'flex', gap: '0', justifyContent: 'center', marginBottom: '20px', flexWrap: 'wrap' }}
           >
             {categories.map(cat => (
               <motion.button
@@ -170,7 +170,7 @@ function Blog() {
           {/* Tags Cloud */}
           {tags.length > 0 && (
             <motion.div 
-              style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '20px', flexWrap: 'wrap' }}
+              style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '12px', flexWrap: 'wrap' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
