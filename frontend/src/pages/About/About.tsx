@@ -78,7 +78,7 @@ function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            full-stack communication studio
+            Full-stack communication studio
           </motion.h1>
           <motion.p
             className="hero-description"
@@ -105,7 +105,7 @@ function About() {
       <section className="section">
         <div className="container">
           <div className="section-title">
-            <h2>the codes we live by</h2>
+            <h2>The codes we live by</h2>
           </div>
           <div className="grid grid-3" style={{ marginTop: 'var(--space-10)' }}>
             {values.map((value, index) => (

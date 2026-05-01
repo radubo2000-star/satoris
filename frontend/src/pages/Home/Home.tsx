@@ -214,10 +214,9 @@ const clientLogos = [
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ display: 'block' }}
           >
             <span style={{ color: '#000' }}>We make brands</span><br />
-            <span style={{ color: '#FF9100' }}>Visible & Digital</span>
+            Visible & Digital
           </motion.h1>
           <motion.p
             className="hero-description"
@@ -227,7 +226,9 @@ const clientLogos = [
             style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-4)' }}
           >
             Celebrating Success Through Unforgettable Events,<br/> Social, PR, Digital Brilliance, and Financial PR Expertise. <br/>{' '}
+            <br />
             <span style={{ color: '#FF9100', fontSize: 'var(--text-xl)', fontWeight: 700 }}>We are Your Action Team.</span>
+            <br />
           </motion.p>
           <motion.div
             className="hero-buttons"
