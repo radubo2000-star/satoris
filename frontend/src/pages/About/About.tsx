@@ -182,12 +182,14 @@ function About() {
 
       {/* Join Team Section */}
       <section className="section" style={{ background: '#fafafa', padding: '80px 0' }}>
-        <div className="container" style={{ maxWidth: '700px' }}>
+        <div className="container" style={{ maxWidth: '900px' }}>
+          {/* Title */}
           <motion.div
             className="section-title"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            style={{ marginBottom: 'var(--space-8)' }}
           >
             <h4 style={{ 
               fontSize: '2.5rem', 
@@ -203,7 +205,7 @@ function About() {
               color: '#71717a',
               lineHeight: 1.6,
               maxWidth: '600px',
-              margin: '0 auto var(--space-8)'
+              margin: '0 auto'
             }}>
               Are you a volunteer or student? You will get our support in whatever you wish to learn. 
               Just drop us a line. Are you a specialist wishing to develop? We welcome you! 
@@ -211,28 +213,20 @@ function About() {
             </p>
           </motion.div>
           
-          {/* Join Team Image */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ marginBottom: 'var(--space-8)' }}
-          >
-            <img 
-              src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
-              alt="Join Satoris Team" 
-              style={{ width: '100%', borderRadius: '8px', display: 'block' }}
-            />
-          </motion.div>
-          
-          {/* Join Team Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-5)' }}>
-              <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
+          {/* Two Column Layout */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: 'var(--space-8)',
+            alignItems: 'start'
+          }}>
+            {/* Left Column - Form */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
                 <input
                   type="text"
                   name="fullName"
@@ -276,19 +270,37 @@ function About() {
                     style={fileInputHiddenStyle}
                   />
                 </div>
-              </div>
-              <button type="submit" className="btn btn-primary" style={{ 
-                justifySelf: 'center',
-                padding: '1rem 3rem',
-                fontSize: '1rem',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em'
-              }}>
-                SEND
-              </button>
-            </form>
-          </motion.div>
+                <button type="submit" className="btn btn-primary" style={{ 
+                  justifySelf: 'center',
+                  padding: '1rem 3rem',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>
+                  SEND
+                </button>
+              </form>
+            </motion.div>
+            
+            {/* Right Column - Image */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <img 
+                src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
+                alt="Join Satoris Team" 
+                style={{ 
+                  width: '100%', 
+                  borderRadius: '8px', 
+                  display: 'block',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+                }}
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
