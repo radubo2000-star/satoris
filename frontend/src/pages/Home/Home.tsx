@@ -381,7 +381,7 @@ const clientLogos = [
           </motion.div>
           
           <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-6)' }}>
-            {projects.map((project, index) => (
+            {projects.slice(0, 4).map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
