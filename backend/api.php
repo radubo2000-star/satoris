@@ -634,10 +634,14 @@ switch ($path) {
                 $response = $safeUsers;
             }
         } elseif ($method === 'POST') {
-            // Add new user (super_admin only)
-            if (!$currentUser || $currentUser['role'] !== 'super_admin') {
+            // Add new user (admin or super_admin can add users)
+            $debug = ['received_role' => $currentUser ? ($currentUser['role'] ?? 'no role') : 'no user', 'path' => $path];
+            if (!$currentUser) {
                 http_response_code(403);
-                $response = ['error' => 'Super admin access required'];
+                $response = ['error' => 'Not authenticated', 'debug' => $debug];
+            } elseif (!in_array($currentUser['role'], ['admin', 'super_admin'])) {
+                http_response_code(403);
+                $response = ['error' => 'Admin access required', 'debug' => $debug];
             } else {
                 $name = $input['name'] ?? null;
                 $email = $input['email'] ?? null;
