@@ -4,24 +4,29 @@
 CREATE DATABASE IF NOT EXISTS satoris_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE satoris_db;
 
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    role ENUM('super_admin', 'admin', 'user') DEFAULT 'user',
+    is_active TINYINT(1) DEFAULT 1,
+    is_primary TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insert default super admin user (password: Satoris2024!)
+INSERT INTO users (email, password_hash, name, role, is_active, is_primary) 
+SELECT 'admin@satoris.ro', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Satoris Admin', 'super_admin', 1, 1
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admin@satoris.ro');
+
 -- Settings table
 CREATE TABLE IF NOT EXISTS settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     setting_key VARCHAR(100) UNIQUE NOT NULL,
     setting_value TEXT,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Services table
-CREATE TABLE IF NOT EXISTS services (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    icon VARCHAR(10) DEFAULT '',
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    category VARCHAR(100) DEFAULT '',
-    sort_order INT DEFAULT 0,
-    is_active TINYINT(1) DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -98,13 +103,32 @@ CREATE TABLE IF NOT EXISTS testimonials (
 -- Contacts table (from contact form)
 CREATE TABLE IF NOT EXISTS contacts (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) DEFAULT '',
+    phone VARCHAR(50) NOT NULL,
+    organization VARCHAR(255) DEFAULT '',
+    website VARCHAR(500) DEFAULT '',
     subject VARCHAR(255) DEFAULT '',
     message TEXT,
     is_read TINYINT(1) DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email (email),
+    INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Join Team applications table
+CREATE TABLE IF NOT EXISTS join_team_applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT,
+    cv_file VARCHAR(500) DEFAULT '',
+    cv_original_name VARCHAR(255) DEFAULT '',
+    is_read TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email (email),
+    INDEX idx_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Newsletter subscribers table
@@ -116,6 +140,83 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
     unsubscribed_at TIMESTAMP NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Products table (e-commerce prep)
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) DEFAULT 0,
+    category VARCHAR(100) DEFAULT '',
+    stock INT DEFAULT 0,
+    image VARCHAR(500) DEFAULT '',
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Orders table
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    customer_name VARCHAR(255) NOT NULL,
+    customer_email VARCHAR(255) NOT NULL,
+    customer_phone VARCHAR(50) DEFAULT '',
+    customer_address TEXT,
+    total DECIMAL(10, 2) DEFAULT 0,
+    status ENUM('pending', 'processing', 'completed', 'cancelled') DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Order items table
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    quantity INT DEFAULT 1,
+    subtotal DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Activity log table (analytics & tracking)
+CREATE TABLE IF NOT EXISTS activity_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(50) DEFAULT '',
+    entity_id INT,
+    user_id INT,
+    user_email VARCHAR(255) DEFAULT '',
+    description TEXT,
+    metadata TEXT,
+    ip_address VARCHAR(45) DEFAULT '',
+    user_agent VARCHAR(500) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_action (action),
+    INDEX idx_entity (entity_type, entity_id),
+    INDEX idx_user (user_id),
+    INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Page views table (for analytics)
+CREATE TABLE IF NOT EXISTS page_views (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    page_path VARCHAR(500) NOT NULL,
+    page_title VARCHAR(255) DEFAULT '',
+    referrer VARCHAR(500) DEFAULT '',
+    user_id INT,
+    session_id VARCHAR(100) DEFAULT '',
+    ip_address VARCHAR(45) DEFAULT '',
+    user_agent VARCHAR(500) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_page (page_path),
+    INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Insert default settings
 INSERT INTO settings (setting_key, setting_value) VALUES
     ('site_name', 'Satoris Events'),
@@ -125,24 +226,14 @@ INSERT INTO settings (setting_key, setting_value) VALUES
     ('address', '70-84 Ion Mihalache Bd, b.45, S1, Bucharest, RO')
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
 
--- Insert default services
-INSERT INTO services (icon, title, description, category, sort_order) VALUES
-    ('📢', 'PR & Communication', 'Social Media, Media Relations, Events PR, KOLs, Post-event coverage.', 'Events', 1),
-    ('🎪', 'Exhibitions & Trade Fairs', 'From 9 sqm booths to full pavilions.', 'Events', 2),
-    ('💻', 'Digital', 'Websites, Landing pages, Email campaigns, Live streaming.', 'Digital', 3),
-    ('🎨', 'Concept & Creative', 'Events Concept, Visual Content, Themes, formats.', 'Creative', 4),
-    ('🏢', 'Full Service', 'AV - Staging, Staffing, Catering, goody bags.', 'Events', 5),
-    ('📈', 'Marketing', 'Digital Marketing, Ads, Sales Funnel, E-commerce.', 'Digital', 6),
-    ('⚡', 'Implementation & On-Site', 'Your agenda, our playbook, no surprises.', 'Events', 7),
-    ('🌍', 'Go Big', 'International events, Global Events, Team Buildings.', 'Events', 8)
-ON DUPLICATE KEY UPDATE title = VALUES(title);
-
 -- Insert default projects
-INSERT INTO projects (name, slug, category, description, is_featured) VALUES
-    ('marie', 'marie', 'Branding', 'Event Concept, Event Management & Implementation, Research, Print Design', 1),
-    ('softy', 'softy', 'Digital', 'Digital Audit, Market Research, User Experience', 1),
-    ('cela', 'cela', 'Branding', 'Packaging, Branding, Email Marketing, Affiliate Management', 1),
-    ('omi', 'omi', 'Digital', 'Digital Audit, Market Research, User Experience', 1)
+INSERT INTO projects (name, slug, category, description, is_featured, created_at) VALUES
+    ('Târg de Crăciun Dalles 2025', 'targ-de-craciun-dalles-2025', 'Digital', 'Event Concept, Event Management & Implementation, Research, Print Design', 0, '2025-12-01'),
+    ('Softy', 'softy', 'Branding', 'Research, Branding, Packaging, Ad Design, PPC Management', 0, '2025-10-15'),
+    ('Cela Jewelry', 'cela', 'Digital', 'Ecommerce, Website Development, PPC Campaigns, SEO', 0, '2025-06-20'),
+    ('Omi', 'omi', 'Digital', 'Digital Audit, Market Research, User Experience', 0, '2022-01-10'),
+    ('Holarnia', 'holarnia', 'Branding', 'Packaging, Branding, Email Marketing, Affiliate Management', 0, '2022-01-05'),
+    ('Exhibition Blueprint', 'exhibition-blueprint', 'Events', 'Event Management, Expo Strategy, Print Design, Content Strategy', 0, '2025-08-01')
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Insert default blog posts

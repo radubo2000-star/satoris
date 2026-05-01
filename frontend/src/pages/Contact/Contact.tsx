@@ -3,6 +3,7 @@ import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 import { submitContact } from '../../api/client';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -29,11 +30,13 @@ function Contact() {
     setError(null);
     
     try {
-      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
       await submitContact({
-        name: fullName,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
         email: formData.email,
         phone: formData.phone,
+        organization: formData.organization,
+        website: formData.website,
         message: formData.message,
       });
       setIsSubmitted(true);
@@ -89,7 +92,6 @@ function Contact() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            style={{ color: '#FF9100',fontFamily: 'Montserrat', marginBottom: 'var(--space-4)' }}
           >
             Want To Work Together?
           </motion.h1>
@@ -98,7 +100,6 @@ function Contact() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ fontSize: 'var(--text-sm)', fontFamily: 'Montserrat', marginBottom: 'var(--space-4)' }}
           >
             Contact us, and let's discover how we can help your organization become even greater.
           </motion.p>
@@ -266,19 +267,8 @@ function Contact() {
         </div>
       </section>
 
-      <section className="cta-section">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2>let's talk</h2>
-            <p>Your digital presence is about to take off</p>
-            <a href="/contact" className="btn">Contact us</a>
-          </motion.div>
-        </div>
-      </section>
+      {/* CTA Section */}
+      <LetsTalk/>
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getProjects } from '../../api/client';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 const services = [
   {
@@ -90,38 +92,23 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
   );
 }
 
-const projects = [
-  { 
-    id: 1, 
-    name: 'Târg de Crăciun Dalles 2025', 
-    category: 'Event Concept, Event Management', 
-    image: 'https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png',
-    slug: 'targ-de-craciun-dalles-2025'
-  },
-  { 
-    id: 2, 
-    name: 'Omi', 
-    category: 'Digital Audit, Market Research, User Experience', 
-    image: 'https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg',
-    slug: 'omi'
-  },
-  { 
-    id: 3, 
-    name: 'Softy', 
-    category: 'Research, Branding, Packaging, Ad Design, PPC', 
-    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg',
-    slug: 'softy'
-  },
-  { 
-    id: 4, 
-    name: 'Cela Jewelry', 
-    category: 'Ecommerce, Website Development, PPC, SEO', 
-    image: 'https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Cela_Img_1.jpg',
-    slug: 'cela'
-  },
-];
+function Home() {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const testimonials = [
+  useEffect(() => {
+    getProjects({ active: true })
+      .then(res => {
+        setProjects(res.data);
+        setLoading(false);
+      })
+      .catch(console.error);
+  }, []);
+
+  if (loading) return <div style={{padding:'50px',textAlign:'center'}}>Loading...</div>;
+
+  const testimonials = [
   {
     text: "Very good service and helpful person. Natalia handled all issues very professional. I recommend.",
     author: 'Olimpiu G',
@@ -171,11 +158,7 @@ const clientLogos = [
   { name: 'Miresmei', logo: 'https://satoris.ro/wp-content/uploads/2021/09/sigla-ME-e1631537317688.jpeg' },
 ];
 
-function Home() {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-// ProjectCard with 3D tilt effect
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   
@@ -233,16 +216,20 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            We make brands <span style={{ color: 'var(--color-primary)' }}>Visible & Digital</span>
+            <span style={{ color: '#000' }}>We make brands</span><br />
+            Visible & Digital
           </motion.h1>
           <motion.p
             className="hero-description"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
+            style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-4)' }}
           >
-            Celebrating Success Through Unforgettable Events, Social, PR, Digital Brilliance, and Financial PR Expertise. 
-            We are Your Action Team.
+            Celebrating Success Through Unforgettable Events,<br/> Social, PR, Digital Brilliance, and Financial PR Expertise. <br/>{' '}
+            <br />
+            <span style={{ color: '#FF9100', fontSize: 'var(--text-xl)', fontWeight: 700 }}>We are Your Action Team.</span>
+            <br />
           </motion.p>
           <motion.div
             className="hero-buttons"
@@ -395,7 +382,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           </motion.div>
           
           <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-6)' }}>
-            {projects.map((project, index) => (
+            {projects.slice(0, 4).map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
@@ -532,19 +519,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       </section>
 
       {/* CTA Section */}
-      <section className="cta-section">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2>Your digital presence is about to take off</h2>
-            <p>Schedule a free consultation with our team and let's make things happen!</p>
-            <Link to="/contact" className="btn">Contact Us</Link>
-          </motion.div>
-        </div>
-      </section>
+      <LetsTalk />
     </div>
   );
 }

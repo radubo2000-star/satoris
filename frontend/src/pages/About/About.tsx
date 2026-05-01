@@ -2,11 +2,13 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
+import { submitJoinTeam } from '../../api/client';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 const teamMembers = [
   {
     name: 'Natalia Pruteanu',
-    role: 'Founder, PR, PR FIN, Event',
+    role: 'Founder, PR, PR FIN, Events',
     image: 'https://satoris.ro/wp-content/uploads/2023/09/c530c303-53e2-423f-8c38-2e4570e1dce3.jpg',
   },
   {
@@ -16,7 +18,7 @@ const teamMembers = [
   },
   {
     name: 'Dragos C',
-    role: 'TECH, IT, EVENT, Strategy',
+    role: 'TECH, IT, EVENTS, Strategy',
     image: 'https://satoris.ro/wp-content/uploads/2021/09/1524227999864.jpeg',
   },
 ];
@@ -50,22 +52,58 @@ const values = [
 
 function About() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
+    fullName: '',
     email: '',
-    organization: '',
-    website: '',
     message: '',
+    cv: null as File | null,
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData({ ...formData, cv: e.target.files[0] });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Join team application:', formData);
+    setIsSubmitting(true);
+    setError(null);
+    
+    try {
+      // Convert file to base64 if present
+      let cvFile: string | undefined;
+      if (formData.cv) {
+        const reader = new FileReader();
+        cvFile = await new Promise<string>((resolve) => {
+          reader.onload = () => {
+            const result = reader.result as string;
+            const base64 = result.split(',')[1];
+            resolve(base64);
+          };
+          reader.readAsDataURL(formData.cv);
+        });
+      }
+      
+      await submitJoinTeam({
+        fullName: formData.fullName,
+        email: formData.email,
+        message: formData.message,
+        cvFile,
+      });
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Join team form error:', err);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -78,7 +116,7 @@ function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            full-stack communication studio
+            Full-stack communication studio
           </motion.h1>
           <motion.p
             className="hero-description"
@@ -87,7 +125,7 @@ function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             We're a full-stack PR & digital, marketing and events studio based in the center of Bucharest. 
-            From strategy to implementation, we're here to help make your brand shine.
+            <br />From strategy to implementation, we're here to help make your brand shine.
           </motion.p>
         </div>
       </section>
@@ -104,8 +142,17 @@ function About() {
       {/* Values Section */}
       <section className="section">
         <div className="container">
+          <motion.p
+            className="hero-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <center>what makes us different</center>
+          </motion.p>
+          
           <div className="section-title">
-            <h2>the codes we live by</h2>
+            <h2>The Codes We Live By</h2>
           </div>
           <div className="grid grid-3" style={{ marginTop: 'var(--space-10)' }}>
             {values.map((value, index) => (
@@ -128,6 +175,14 @@ function About() {
       {/* Team Section */}
       <section className="section" style={{ background: 'var(--color-gray-lightest)' }}>
         <div className="container">
+          <motion.p
+            className="hero-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <center>get to know us</center>
+          </motion.p>
           <div className="section-title">
             <h2>SATORIS is its people</h2>
           </div>
@@ -160,80 +215,163 @@ function About() {
       </section>
 
       {/* Join Team Section */}
-      <section className="section">
-        <div className="container">
-          <div className="section-title">
-            <h2>Join Satoris team</h2>
-            <p>
+      <section className="section" style={{ background: '#fafafa', padding: '80px 0' }}>
+        <div className="container" style={{ maxWidth: '900px' }}>
+          {/* Title */}
+          <motion.div
+            className="section-title"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            style={{ marginBottom: 'var(--space-8)' }}
+          >
+            <h4 style={{ 
+              fontSize: '2.5rem', 
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 700,
+              marginBottom: 'var(--space-4)',
+              color: 'var(--color-black)'
+            }}>
+              Join Satoris team
+            </h4>
+            <p style={{ 
+              fontSize: '1.125rem', 
+              color: '#71717a',
+              lineHeight: 1.6,
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
               Are you a volunteer or student? You will get our support in whatever you wish to learn. 
-              Just drop us a line. Are you a specialist wishing to develop? We welcome you!
+              Just drop us a line. Are you a specialist wishing to develop? We welcome you! 
+              Drop us your CV and intention.
             </p>
-          </div>
+          </motion.div>
           
-          <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+          {/* Two Column Layout */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: 'var(--space-8)',
+            alignItems: 'start'
+          }}>
+            {/* Left Column - Form */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              {isSubmitted ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  style={{ textAlign: 'center', padding: 'var(--space-10)', background: '#f0fdf4', borderRadius: '12px' }}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    style={{ width: '60px', height: '60px', borderRadius: '50%', background: '#22c55e', margin: '0 auto var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <span style={{ fontSize: '30px', color: '#fff' }}>✓</span>
+                  </motion.div>
+                  <h3 style={{ fontSize: 'var(--text-xl)', marginBottom: 'var(--space-2)' }}>Thank you!</h3>
+                  <p style={{ color: '#6b7280', marginBottom: 'var(--space-4)' }}>We will contact you soon.</p>
+                  <button 
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setFormData({ fullName: '', email: '', message: '', cv: null });
+                    }} 
+                    style={{ background: 'none', border: '1px solid #FF9100', color: '#FF9100', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer' }}
+                  >
+                    Send another
+                  </button>
+                </motion.div>
+              ) : (
+              <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
                 <input
                   type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  value={formData.firstName}
+                  name="fullName"
+                  placeholder="Full Name"
+                  value={formData.fullName}
                   onChange={handleChange}
+                  required
                   style={inputStyle}
                 />
                 <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  value={formData.lastName}
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={formData.email}
                   onChange={handleChange}
+                  required
                   style={inputStyle}
                 />
-              </div>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                style={inputStyle}
+                <textarea
+                  name="message"
+                  placeholder="Message / Intention"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                  style={{ ...inputStyle, resize: 'vertical', minHeight: '100px' }}
+                />
+                <div style={fileInputContainerStyle}>
+                  <label htmlFor="cv-upload" style={fileLabelStyle}>
+                    {formData.cv ? (
+                      <span style={{ color: 'var(--color-primary)' }}>📎 {formData.cv.name}</span>
+                    ) : (
+                      <span>📎 Attach CV (PDF)</span>
+                    )}
+                  </label>
+                  <input
+                    type="file"
+                    id="cv-upload"
+                    name="cv"
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleFileChange}
+                    style={fileInputHiddenStyle}
+                  />
+                </div>
+                {error && (
+                  <p style={{ color: '#ef4444', textAlign: 'center', fontSize: '0.875rem' }}>{error}</p>
+                )}
+                <motion.button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ 
+                    justifySelf: 'center',
+                    padding: '1rem 3rem',
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Sending...' : 'SEND'}
+                </motion.button>
+              </form>
+              )}
+            </motion.div>
+            
+            {/* Right Column - Image */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <img 
+                src="https://satoris.ro/wp-content/uploads/2021/09/join-team.jpg" 
+                alt="Join Satoris Team" 
+                style={{ 
+                  width: '100%', 
+                  borderRadius: '8px', 
+                  display: 'block',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+                }}
               />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-              <input
-                type="text"
-                name="organization"
-                placeholder="Business/Organization name"
-                value={formData.organization}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-              <input
-                type="url"
-                name="website"
-                placeholder="Website URL"
-                value={formData.website}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-              <textarea
-                name="message"
-                placeholder="Tell us how we can help"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-                style={{ ...inputStyle, resize: 'vertical' }}
-              />
-              <button type="submit" className="btn btn-primary" style={{ justifySelf: 'center' }}>
-                SEND
-              </button>
-            </form>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -262,30 +400,53 @@ function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="cta-section">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2>let's talk</h2>
-            <p>Your digital presence is about to take off</p>
-            <a href="/contact" className="btn">Contact us</a>
-          </motion.div>
-        </div>
-      </section>
+      <LetsTalk/>
     </div>
   );
 }
 
 const inputStyle = {
   width: '100%',
-  padding: '0.75rem 1rem',
-  border: '1px solid var(--color-gray-lighter)',
-  borderRadius: 'var(--radius-md)',
-  fontSize: 'var(--text-base)',
+  padding: '1rem 1.25rem',
+  border: '1px solid #e4e4e7',
+  borderRadius: '8px',
+  fontSize: '1rem',
   fontFamily: 'var(--font-primary)',
+  background: '#fff',
+  transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+};
+
+const fileInputContainerStyle = {
+  position: 'relative' as const,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const fileLabelStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  padding: '1rem 1.25rem',
+  border: '2px dashed #FF9100',
+  borderRadius: '8px',
+  fontSize: '1rem',
+  fontFamily: 'var(--font-primary)',
+  background: '#fffaf5',
+  color: '#71717a',
+  cursor: 'pointer',
+  transition: 'all 0.25s ease',
+};
+
+const fileInputHiddenStyle = {
+  position: 'absolute' as const,
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  opacity: 0,
+  cursor: 'pointer',
 };
 
 export default About;

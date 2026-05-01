@@ -1,0 +1,48 @@
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+.admin-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 70px;
+  padding: 24px;
+}
+
+.admin-content {
+  flex: 1;
+}
+
+.admin-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  min-height: 100vh;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-gray-lighter);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-main {
+    padding: 16px;
+  }
+}

@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL 
+  ? import.meta.env.VITE_API_URL + '/api' 
+  : '/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -14,7 +16,7 @@ export const getServices = () => apiClient.get('/services');
 export const getServiceById = (id: number) => apiClient.get(`/services/${id}`);
 
 // Projects API
-export const getProjects = () => apiClient.get('/projects');
+export const getProjects = (params?: { active?: boolean }) => apiClient.get('/projects', { params });
 export const getProjectById = (id: number) => apiClient.get(`/projects/${id}`);
 
 // Blog API
@@ -40,7 +42,7 @@ export interface BlogListResponse {
   totalPages: number;
 }
 
-export const getBlogPosts = (params?: { search?: string; category?: string; tag?: string; page?: number; limit?: number }) => 
+export const getBlogPosts = (params?: { search?: string; category?: string; tag?: string; page?: number; limit?: number; published?: boolean }) => 
   apiClient.get<BlogListResponse>('/blog', { params });
 
 export const getBlogPostBySlug = (slug: string) => apiClient.get<BlogPost>(`/blog/${slug}`);
@@ -81,8 +83,30 @@ export const getTags = () => apiClient.get<Tag[]>('/tags');
 export const createTag = (name: string) => apiClient.post('/tags', { name });
 
 // Contact API
-export const submitContact = (data: { name: string; email: string; phone?: string; subject?: string; message: string }) =>
+export interface ContactData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  organization?: string;
+  website?: string;
+  subject?: string;
+  message: string;
+}
+
+export const submitContact = (data: ContactData) =>
   apiClient.post('/contact', data);
+
+// Join Team API
+export interface JoinTeamData {
+  fullName: string;
+  email: string;
+  message?: string;
+  cvFile?: string; // Base64 encoded CV
+}
+
+export const submitJoinTeam = (data: JoinTeamData) =>
+  apiClient.post('/join-team', data);
 
 // Newsletter API
 export const subscribeNewsletter = (email: string) =>

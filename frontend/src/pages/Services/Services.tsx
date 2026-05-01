@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 // Each service is a separate card with title + description + optional sub-items
 const servicesData = [
@@ -110,12 +111,6 @@ function Services() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ 
-              color: '#FF9100', 
-              fontSize: 'var(--text-5xl)',
-              fontFamily: 'Montserrat',
-              fontWeight: 800
-            }}
           >
             Grow & Stand Out
           </motion.h1>
@@ -123,12 +118,6 @@ function Services() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ 
-              color: '#FF9100', 
-              fontSize: 'var(--text-5xl)',
-              fontFamily: 'Montserrat',
-              fontWeight: 800
-            }}
           >
             From The Crowd
           </motion.h1>
@@ -171,7 +160,7 @@ function Services() {
                     color: '#FF9100',
                     fontWeight: 600,
                     marginBottom: 'var(--space-3)',
-                    fontFamily: 'Montserrat',
+                    fontFamily: "'Lora', serif",
                     textTransform: 'capitalize',
                     textAlign: 'left'
                   }}>
@@ -182,7 +171,7 @@ function Services() {
                     fontSize: '0.85rem',
                     lineHeight: 1.6,
                     textAlign: 'left',
-                    fontFamily: 'Montserrat'
+                    fontFamily: "'Lora', serif"
                   }}>
                     {service.description}
                   </p>
@@ -197,7 +186,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: 'Montserrat',
+                        fontFamily: "'Lora', serif",
                         textTransform: 'capitalize',
                         textAlign: 'left'
                       }}>
@@ -208,7 +197,7 @@ function Services() {
                         fontSize: '0.85rem',
                         lineHeight: 1.6,
                         textAlign: 'left',
-                        fontFamily: 'Montserrat'
+                        fontFamily: "'Lora', serif"
                       }}>
                         {item.description}
                       </p>
@@ -225,7 +214,7 @@ function Services() {
                         color: '#FF9100',
                         fontWeight: 600,
                         marginBottom: '6px',
-                        fontFamily: 'Montserrat',
+                        fontFamily: "'Lora', serif",
                         textTransform: 'capitalize',
                         textAlign: 'left'
                       }}>
@@ -236,7 +225,7 @@ function Services() {
                         fontSize: '0.85rem',
                         lineHeight: 1.6,
                         textAlign: 'left',
-                        fontFamily: 'Montserrat'
+                        fontFamily: "'Lora', serif"
                       }}>
                         {item.description}
                       </p>
@@ -250,25 +239,7 @@ function Services() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ background: '#32373c', padding: 'var(--space-16) 0' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ color: '#fff', marginBottom: 'var(--space-4)', fontSize: 'var(--text-3xl)' }}>
-            Your digital presence is about to take off
-          </h2>
-          <a href="/contact" style={{ 
-            background: '#FF9100', 
-            color: '#fff', 
-            padding: '14px 32px', 
-            borderRadius: '4px', 
-            textDecoration: 'none', 
-            fontWeight: 600,
-            display: 'inline-block',
-            marginTop: 'var(--space-6)'
-          }}>
-            Get in touch
-          </a>
-        </div>
-      </section>
+      <LetsTalk />
     </div>
   );
 }

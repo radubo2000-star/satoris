@@ -22,7 +22,7 @@ function AdminDashboard() {
     }
   }, [navigate]);
 
-  // Fetch posts
+  // Fetch all posts for admin (published + drafts)
   useEffect(() => {
     getBlogPosts({ limit: 100 })
       .then(res => setPosts(res.data.posts))
