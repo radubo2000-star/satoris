@@ -18,7 +18,6 @@ Thumbs.db
 .vscode/
 
 # Environment
-.env
 .env.local
 
 # Misc
