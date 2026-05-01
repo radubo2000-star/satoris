@@ -194,6 +194,18 @@ if (file_exists($dataFile)) {
     $data = $defaultData;
 }
 
+// Projects default data
+$defaultProjects = [
+    ['id' => 1, 'name' => 'Marie', 'slug' => 'marie', 'category' => 'Branding', 'description' => 'Event Concept, Event Management & Implementation', 'image' => '', 'is_featured' => false, 'is_active' => true],
+    ['id' => 2, 'name' => 'OMI', 'slug' => 'omi', 'category' => 'Digital', 'description' => 'Brand Audit, UX/UI Design, Development', 'image' => '', 'is_featured' => false, 'is_active' => true],
+    ['id' => 3, 'name' => 'Softy', 'slug' => 'softy', 'category' => 'Digital', 'description' => 'Digital Audit, Market Research', 'image' => '', 'is_featured' => false, 'is_active' => true],
+    ['id' => 4, 'name' => 'Cela', 'slug' => 'cela', 'category' => 'Branding', 'description' => 'Packaging, Branding, Email Marketing', 'image' => '', 'is_featured' => false, 'is_active' => true],
+];
+
+$projects = $data['projects'] ?? $defaultProjects;
+if (!isset($data['projects'])) {
+    $data['projects'] = $projects;
+}
 
 // Helper function to save data
 function saveData($data) {
@@ -202,7 +214,7 @@ function saveData($data) {
 }
 
 // Router
-$response = ['error' => 'Endpoint not found', ];
+$response = ['error' => 'Endpoint not found', 'debug' => $path];
 
 // Normalize path to lowercase for case-insensitive matching
 $path = strtolower($path);
