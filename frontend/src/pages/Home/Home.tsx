@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getProjects } from '../../api/client';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 const services = [
   {
@@ -518,19 +519,7 @@ const clientLogos = [
       </section>
 
       {/* CTA Section */}
-      <section className="cta-section">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2>Your digital presence is about to take off</h2>
-            <p>Schedule a free consultation with our team and let's make things happen!</p>
-            <Link to="/contact" className="btn">Contact Us</Link>
-          </motion.div>
-        </div>
-      </section>
+      <LetsTalk />
     </div>
   );
 }

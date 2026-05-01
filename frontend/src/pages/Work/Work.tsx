@@ -76,7 +76,7 @@ function Work() {
   }
   
   return (
-    <div className="work-page">
+    <><div className="work-page">
       <section className="hero" style={{ minHeight: '30vh', padding: 'var(--space-4) 0' }}>
         <div className="hero-content">
           <motion.h1
@@ -109,11 +109,10 @@ function Work() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <img 
-                src={currentProject.image} 
-                alt={currentProject.name} 
-                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '12px', marginBottom: 'var(--space-6)' }} 
-              />
+              <img
+                src={currentProject.image}
+                alt={currentProject.name}
+                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '12px', marginBottom: 'var(--space-6)' }} />
               <h2 style={{ fontSize: 'var(--text-3xl)', color: '#FF9100', marginBottom: 'var(--space-2)' }}>{currentProject.name}</h2>
               <p style={{ color: '#555', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>{currentProject.category}</p>
               <p style={{ color: '#374151', lineHeight: 1.8 }}>{currentProject.description}</p>
@@ -124,58 +123,56 @@ function Work() {
 
       {/* Only show filter and grid if no single project */}
       {!slug && (
-      <section className="section" style={{ padding: 'var(--space-2) 0' }}>
-        <div className="container">
-          {/* Filter with animation */}
-          <motion.div 
-            style={{ 
-              display: 'flex', 
-              gap: 'var(--space-2)', 
-              justifyContent: 'center', 
-              marginBottom: 'var(--space-2)', 
-              flexWrap: 'wrap' 
-            }}
-          >
-            {uniqueCategories.map(cat => (
-              <motion.button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                  padding: 'var(--space-3) var(--space-5)',
-                  borderRadius: '8px',
-                  border: filter === cat ? 'none' : '2px solid #e5e7eb',
-                  background: filter === cat ? '#FF9100' : '#fff',
-                  color: filter === cat ? '#fff' : '#374151',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s'
-                }}
-              >
-                {cat}
-              </motion.button>
-            ))}
-          </motion.div>
-
-          {/* Projects Grid with animation */}
-          <motion.div 
-            layout
-            className="projects-grid"
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-4)' }}
-          >
-            <AnimatePresence>
-              {filteredProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
+        <section className="section" style={{ padding: 'var(--space-2) 0' }}>
+          <div className="container">
+            {/* Filter with animation */}
+            <motion.div
+              style={{
+                display: 'flex',
+                gap: 'var(--space-2)',
+                justifyContent: 'center',
+                marginBottom: 'var(--space-2)',
+                flexWrap: 'wrap'
+              }}
+            >
+              {uniqueCategories.map(cat => (
+                <motion.button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    padding: 'var(--space-3) var(--space-5)',
+                    borderRadius: '8px',
+                    border: filter === cat ? 'none' : '2px solid #e5e7eb',
+                    background: filter === cat ? '#FF9100' : '#fff',
+                    color: filter === cat ? '#fff' : '#374151',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s'
+                  }}
+                >
+                  {cat}
+                </motion.button>
               ))}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </section>
-      )}
-    </div>
+            </motion.div>
 
-    <LetsTalk />
+            {/* Projects Grid with animation */}
+            <motion.div
+              layout
+              className="projects-grid"
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-4)' }}
+            >
+              <AnimatePresence>
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard key={project.id} project={project} index={index} />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        </section>
+      )}
+    </div><LetsTalk /></>
   );
 }
 

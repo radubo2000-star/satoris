@@ -3,6 +3,7 @@ import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
 import { submitContact } from '../../api/client';
+import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -264,19 +265,8 @@ function Contact() {
         </div>
       </section>
 
-      <section className="cta-section">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2>let's talk</h2>
-            <p>Your digital presence is about to take off</p>
-            <a href="/contact" className="btn">Contact us</a>
-          </motion.div>
-        </div>
-      </section>
+      {/* CTA Section */}
+      <LetsTalk/>
     </div>
   );
 }
