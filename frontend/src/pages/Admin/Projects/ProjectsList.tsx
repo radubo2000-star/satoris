@@ -13,6 +13,7 @@ interface Project {
   image: string;
   is_featured: boolean;
   is_active: boolean;
+  created_at?: string;
 }
 
 const ProjectsList: React.FC = () => {
@@ -60,6 +61,7 @@ const ProjectsList: React.FC = () => {
               <span className="category-badge">{project.category}</span>
               {project.is_featured && <span className="featured-badge">Featured</span>}
               {!project.is_active && <span style={{ background: '#fef3c7', color: '#92400e', padding: '2px 8px', borderRadius: '4px', fontSize: '12px' }}>Inactive</span>}
+              {project.created_at && <span className="date-badge">{project.created_at}</span>}
             </div>
             <div className="project-actions">
               <Link to={`/admin/projects/${project.id}`} className="btn-icon">✏️</Link>
@@ -96,6 +98,7 @@ const ProjectsList: React.FC = () => {
         .project-info h3 { margin: 0 0 8px; font-size: 1rem; color: #111827; }
         .project-actions { padding: 8px 16px 16px; display: flex; gap: 8px; }
         .featured-badge { background: #fef3c7; color: #d97706; padding: 2px 8px; border-radius: 4px; font-size: 0.625rem; font-weight: 600; margin-left: 8px; text-transform: uppercase; }
+        .date-badge { background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-left: 8px; }
       `}</style>
     </div>
   );

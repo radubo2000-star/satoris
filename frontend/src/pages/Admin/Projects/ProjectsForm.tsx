@@ -12,6 +12,7 @@ interface Project {
   image: string;
   is_featured: boolean;
   is_active: boolean;
+  created_at?: string;
 }
 
 const ProjectsForm: React.FC = () => {
@@ -168,6 +169,15 @@ const ProjectsForm: React.FC = () => {
                 <input type="checkbox" checked={formData.is_active} onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })} />
                 Active
               </label>
+            </div>
+
+            <div className="form-group">
+              <label>Date</label>
+              <input
+                type="date"
+                value={formData.created_at || ''}
+                onChange={(e) => setFormData({ ...formData, created_at: e.target.value })}
+              />
             </div>
 
             <button type="submit" className="btn-primary btn-full" disabled={isLoading}>
