@@ -51,13 +51,8 @@ const values = [
 
 function About() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
+    fullName: '',
     email: '',
-    organization: '',
-    website: '',
-    message: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -173,30 +168,13 @@ function About() {
           
           <div style={{ maxWidth: '600px', margin: '0 auto' }}>
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
-                <input
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-              </div>
               <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
+                type="text"
+                name="fullName"
+                placeholder="Full Name"
+                value={formData.fullName}
                 onChange={handleChange}
+                required
                 style={inputStyle}
               />
               <input
@@ -205,31 +183,8 @@ function About() {
                 placeholder="Email Address"
                 value={formData.email}
                 onChange={handleChange}
+                required
                 style={inputStyle}
-              />
-              <input
-                type="text"
-                name="organization"
-                placeholder="Business/Organization name"
-                value={formData.organization}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-              <input
-                type="url"
-                name="website"
-                placeholder="Website URL"
-                value={formData.website}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-              <textarea
-                name="message"
-                placeholder="Tell us how we can help"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-                style={{ ...inputStyle, resize: 'vertical' }}
               />
               <button type="submit" className="btn btn-primary" style={{ justifySelf: 'center' }}>
                 SEND
