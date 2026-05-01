@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
+import { submitJoinTeam } from '../../api/client';
 import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 const teamMembers = [
@@ -56,6 +57,9 @@ function About() {
     message: '',
     cv: null as File | null,
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,9 +71,39 @@ function About() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Join team application:', formData);
+    setIsSubmitting(true);
+    setError(null);
+    
+    try {
+      // Convert file to base64 if present
+      let cvFile: string | undefined;
+      if (formData.cv) {
+        const reader = new FileReader();
+        cvFile = await new Promise<string>((resolve) => {
+          reader.onload = () => {
+            const result = reader.result as string;
+            const base64 = result.split(',')[1];
+            resolve(base64);
+          };
+          reader.readAsDataURL(formData.cv);
+        });
+      }
+      
+      await submitJoinTeam({
+        fullName: formData.fullName,
+        email: formData.email,
+        message: formData.message,
+        cvFile,
+      });
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Join team form error:', err);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -226,6 +260,33 @@ function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
+              {isSubmitted ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  style={{ textAlign: 'center', padding: 'var(--space-10)', background: '#f0fdf4', borderRadius: '12px' }}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    style={{ width: '60px', height: '60px', borderRadius: '50%', background: '#22c55e', margin: '0 auto var(--space-4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <span style={{ fontSize: '30px', color: '#fff' }}>✓</span>
+                  </motion.div>
+                  <h3 style={{ fontSize: 'var(--text-xl)', marginBottom: 'var(--space-2)' }}>Thank you!</h3>
+                  <p style={{ color: '#6b7280', marginBottom: 'var(--space-4)' }}>We will contact you soon.</p>
+                  <button 
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setFormData({ fullName: '', email: '', message: '', cv: null });
+                    }} 
+                    style={{ background: 'none', border: '1px solid #FF9100', color: '#FF9100', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer' }}
+                  >
+                    Send another
+                  </button>
+                </motion.div>
+              ) : (
               <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 'var(--space-4)' }}>
                 <input
                   type="text"
@@ -270,17 +331,28 @@ function About() {
                     style={fileInputHiddenStyle}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary" style={{ 
-                  justifySelf: 'center',
-                  padding: '1rem 3rem',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}>
-                  SEND
-                </button>
+                {error && (
+                  <p style={{ color: '#ef4444', textAlign: 'center', fontSize: '0.875rem' }}>{error}</p>
+                )}
+                <motion.button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ 
+                    justifySelf: 'center',
+                    padding: '1rem 3rem',
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Sending...' : 'SEND'}
+                </motion.button>
               </form>
+              )}
             </motion.div>
             
             {/* Right Column - Image */}

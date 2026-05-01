@@ -86,6 +86,17 @@ export const createTag = (name: string) => apiClient.post('/tags', { name });
 export const submitContact = (data: { name: string; email: string; phone?: string; subject?: string; message: string }) =>
   apiClient.post('/contact', data);
 
+// Join Team API
+export interface JoinTeamData {
+  fullName: string;
+  email: string;
+  message?: string;
+  cvFile?: string; // Base64 encoded CV
+}
+
+export const submitJoinTeam = (data: JoinTeamData) =>
+  apiClient.post('/join-team', data);
+
 // Newsletter API
 export const subscribeNewsletter = (email: string) =>
   apiClient.post('/newsletter', { email });

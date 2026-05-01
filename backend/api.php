@@ -958,6 +958,57 @@ switch ($path) {
         }
         break;
 
+    // JOIN TEAM (for join-team form submissions)
+    case 'join-team':
+        if ($method === 'POST') {
+            $fullName = $input['fullName'] ?? null;
+            $email = $input['email'] ?? null;
+            $message = $input['message'] ?? null;
+            $cvFile = $input['cvFile'] ?? null; // Base64 encoded CV
+            
+            if (!$fullName || !$email) {
+                http_response_code(400);
+                $response = ['error' => 'Full name and email are required'];
+            } else {
+                // Save submission to file
+                $submissionsFile = __DIR__ . '/join_team_submissions.json';
+                $submissions = file_exists($submissionsFile) ? json_decode(file_get_contents($submissionsFile), true) : [];
+                
+                $submission = [
+                    'id' => count($submissions) + 1,
+                    'fullName' => $fullName,
+                    'email' => $email,
+                    'message' => $message,
+                    'cvFile' => $cvFile,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'ip_address' => $_SERVER['REMOTE_ADDR'] ?? ''
+                ];
+                $submissions[] = $submission;
+                file_put_contents($submissionsFile, json_encode($submissions, JSON_PRETTY_PRINT));
+                
+                // Send email notification (using PHP mail)
+                $to = 'team@satoris.ro';
+                $subject = 'New Join Team Application - ' . $fullName;
+                $headers = "From: noreply@satoris.ro\r\n";
+                $headers .= "Reply-To: " . $email . "\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+                
+                $body = "<html><body>";
+                $body .= "<h2>New Join Team Application</h2>";
+                $body .= "<p><strong>Name:</strong> " . htmlspecialchars($fullName) . "</p>";
+                $body .= "<p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>";
+                $body .= "<p><strong>Message:</strong> " . nl2br(htmlspecialchars($message ?? 'No message')) . "</p>";
+                $body .= "<p><strong>Date:</strong> " . date('Y-m-d H:i:s') . "</p>";
+                $body .= "</body></html>";
+                
+                @mail($to, $subject, $body, $headers);
+                
+                $response = ['success' => true, 'message' => 'Thank you for your interest! We will contact you soon.'];
+            }
+        }
+        break;
+
     // NEWSLETTER
     case 'newsletter':
         if ($method === 'POST') {
