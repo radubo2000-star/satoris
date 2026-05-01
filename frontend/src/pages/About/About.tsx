@@ -83,7 +83,7 @@ function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             We're a full-stack PR & digital, marketing and events studio based in the center of Bucharest. 
-            From strategy to implementation, we're here to help make your brand shine.
+            <br />From strategy to implementation, we're here to help make your brand shine.
           </motion.p>
         </div>
       </section>
@@ -100,8 +100,17 @@ function About() {
       {/* Values Section */}
       <section className="section">
         <div className="container">
+          <motion.p
+            className="hero-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <center>what makes us different</center>
+          </motion.p>
+          
           <div className="section-title">
-            <h2>The codes we live by</h2>
+            <h2>The Codes We Live By</h2>
           </div>
           <div className="grid grid-3" style={{ marginTop: 'var(--space-10)' }}>
             {values.map((value, index) => (
@@ -124,6 +133,14 @@ function About() {
       {/* Team Section */}
       <section className="section" style={{ background: 'var(--color-gray-lightest)' }}>
         <div className="container">
+          <motion.p
+            className="hero-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <center>get to know us</center>
+          </motion.p>
           <div className="section-title">
             <h2>SATORIS is its people</h2>
           </div>
