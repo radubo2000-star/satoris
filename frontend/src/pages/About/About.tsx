@@ -80,6 +80,7 @@ function About() {
       // Convert file to base64 if present
       let cvFile: string | undefined;
       if (formData.cv) {
+        const file = formData.cv as Blob;
         const reader = new FileReader();
         cvFile = await new Promise<string>((resolve) => {
           reader.onload = () => {
@@ -87,7 +88,7 @@ function About() {
             const base64 = result.split(',')[1];
             resolve(base64);
           };
-          reader.readAsDataURL(formData.cv);
+          reader.readAsDataURL(file);
         });
       }
       
