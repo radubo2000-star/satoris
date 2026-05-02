@@ -61,11 +61,13 @@ function get_settings() {
     return $defaults;
 }
 $path = str_replace('/api/', '', $path);
-$path = trim($path, '/');
+$path = trim($path ?? '', '/');
 
-// ULTRA CLEAN - extract only alphanumeric, hyphens, slashes, and Romanian chars
-$path = preg_replace('/[^a-zA-Z0-9ăâîșȚ\-_/]/u', '', $path);
-$path = strtolower($path);
+// ULTRA CLEAN - basic alphanumeric, hyphens, slashes  
+if ($path) {
+    $path = preg_replace('/[^a-zA-Z0-9\-_\/]/', '', $path);
+    $path = strtolower($path);
+}
 
 // DEBUG: Log request details (temporary)
 // error_log("API Request: $method $path");
