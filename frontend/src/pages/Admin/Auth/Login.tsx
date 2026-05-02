@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import API_BASE from '../../../api/base';
 import './Auth.css';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const from = (location.state as any)?.from?.pathname || '/admin/dashboard';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
