@@ -88,10 +88,58 @@ elseif (preg_match('/^blog\/(\d+)$/', $path) || preg_match('/^blog\/(\d+)\/publi
     require_once __DIR__ . '/handlers/blog.php';
     $response = handle_blog($path, $method, $input, $data);
 }
-// Blog by slug (non-numeric - e.g., blog/t-rg-de-cr-ciun-dalles-2025)
-elseif (preg_match('/^blog\/[^/]+$/', $path) && $path !== 'blog' && $path !== 'blog/') {
+// Blog by slug (non-numeric - for blog detail pages) - DIRECT LIKE MAIN
+elseif ($method === 'GET' && preg_match('/^blog\/[^/]+$/', $path) && !preg_match('/^blog\/\d+$/', $path)) {
     require_once __DIR__ . '/handlers/blog.php';
-    $response = handle_blog($path, $method, $input, $data);
+    $slug = substr($path, 5);
+    $post = null;
+    
+    foreach ($data['blogPosts'] as $p) {
+        if ($p['slug'] === $slug) {
+            $post = $p;
+            break;
+        }
+    }
+    
+    if ($post) {
+        // Get approved comments
+        $postComments = [];
+        foreach ($data['comments'] as $c) {
+            if ($c['blog_post_id'] === $post['id'] && !empty($c['is_approved'])) {
+                $postComments[] = $c;
+            }
+        }
+        
+        // Get tags
+        $postTags = [];
+        if (!empty($post['tags']) && is_array($post['tags'])) {
+            foreach ($post['tags'] as $tagSlug) {
+                foreach ($data['tags'] as $t) {
+                    if ($t['slug'] === $tagSlug) {
+                        $postTags[] = $t;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        $response = [
+            'id' => $post['id'],
+            'title' => $post['title'] ?? '',
+            'slug' => $post['slug'] ?? '',
+            'excerpt' => $post['excerpt'] ?? '',
+            'content' => $post['content'] ?? '',
+            'category' => $post['category'] ?? '',
+            'image' => $post['image'] ?? '',
+            'author' => $post['author'] ?? '',
+            'is_published' => $post['is_published'] ?? false,
+            'created_at' => $post['created_at'] ?? date('Y-m-d'),
+            'tags' => $postTags,
+            'comments' => $postComments
+        ];
+    } else {
+        $response = ['error' => 'Post not found'];
+    }
 }
 // Blog list
 elseif ($path === 'blog' || $path === 'blog/') {
