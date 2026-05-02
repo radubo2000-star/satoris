@@ -29,7 +29,14 @@ const CommentsList: React.FC = () => {
     
     try {
       const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-      if (response.ok) setComments(await response.json());
+      if (response.ok) {
+        const data = await response.json();
+        // Sort by created_at descending (newest first)
+        const sorted = Array.isArray(data) ? data.sort((a, b) => 
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        ) : data;
+        setComments(sorted);
+      }
     } catch (err) { console.error('Failed to fetch comments:', err); }
     finally { setIsLoading(false); }
   };

@@ -18,29 +18,12 @@ function BlogPostDetail() {
 
   useEffect(() => {
     if (slug) {
-      console.log('Loading blog post:', slug);
       setIsLoading(true);
       getBlogPostBySlug(slug)
         .then(res => {
-          console.log('API raw response:', res);
-          console.log('API response data:', res.data);
-          
-          // More lenient validation - handle various response formats
-          if (!res.data) {
-            console.error('No data in response:', res);
-            setPost({
-              id: 1,
-              title: 'Târg de Crăciun Dalles 2025',
-              slug: slug,
-              content: '<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025.</p>',
-              category: 'Events',
-              author: 'Satoris Team',
-              created_at: '2025-12-01',
-              tags: ['events', 'case-study']
-            });
-          } else if (res.data.error) {
+          // Check if response is valid post or error
+          if (res.data && res.data.error) {
             console.error('API error:', res.data.error);
-            // Use fallback data on error
             setPost({
               id: 1,
               title: 'Târg de Crăciun Dalles 2025',
@@ -51,24 +34,24 @@ function BlogPostDetail() {
               created_at: '2025-12-01',
               tags: ['events', 'case-study']
             });
-          } else {
+          } else if (res.data && (res.data.id || res.data.title)) {
             setPost(res.data);
             setComments(res.data.comments || []);
+          } else {
+            setPost({
+              id: 1,
+              title: 'Târg de Crăciun Dalles 2025',
+              slug: slug,
+              content: '<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025.</p>',
+              category: 'Events',
+              author: 'Satoris Team',
+              created_at: '2025-12-01',
+              tags: ['events', 'case-study']
+            });
           }
         })
         .catch(err => {
           console.error('Error loading post:', err);
-          // Use fallback on error
-          setPost({
-            id: 1,
-            title: 'Târg de Crăciun Dalles 2025',
-            slug: slug,
-            content: '<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025.</p>',
-            category: 'Events',
-            author: 'Satoris Team',
-            created_at: '2025-12-01',
-            tags: ['events', 'case-study']
-          });
         })
         .finally(() => setIsLoading(false));
     }
@@ -81,7 +64,6 @@ function BlogPostDetail() {
       return;
     }
     
-    console.log('Submitting comment with:', { blog_post_id: post.id, ...commentForm });
     setIsSubmitting(true);
     try {
       const res = await addComment({
@@ -93,7 +75,6 @@ function BlogPostDetail() {
       setCommentMessage(res.data.message);
       setCommentForm({ author_name: '', author_email: '', content: '' });
     } catch (error) {
-      console.error('Error submitting comment:', error);
       setCommentMessage('Error submitting comment. Please try again.');
     } finally {
       setIsSubmitting(false);

@@ -261,7 +261,7 @@ function saveData($data) {
 }
 
 // Router
-$response = ['error' => 'Endpoint not found', 'debug' => $path];
+$response = ['error' => 'Endpoint not found'];
 
 // Normalize path to lowercase for case-insensitive matching
 $path = strtolower($path);
@@ -677,13 +677,12 @@ switch ($path) {
             }
         } elseif ($method === 'POST') {
             // Add new user (admin or super_admin can add users)
-            $debug = ['received_role' => $currentUser ? ($currentUser['role'] ?? 'no role') : 'no user', 'path' => $path];
             if (!$currentUser) {
                 http_response_code(403);
-                $response = ['error' => 'Not authenticated', 'debug' => $debug];
+                $response = ['error' => 'Not authenticated'];
             } elseif (!in_array($currentUser['role'], ['admin', 'super_admin'])) {
                 http_response_code(403);
-                $response = ['error' => 'Admin access required', 'debug' => $debug];
+                $response = ['error' => 'Admin access required'];
             } else {
                 $name = $input['name'] ?? null;
                 $email = $input['email'] ?? null;
@@ -880,7 +879,7 @@ switch ($path) {
             $response = $project;
         } else {
             http_response_code(404);
-            $response = ['error' => 'Project not found', 'debug' => $idSlug];
+            $response = ['error' => 'Project not found'];
         }
         break;
 
@@ -1005,6 +1004,8 @@ switch ($path) {
                 $approved = $_GET['approved'] === 'true';
                 $comments = array_values(array_filter($comments, fn($c) => $c['is_approved'] === $approved));
             }
+            // Sort by created_at descending (newest first)
+            usort($comments, fn($a, $b) => strcmp($b['created_at'] ?? '', $a['created_at'] ?? ''));
             $response = $comments;
         } elseif ($method === 'POST') {
             $blog_post_id = $input['blog_post_id'] ?? null;
@@ -1012,12 +1013,9 @@ switch ($path) {
             $author_email = $input['author_email'] ?? null;
             $content = $input['content'] ?? null;
             
-            // Debug log input received (comment out in production)
-            // error_log("COMMENTS POST - input: " . json_encode($input));
-            
             if (!$blog_post_id || !$author_name || !$author_email || !$content) {
                 http_response_code(400);
-                $response = ['error' => 'All fields are required', 'debug' => ['received' => array_keys($input), 'blog_post_id' => $blog_post_id, 'author_name' => $author_name, 'author_email' => $author_email, 'content_len' => strlen($content ?? '')]];
+                $response = ['error' => 'All fields are required'];
             } else {
                 $newComment = [
                     'id' => count($data['comments']) + 1,
