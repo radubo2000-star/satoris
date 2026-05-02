@@ -8,7 +8,7 @@
             "content": "<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025.</p>",
             "category": "Events",
             "author": "Satoris Team",
-            "image": "https://satoris.ro/wp-content/uploads/2023/09/Targ-de-craciun-Dalles-2025-site-satoris--260x300.png",
+            "image": "/images/targ-dalles.jpg",
             "is_published": true,
             "created_at": "2025-12-01",
             "tags": [
@@ -24,7 +24,7 @@
             "content": "<p>Attending or exhibiting at trade shows can be a game-changer.</p>",
             "category": "Strategy",
             "author": "Natalia Pruteanu",
-            "image": "https://library.elementor.com/digital-marketing-studio/wp-content/uploads/sites/179/2022/03/Post_Softy_Img_1.jpg",
+            "image": "/images/softy.jpg",
             "is_published": true,
             "created_at": "2025-10-15",
             "tags": [
@@ -40,7 +40,7 @@
             "content": "<p>Working with Omi allowed us to completely transform their digital presence.</p>",
             "category": "Digital",
             "author": "Satoris Team",
-            "image": "https://satoris.ro/wp-content/uploads/2022/01/Post_Omi_Img_Featured-260x300.jpg",
+            "image": "/images/omir.jpg",
             "is_published": true,
             "created_at": "2022-01-10",
             "tags": [
@@ -56,7 +56,7 @@
             "content": "<p>Holandria approached us for a complete brand refresh.</p>",
             "category": "Branding",
             "author": "Satoris Team",
-            "image": "https://satoris.ro/wp-content/uploads/2022/01/Post_Holandria_Img_Featured-260x300.jpg",
+            "image": "/images/holandia.jpg",
             "is_published": true,
             "created_at": "2022-01-05",
             "tags": [
