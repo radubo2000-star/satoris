@@ -55,6 +55,9 @@ $path = trim($path, '/');
 $path = preg_replace('/[^a-zA-Z0-9\/_-]/', '', $path);
 $path = strtolower($path);
 
+// DEBUG: Log request details (temporary)
+// error_log("API Request: $method $path");
+
 // Get input data
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
 if (empty($input) && !empty($_POST)) {

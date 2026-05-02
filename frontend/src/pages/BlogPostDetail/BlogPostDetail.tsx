@@ -18,13 +18,26 @@ function BlogPostDetail() {
 
   useEffect(() => {
     if (slug) {
+      console.log('Loading blog post:', slug);
       setIsLoading(true);
       getBlogPostBySlug(slug)
         .then(res => {
-          setPost(res.data);
-          setComments(res.data.comments || []);
+          console.log('API response:', res.data);
+          // Check if response is a post or error
+          if (res.data && res.data.error) {
+            console.error('API error:', res.data.error);
+            setPost(null);
+          } else if (res.data && (res.data.id || res.data.title)) {
+            setPost(res.data);
+            setComments(res.data.comments || []);
+          } else {
+            console.error('Unexpected response format:', res.data);
+            setPost(null);
+          }
         })
-        .catch(console.error)
+        .catch(err => {
+          console.error('Error loading post:', err);
+        })
         .finally(() => setIsLoading(false));
     }
   }, [slug]);
