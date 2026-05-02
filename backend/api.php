@@ -22,7 +22,20 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json');
 
-// Serve local images
+// Get request info - moved up before image serving
+$method = $_SERVER['REQUEST_METHOD'];
+$requestUri = $_SERVER['REQUEST_URI'];
+$path = parse_url($requestUri, PHP_URL_PATH);
+$path = str_replace('/api/', '', $path);
+$path = trim($path ?? '', '/');
+
+// ULTRA CLEAN - basic alphanumeric, hyphens, slashes  
+if ($path) {
+    $path = preg_replace('/[^a-zA-Z0-9\-_\/]/', '', $path);
+    $path = strtolower($path);
+}
+
+// Serve local images - path is now defined
 if (str_starts_with($path, 'images/')) {
     $baseDir = realpath(__DIR__ . '/images');
     $requested = realpath(__DIR__ . '/' . $path);
@@ -65,11 +78,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-// Get request info
-$method = $_SERVER['REQUEST_METHOD'];
-$requestUri = $_SERVER['REQUEST_URI'];
-$path = parse_url($requestUri, PHP_URL_PATH);
-
 // Helper function to get settings
 function get_settings() {
     $settingsFile = __DIR__ . '/settings.json';
@@ -88,14 +96,6 @@ function get_settings() {
         }
     }
     return $defaults;
-}
-$path = str_replace('/api/', '', $path);
-$path = trim($path ?? '', '/');
-
-// ULTRA CLEAN - basic alphanumeric, hyphens, slashes  
-if ($path) {
-    $path = preg_replace('/[^a-zA-Z0-9\-_\/]/', '', $path);
-    $path = strtolower($path);
 }
 
 // DEBUG: Log request details (temporary)
