@@ -266,7 +266,7 @@ $response = ['error' => 'Endpoint not found', 'debug' => $path];
 // Normalize path to lowercase for case-insensitive matching
 $path = strtolower($path);
 
-// Handle blog/:id before switch
+// Handle blog/:id before switch (numeric only)
 if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
     $id = (int)$matches[1];
     if ($method === 'GET') {
@@ -281,6 +281,64 @@ if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
         exit;
     }
 }
+
+// Handle blog/:slug (non-numeric - for blog detail pages)
+if ($method === 'GET' && preg_match('#^blog/[^/]+$#', $path) && !preg_match('#^blog/\d+$#', $path)) {
+    $slug = substr($path, 5);
+    $post = null;
+    
+    foreach ($data['blogPosts'] as $p) {
+        if ($p['slug'] === $slug) {
+            $post = $p;
+            break;
+        }
+    }
+    
+    if ($post) {
+        // Get approved comments for this post
+        $postComments = [];
+        foreach ($data['comments'] as $c) {
+            if ($c['blog_post_id'] === $post['id'] && !empty($c['is_approved'])) {
+                $postComments[] = $c;
+            }
+        }
+        
+        // Get tags
+        $postTags = [];
+        if (!empty($post['tags']) && is_array($post['tags'])) {
+            foreach ($post['tags'] as $tagSlug) {
+                $foundTag = null;
+                foreach ($data['tags'] as $t) {
+                    if ($t['slug'] === $tagSlug) {
+                        $foundTag = $t;
+                        break;
+                    }
+                }
+                if ($foundTag) {
+                    $postTags[] = $foundTag;
+                }
+            }
+        }
+        
+        $response = [
+            'id' => $post['id'],
+            'title' => $post['title'] ?? '',
+            'slug' => $post['slug'] ?? '',
+            'excerpt' => $post['excerpt'] ?? '',
+            'content' => $post['content'] ?? '',
+            'category' => $post['category'] ?? '',
+            'image' => $post['image'] ?? '',
+            'author' => $post['author'] ?? '',
+            'is_published' => $post['is_published'] ?? false,
+            'created_at' => $post['created_at'] ?? date('Y-m-d'),
+            'tags' => $postTags,
+            'comments' => $postComments
+        ];
+        echo json_encode($response);
+        exit;
+    }
+}
+
 
 // Handle projects/:id
 if (preg_match('#^projects/(\d+)$#', $path, $matches)) {
@@ -895,70 +953,6 @@ switch ($path) {
         }
         break;
 
-    // BLOG/:SLUG - match exactly blog/slug (not blog/number)
-    case preg_match('#^blog/[^0-9]+$#', $path):
-        $slug = substr($path, 5);
-        $post = null;
-        
-        foreach ($data['blogPosts'] as $p) {
-            if ($p['slug'] === $slug) {
-                $post = $p;
-                break;
-            }
-        }
-        
-        if ($post) {
-            // Get approved comments for this post
-            $postComments = [];
-            foreach ($data['comments'] as $c) {
-                if ($c['blog_post_id'] === $post['id'] && $c['is_approved']) {
-                    $postComments[] = $c;
-                }
-            }
-            
-            // Get tags - use simple array if tags are strings
-            $postTags = [];
-            if (!empty($post['tags']) && is_array($post['tags'])) {
-                foreach ($post['tags'] as $tagSlug) {
-                    // Try to find the tag in data['tags']
-                    $foundTag = null;
-                    foreach ($data['tags'] as $t) {
-                        if ($t['slug'] === $tagSlug) {
-                            $foundTag = $t;
-                            break;
-                        }
-                    }
-                    if ($foundTag) {
-                        $postTags[] = $foundTag;
-                    } else {
-                        // Just use the string tag
-                        $postTags[] = ['name' => $tagSlug, 'slug' => $tagSlug];
-                    }
-                }
-            }
-            
-            // Build response
-            $response = [
-                'id' => $post['id'],
-                'title' => $post['title'] ?? '',
-                'slug' => $post['slug'] ?? '',
-                'excerpt' => $post['excerpt'] ?? '',
-                'content' => $post['content'] ?? '',
-                'category' => $post['category'] ?? '',
-                'image' => $post['image'] ?? '',
-                'author' => $post['author'] ?? '',
-                'is_published' => $post['is_published'] ?? false,
-                'created_at' => $post['created_at'] ?? date('Y-m-d'),
-                'tags' => $postTags,
-                'comments' => $postComments
-            ];
-        } else {
-            http_response_code(404);
-            $response = ['error' => 'Post not found', 'debug_slug' => $slug];
-        }
-        break;
-
-    // BLOG/:ID (PUT/DELETE)
     case preg_match('/^blog\/(\d+)$/', $path, $m) ? $path = $m[0] : '':
         $id = (int)$m[1];
         $idx = null;
