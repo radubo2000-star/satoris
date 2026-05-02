@@ -93,9 +93,10 @@ function handle_comments_create($input, $data) {
  */
 function handle_comments_update($id, $method, $data) {
     $comments = $data['comments'] ?? [];
+    $id = (int)$id;
     
     foreach ($comments as $i => $c) {
-        if ($c['id'] === $id) {
+        if ((int)$c['id'] === $id) {
             if ($method === 'PUT') {
                 $data['comments'][$i]['is_approved'] = !$c['is_approved'];
                 save_data($data);

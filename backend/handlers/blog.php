@@ -123,8 +123,9 @@ function handle_blog_create($input, $data) {
  */
 function handle_blog_id($id, $method, $input, $data) {
     $idx = null;
+    $id = (int)$id;
     foreach ($data['blogPosts'] as $i => $p) {
-        if ($p['id'] === $id) {
+        if ((int)$p['id'] === $id) {
             $idx = $i;
             break;
         }
@@ -155,8 +156,9 @@ function handle_blog_id($id, $method, $input, $data) {
  * Handle blog publish toggle (POST /api/blog/:id/publish)
  */
 function handle_blog_publish($id, $data) {
+    $id = (int)$id;
     foreach ($data['blogPosts'] as $i => $p) {
-        if ($p['id'] === $id) {
+        if ((int)$p['id'] === $id) {
             $data['blogPosts'][$i]['is_published'] = !$p['is_published'];
             save_data($data);
             return ['success' => true, 'is_published' => $data['blogPosts'][$i]['is_published']];
