@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProjects } from '../../api/client';
 import '../../styles/globals.css';
 import '../../styles/sections.css';
@@ -8,6 +8,7 @@ import LetsTalk from '../../components/LetsTalk/LetsTalk';
 
 function Work() {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [filter, setFilter] = useState('All');
   const [projectsData, setProjectsData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,7 +58,7 @@ function Work() {
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setRotate({ x: 0, y: 0 })}
         whileHover={{ scale: 1.02 }}
-        onClick={() => {}}
+        onClick={() => navigate(`/work/${project.slug}`)}
         style={{ perspective: '1000px', cursor: 'pointer' }}
       >
         <motion.div
