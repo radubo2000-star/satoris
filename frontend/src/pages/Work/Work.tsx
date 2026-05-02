@@ -122,31 +122,42 @@ function Work() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <img
-                src={currentProject.image}
-                alt={currentProject.name}
-                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '12px', marginBottom: 'var(--space-6)' }} />
-              <h2 style={{ fontSize: 'var(--text-3xl)', color: '#FF9100', marginBottom: 'var(--space-2)' }}>{currentProject.name}</h2>
-              <p style={{ color: '#555', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>{currentProject.category}</p>
+              {currentProject.image && (
+                <img
+                  src={currentProject.image}
+                  alt={currentProject.name}
+                  style={{ width: '100%', maxHeight: '500px', objectFit: 'cover', borderRadius: '12px', marginBottom: 'var(--space-6)' }}
+                />
+              )}
+              <h2 style={{ fontSize: 'var(--text-3xl)', color: '#FF9100', marginBottom: 'var(--space-4)' }}>{currentProject.name}</h2>
               
-              {/* Additional project details */}
-              {currentProject.client && (
-                <p style={{ color: '#6b7280', marginBottom: 'var(--space-2)' }}>
-                  <strong>Client:</strong> {currentProject.client}
-                </p>
-              )}
-              {currentProject.services && (
-                <p style={{ color: '#6b7280', marginBottom: 'var(--space-2)' }}>
-                  <strong>Services:</strong> {currentProject.services}
-                </p>
-              )}
-              {currentProject.year && (
-                <p style={{ color: '#6b7280', marginBottom: 'var(--space-4)' }}>
-                  <strong>Year:</strong> {currentProject.year}
-                </p>
-              )}
-              <div style={{ color: '#374151', lineHeight: 1.8, marginTop: 'var(--space-4)' }} 
-                dangerouslySetInnerHTML={{ __html: currentProject.content || currentProject.description }} />
+              {/* Project meta */}
+              <div style={{ marginBottom: 'var(--space-6)' }}>
+                {currentProject.client && (
+                  <div style={{ marginBottom: 'var(--space-2)' }}>
+                    <strong style={{ color: '#6b7280' }}>Client</strong>
+                    <p style={{ color: '#374151', fontSize: 'var(--text-lg)' }}>{currentProject.client}</p>
+                  </div>
+                )}
+                {currentProject.services && (
+                  <div style={{ marginBottom: 'var(--space-2)' }}>
+                    <strong style={{ color: '#6b7280' }}>Services</strong>
+                    <div style={{ color: '#374151', whiteSpace: 'pre-wrap' }}>{currentProject.services}</div>
+                  </div>
+                )}
+                {currentProject.year && (
+                  <div style={{ marginBottom: 'var(--space-2)' }}>
+                    <strong style={{ color: '#6b7280' }}>Year</strong>
+                    <p style={{ color: '#374151' }}>{currentProject.year}</p>
+                  </div>
+                )}
+              </div>
+              
+              {/* Project content */}
+              <div 
+                style={{ color: '#374151', lineHeight: 1.8 }} 
+                dangerouslySetInnerHTML={{ __html: currentProject.content || currentProject.description }} 
+              />
             </motion.div>
           </div>
         </section>
