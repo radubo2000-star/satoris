@@ -83,8 +83,13 @@ elseif ($path === 'auth/register' || $path === 'auth/register/' ||
     require_once __DIR__ . '/includes/auth.php';
     $response = handle_auth($path, $method, $input, $currentUser);
 }
-// Blog by ID or publish
+// Blog by ID or publish (numeric ID)
 elseif (preg_match('/^blog\/(\d+)$/', $path) || preg_match('/^blog\/(\d+)\/publish$/', $path)) {
+    require_once __DIR__ . '/handlers/blog.php';
+    $response = handle_blog($path, $method, $input, $data);
+}
+// Blog by slug (non-numeric - e.g., blog/t-rg-de-cr-ciun-dalles-2025)
+elseif (preg_match('/^blog\/[^/]+$/', $path) && $path !== 'blog' && $path !== 'blog/') {
     require_once __DIR__ . '/handlers/blog.php';
     $response = handle_blog($path, $method, $input, $data);
 }
