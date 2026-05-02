@@ -44,6 +44,26 @@ function App() {
         {/* Admin Login - simple page without header/footer */}
         <Route path="/admin/login" element={<Login />} />
         
+        {/* Admin Routes with AdminLayout - outside public Layout */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="blog" element={<BlogList />} />
+          <Route path="blog/new" element={<BlogForm />} />
+          <Route path="blog/:id" element={<BlogForm />} />
+          <Route path="projects" element={<ProjectsList />} />
+          <Route path="projects/new" element={<ProjectsForm />} />
+          <Route path="projects/:id" element={<ProjectsForm />} />
+          <Route path="comments" element={<CommentsList />} />
+          <Route path="users" element={<UsersList />} />
+          <Route path="products" element={<ProductsList />} />
+          <Route path="products/new" element={<ProductsForm />} />
+          <Route path="products/:id" element={<ProductsForm />} />
+          <Route path="orders" element={<OrdersList />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="analytics" element={<Analytics />} />
+        </Route>
+        
         {/* Public routes with Layout (Header + Footer) */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -54,26 +74,6 @@ function App() {
           <Route path="blog/:slug" element={<BlogPostDetail />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
-          
-          {/* Admin Routes with AdminLayout */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="blog" element={<BlogList />} />
-            <Route path="blog/new" element={<BlogForm />} />
-            <Route path="blog/:id" element={<BlogForm />} />
-            <Route path="projects" element={<ProjectsList />} />
-            <Route path="projects/new" element={<ProjectsForm />} />
-            <Route path="projects/:id" element={<ProjectsForm />} />
-            <Route path="comments" element={<CommentsList />} />
-            <Route path="users" element={<UsersList />} />
-            <Route path="products" element={<ProductsList />} />
-            <Route path="products/new" element={<ProductsForm />} />
-            <Route path="products/:id" element={<ProductsForm />} />
-            <Route path="orders" element={<OrdersList />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="analytics" element={<Analytics />} />
-          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
