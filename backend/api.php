@@ -340,33 +340,39 @@ if ($method === 'GET' && preg_match('#^blog/[^/]+$#', $path) && !preg_match('#^b
 }
 
 
-// Handle projects/:id
-if (preg_match('#^projects/(\d+)$#', $path, $matches)) {
-    $id = (int)$matches[1];
-    error_log("projects/$id: method=$method");
+// Handle projects/:id or projects/:slug
+if (preg_match('#^projects/([^/]+)$#', $path, $matches)) {
+    $idOrSlug = $matches[1];
+    
+    // Try to find by ID (numeric) or slug (string)
+    $project = null;
+    foreach ($projects as $p) {
+        if ((string)$p['id'] === $idOrSlug || $p['slug'] === $idOrSlug) {
+            $project = $p;
+            break;
+        }
+    }
+    
+    if (!$project) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Project not found']);
+        exit;
+    }
+    
     if ($method === 'PUT') {
-        error_log("PUT request with input: " . json_encode($input));
         foreach ($projects as &$p) {
-            if ($p['id'] === $id) {
+            if ($p['id'] === $project['id']) {
                 $p = array_merge($p, $input);
-                $p['id'] = $id;
+                $p['id'] = $project['id'];
                 $response = $p;
                 echo json_encode($response);
                 exit;
             }
         }
-        http_response_code(404);
-        echo json_encode(['error' => 'Project not found']);
-        exit;
     }
-    // GET
-    $project = array_values(array_filter($projects, fn($p) => $p['id'] === $id));
-    if (empty($project)) {
-        http_response_code(404);
-        $response = ['error' => 'Project not found'];
-    } else {
-        $response = $project[0];
-    }
+    
+    // GET - return project with all fields
+    $response = $project;
     echo json_encode($response);
     exit;
 }
@@ -842,23 +848,25 @@ switch ($path) {
             }
         } else {
             // Return all projects by default (for admin). With ?active=true return only active (for site)
-            $activeOnly = isset($_GET['active']) && $_GET['active'] === 'true';
-            $projectsToReturn = $activeOnly 
-                ? array_values(array_filter($projects, fn($p) => $p['is_active']))
-                : $projects;
-            // Re-read from file to get persisted changes
-            $dataFile = __DIR__ . '/data.json';
-            if (file_exists($dataFile)) {
-                $data = json_decode(file_get_contents($dataFile), true);
-                $projects = $data['projects'] ?? $projects;
+            $slug = $_GET['slug'] ?? null;
+            if ($slug) {
+                $project = array_values(array_filter($projects, fn($p) => $p['slug'] === $slug));
+                $response = $project ? $project[0] : ['error' => 'Project not found'];
+            } else {
+                $activeOnly = isset($_GET['active']) && $_GET['active'] === 'true';
+                $projectsToReturn = $activeOnly 
+                    ? array_values(array_filter($projects, fn($p) => $p['is_active']))
+                    : $projects;
+                // Re-read from file to get persisted changes
+                $dataFile = __DIR__ . '/data.json';
+                if (file_exists($dataFile)) {
+                    $data = json_decode(file_get_contents($dataFile), true);
+                    $projects = $data['projects'] ?? $projects;
+                }
+                // Sort by created_at descending (newest first)
+                usort($projectsToReturn, fn($a, $b) => strcmp($b['created_at'] ?? '', $a['created_at'] ?? ''));
+                $response = $projectsToReturn;
             }
-            // Sort by created_at descending (newest first)
-            usort($projectsToReturn, function($a, $b) {
-                $dateA = $a['created_at'] ?? '1970-01-01';
-                $dateB = $b['created_at'] ?? '1970-01-01';
-                return strcmp($dateB, $dateA);
-            });
-            $response = $projectsToReturn;
         }
         break;
 

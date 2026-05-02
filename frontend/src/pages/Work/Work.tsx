@@ -14,13 +14,25 @@ function Work() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    getProjects({ active: true })
-      .then(res => {
-        setProjectsData(res.data);
-        setLoading(false);
-      })
-      .catch(console.error);
-  }, []);
+    if (slug) {
+      // Fetch single project by slug
+      getProjects({ slug: slug })
+        .then(res => {
+          if (res.data && res.data.id) {
+            setProjectsData([res.data]);
+          }
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    } else {
+      getProjects({ active: true })
+        .then(res => {
+          setProjectsData(res.data);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }
+  }, [slug]);
 
   if (loading) return <div style={{padding:'50px',textAlign:'center'}}>Loading...</div>;
   
@@ -116,7 +128,25 @@ function Work() {
                 style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '12px', marginBottom: 'var(--space-6)' }} />
               <h2 style={{ fontSize: 'var(--text-3xl)', color: '#FF9100', marginBottom: 'var(--space-2)' }}>{currentProject.name}</h2>
               <p style={{ color: '#555', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-4)' }}>{currentProject.category}</p>
-              <p style={{ color: '#374151', lineHeight: 1.8 }}>{currentProject.description}</p>
+              
+              {/* Additional project details */}
+              {currentProject.client && (
+                <p style={{ color: '#6b7280', marginBottom: 'var(--space-2)' }}>
+                  <strong>Client:</strong> {currentProject.client}
+                </p>
+              )}
+              {currentProject.services && (
+                <p style={{ color: '#6b7280', marginBottom: 'var(--space-2)' }}>
+                  <strong>Services:</strong> {currentProject.services}
+                </p>
+              )}
+              {currentProject.year && (
+                <p style={{ color: '#6b7280', marginBottom: 'var(--space-4)' }}>
+                  <strong>Year:</strong> {currentProject.year}
+                </p>
+              )}
+              <div style={{ color: '#374151', lineHeight: 1.8, marginTop: 'var(--space-4)' }} 
+                dangerouslySetInnerHTML={{ __html: currentProject.content || currentProject.description }} />
             </motion.div>
           </div>
         </section>
