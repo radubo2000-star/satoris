@@ -179,12 +179,57 @@ function handle_blog_publish($id, $data) {
  * Handle blog by slug (GET /api/blog/:slug)
  */
 function handle_blog_slug($slug, $data) {
+    $post = null;
+    
+    // First find by slug (case-insensitive)
+    $slugLower = strtolower($slug);
     foreach ($data['blogPosts'] as $p) {
-        if ($p['slug'] === $slug) {
-            return $p;
+        if (strtolower($p['slug']) === $slugLower) {
+            $post = $p;
+            break;
         }
     }
     
-    http_response_code(404);
-    return ['error' => 'Post not found'];
+    if (!$post) {
+        http_response_code(404);
+        return ['error' => 'Post not found'];
+    }
+    
+    // Get approved comments for this post
+    $postComments = [];
+    $postId = is_array($post['id']) ? $post['id'] : (int)$post['id'];
+    foreach ($data['comments'] ?? [] as $c) {
+        $commentPostId = is_array($c['blog_post_id']) ? $c['blog_post_id'] : (int)$c['blog_post_id'];
+        if ($commentPostId === $postId && !empty($c['is_approved'])) {
+            $postComments[] = $c;
+        }
+    }
+    
+    // Get tags
+    $postTags = [];
+    if (!empty($post['tags']) && is_array($post['tags'])) {
+        foreach ($post['tags'] as $tagSlug) {
+            foreach ($data['tags'] ?? [] as $t) {
+                if ($t['slug'] === $tagSlug) {
+                    $postTags[] = $t;
+                    break;
+                }
+            }
+        }
+    }
+    
+    return [
+        'id' => $post['id'],
+        'title' => $post['title'] ?? '',
+        'slug' => $post['slug'] ?? '',
+        'excerpt' => $post['excerpt'] ?? '',
+        'content' => $post['content'] ?? '',
+        'category' => $post['category'] ?? '',
+        'image' => $post['image'] ?? '',
+        'author' => $post['author'] ?? '',
+        'is_published' => $post['is_published'] ?? false,
+        'created_at' => $post['created_at'] ?? date('Y-m-d'),
+        'tags' => $postTags,
+        'comments' => $postComments
+    ];
 }
