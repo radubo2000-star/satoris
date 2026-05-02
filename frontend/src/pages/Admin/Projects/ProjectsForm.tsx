@@ -13,6 +13,10 @@ interface Project {
   is_featured: boolean;
   is_active: boolean;
   created_at?: string;
+  client?: string;
+  services?: string;
+  year?: string;
+  content?: string;
 }
 
 const ProjectsForm: React.FC = () => {
@@ -28,7 +32,11 @@ const ProjectsForm: React.FC = () => {
     description: '',
     image: '',
     is_featured: false,
-    is_active: true
+    is_active: true,
+    client: '',
+    services: '',
+    year: '',
+    content: ''
   });
 
   useEffect(() => {
@@ -129,8 +137,48 @@ const ProjectsForm: React.FC = () => {
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Project description..."
+                placeholder="Short description for project cards..."
                 rows={4}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Client</label>
+              <input
+                type="text"
+                value={formData.client || ''}
+                onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+                placeholder="Client name"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Services</label>
+              <input
+                type="text"
+                value={formData.services || ''}
+                onChange={(e) => setFormData({ ...formData, services: e.target.value })}
+                placeholder="Digital Audit, Market Research..."
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Year</label>
+              <input
+                type="text"
+                value={formData.year || ''}
+                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+                placeholder="2022"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Content (HTML)</label>
+              <textarea
+                value={formData.content || ''}
+                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                placeholder="Full project description..."
+                rows={6}
               />
             </div>
           </div>

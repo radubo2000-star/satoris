@@ -818,7 +818,11 @@ switch ($path) {
                 'image' => $input['image'] ?? '',
                 'is_featured' => $input['is_featured'] ?? false,
                 'is_active' => $input['is_active'] ?? true,
-                'created_at' => date('Y-m-d')
+                'created_at' => date('Y-m-d'),
+                'client' => $input['client'] ?? '',
+                'services' => $input['services'] ?? '',
+                'year' => $input['year'] ?? '',
+                'content' => $input['content'] ?? ''
             ];
             $projects[] = $newProject;
             $data['projects'] = $projects;
