@@ -36,7 +36,8 @@ const Login: React.FC = () => {
       if (response.ok && data.success) {
         localStorage.setItem('admin_token', data.token);
         localStorage.setItem('admin_user', JSON.stringify(data.user));
-        navigate(from, { replace: true });
+        // Always redirect to admin dashboard after login
+        navigate('/admin/dashboard', { replace: true });
       } else {
         setError(data.error || 'Login failed');
       }
@@ -96,15 +97,6 @@ const Login: React.FC = () => {
           </button>
         </form>
 
-        <div className="auth-footer">
-          <p>Don't have an account? <Link to="/admin/register">Register</Link></p>
-        </div>
-
-        <div className="auth-demo">
-          <p><strong>Demo credentials:</strong></p>
-          <p>Email: admin@satoris.ro</p>
-          <p>Password: admin123</p>
-        </div>
       </div>
     </div>
   );

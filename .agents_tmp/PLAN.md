@@ -109,7 +109,6 @@ Implementez sistem complet de administrare profesionist pentru Satoris cu:
 #### 2.2 Auth Pages
 **Files:** `frontend/src/pages/Admin/Auth/`
 - Login.tsx - Login form
-- Register.tsx - Registration form
 - ProtectedRoute.tsx - Route guard (verifică auth și rol)
 
 **Caracteristici:**

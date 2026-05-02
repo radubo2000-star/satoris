@@ -373,45 +373,10 @@ switch ($path) {
         $response = ['status' => 'ok', 'timestamp' => date('c')];
         break;
 
-    // AUTH: REGISTER
+    // AUTH: REGISTER - DISABLED
     case 'auth/register':
-        // Support both POST and GET for testing
-        if ($method === 'POST' || $method === 'GET') {
-            if ($method === 'GET') {
-                $response = ['message' => 'Use POST to register', 'example' => ['email'=>'test@test.ro','password'=>'123456','name'=>'Test']];
-                break;
-            }
-            $email = $input['email'] ?? null;
-            $password = $input['password'] ?? null;
-            $name = $input['name'] ?? null;
-            
-            if (!$email || !$password || !$name) {
-                http_response_code(400);
-                $response = ['error' => 'Name, email and password are required'];
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                http_response_code(400);
-                $response = ['error' => 'Invalid email format'];
-            } elseif (findUserByEmail($email)) {
-                http_response_code(400);
-                $response = ['error' => 'Email already registered'];
-            } else {
-                $newUser = [
-                    'id' => count($users) + 1,
-                    'email' => $email,
-                    'password_hash' => password_hash($password, PASSWORD_DEFAULT),
-                    'name' => $name,
-                    'role' => 'user',
-                    'is_active' => 1,
-                    'created_at' => date('Y-m-d H:i:s')
-                ];
-                $users[] = $newUser;
-                saveUsers($users);
-                logActivity('register', 'user', $newUser['id'], $newUser['id'], 'User registered');
-                unset($newUser['password_hash']);
-                http_response_code(201);
-                $response = ['success' => true, 'message' => 'Registration successful', 'user' => $newUser];
-            }
-        }
+        http_response_code(403);
+        $response = ['error' => 'Registration is disabled'];
         break;
 
     // AUTH: LOGIN

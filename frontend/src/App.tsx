@@ -10,7 +10,6 @@ import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import AdminLayout from './components/AdminLayout/AdminLayout';
 import Login from './pages/Admin/Auth/Login';
-import Register from './pages/Admin/Auth/Register';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import BlogList from './pages/Admin/Blog/BlogList';
 import BlogForm from './pages/Admin/Blog/BlogForm';
@@ -41,40 +40,42 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/work/:slug" element={<Work />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPostDetail />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin/register" element={<Register />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="blog" element={<BlogList />} />
-            <Route path="blog/new" element={<BlogForm />} />
-            <Route path="blog/:id" element={<BlogForm />} />
-            <Route path="projects" element={<ProjectsList />} />
-            <Route path="projects/new" element={<ProjectsForm />} />
-            <Route path="projects/:id" element={<ProjectsForm />} />
-            <Route path="comments" element={<CommentsList />} />
-            <Route path="users" element={<UsersList />} />
-            <Route path="products" element={<ProductsList />} />
-            <Route path="products/new" element={<ProductsForm />} />
-            <Route path="products/:id" element={<ProductsForm />} />
-            <Route path="orders" element={<OrdersList />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="analytics" element={<Analytics />} />
-          </Route>
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Admin Login - simple page without header/footer */}
+        <Route path="/admin/login" element={<Login />} />
+        
+        {/* Admin Routes with AdminLayout - outside public Layout */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="blog" element={<BlogList />} />
+          <Route path="blog/new" element={<BlogForm />} />
+          <Route path="blog/:id" element={<BlogForm />} />
+          <Route path="projects" element={<ProjectsList />} />
+          <Route path="projects/new" element={<ProjectsForm />} />
+          <Route path="projects/:id" element={<ProjectsForm />} />
+          <Route path="comments" element={<CommentsList />} />
+          <Route path="users" element={<UsersList />} />
+          <Route path="products" element={<ProductsList />} />
+          <Route path="products/new" element={<ProductsForm />} />
+          <Route path="products/:id" element={<ProductsForm />} />
+          <Route path="orders" element={<OrdersList />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="analytics" element={<Analytics />} />
+        </Route>
+        
+        {/* Public routes with Layout (Header + Footer) */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="services" element={<Services />} />
+          <Route path="work" element={<Work />} />
+          <Route path="work/:slug" element={<Work />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="blog/:slug" element={<BlogPostDetail />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
