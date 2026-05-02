@@ -27,7 +27,6 @@ function Work() {
     } else {
       getProjects({ active: true })
         .then(res => {
-          console.log('Fetched projects:', res.data);
           setProjectsData(res.data || []);
           setLoading(false);
         })
