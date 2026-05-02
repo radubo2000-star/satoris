@@ -51,8 +51,8 @@ function get_settings() {
 $path = str_replace('/api/', '', $path);
 $path = trim($path, '/');
 
-// ULTRA CLEAN - extract only alphanumeric and slashes
-$path = preg_replace('/[^a-zA-Z0-9\/_-]/', '', $path);
+// ULTRA CLEAN - extract only alphanumeric, hyphens, slashes, and Romanian chars
+$path = preg_replace('/[^a-zA-Z0-9ăâîșȚ\-_/]/u', '', $path);
 $path = strtolower($path);
 
 // DEBUG: Log request details (temporary)
