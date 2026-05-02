@@ -97,13 +97,7 @@ const Login: React.FC = () => {
         </form>
 
         <div className="auth-footer">
-          <p>Don't have an account? <Link to="/admin/register">Register</Link></p>
-        </div>
-
-        <div className="auth-demo">
-          <p><strong>Demo credentials:</strong></p>
-          <p>Email: admin@satoris.ro</p>
-          <p>Password: admin123</p>
+          {/* Register link removed */}
         </div>
       </div>
     </div>
