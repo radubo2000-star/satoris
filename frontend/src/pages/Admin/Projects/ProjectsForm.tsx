@@ -163,16 +163,6 @@ const ProjectsForm: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label>Year</label>
-              <input
-                type="text"
-                value={formData.year || ''}
-                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                placeholder="2022"
-              />
-            </div>
-
-            <div className="form-group">
               <label>Content (HTML)</label>
               <textarea
                 value={formData.content || ''}
@@ -202,6 +192,16 @@ const ProjectsForm: React.FC = () => {
                 value={formData.image}
                 onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                 placeholder="https://..."
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Year</label>
+              <input
+                type="text"
+                value={formData.year || ''}
+                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+                placeholder="2022"
               />
             </div>
 
