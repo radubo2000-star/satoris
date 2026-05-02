@@ -18,8 +18,14 @@ function Work() {
       // Fetch single project by slug
       getProjects({ slug: slug })
         .then(res => {
-          if (res.data && res.data.id) {
-            setProjectsData(res.data.data ? [res.data.data] : [res.data]);
+          const projects = res.data.projects || [];
+
+          if (Array.isArray(projects)) {
+            setProjectsData(projects);
+          } else if (projects) {
+            setProjectsData([projects]);
+          } else {
+            setProjectsData([]);
           }
           setLoading(false);
         })
@@ -27,7 +33,8 @@ function Work() {
     } else {
       getProjects({ active: true })
         .then(res => {
-          setProjectsData(res.data.data || res.data);
+          console.log('Fetched projects:', res.data);
+          setProjectsData(Array.isArray(res.data.projects) ? res.data.projects : []);
           setLoading(false);
         })
         .catch(() => setLoading(false));
