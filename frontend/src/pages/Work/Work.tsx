@@ -19,7 +19,7 @@ function Work() {
       getProjects({ slug: slug })
         .then(res => {
           if (res.data && res.data.id) {
-            setProjectsData([res.data]);
+            setProjectsData(res.data.data ? [res.data.data] : [res.data]);
           }
           setLoading(false);
         })
@@ -27,7 +27,7 @@ function Work() {
     } else {
       getProjects({ active: true })
         .then(res => {
-          setProjectsData(res.data);
+          setProjectsData(res.data.data || res.data);
           setLoading(false);
         })
         .catch(() => setLoading(false));

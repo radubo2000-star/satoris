@@ -100,7 +100,7 @@ function Home() {
   useEffect(() => {
     getProjects({ active: true })
       .then(res => {
-        setProjects(res.data);
+        setProjects(res.data.data || res.data);
         setLoading(false);
       })
       .catch(console.error);
