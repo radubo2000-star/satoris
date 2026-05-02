@@ -40,19 +40,22 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/work/:slug" element={<Work />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPostDetail />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+      <Routes>
+        {/* Admin Login - simple page without header/footer */}
+        <Route path="/admin/login" element={<Login />} />
+        
+        {/* Public routes with Layout (Header + Footer) */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="services" element={<Services />} />
+          <Route path="work" element={<Work />} />
+          <Route path="work/:slug" element={<Work />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="blog/:slug" element={<BlogPostDetail />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
           
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={<Login />} />
+          {/* Admin Routes with AdminLayout */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
@@ -71,8 +74,8 @@ function App() {
             <Route path="settings" element={<Settings />} />
             <Route path="analytics" element={<Analytics />} />
           </Route>
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
