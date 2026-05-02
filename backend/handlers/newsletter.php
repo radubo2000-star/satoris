@@ -42,7 +42,7 @@ function handle_newsletter_subscribe($input) {
     }
     
     // Save to subscribers file
-    $subscribersFile = __DIR__ . '/newsletter_subscribers.json';
+    $subscribersFile = __DIR__ . '/../newsletter_subscribers.json';
     $subscribers = file_exists($subscribersFile) ? json_decode(file_get_contents($subscribersFile), true) : [];
     
     // Check if already subscribed

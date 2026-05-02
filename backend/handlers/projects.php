@@ -56,7 +56,7 @@ function handle_projects_list($data, $get) {
         : $projects;
     
     // Re-read from file to get persisted changes
-    $dataFile = __DIR__ . '/data.json';
+    $dataFile = __DIR__ . '/../data.json';
     if (file_exists($dataFile)) {
         $data = json_decode(file_get_contents($dataFile), true);
         $projects = $data['projects'] ?? $projects;

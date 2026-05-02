@@ -45,7 +45,7 @@ function handle_join_team_submit($input) {
     }
     
     // Save submission to file
-    $submissionsFile = __DIR__ . '/join_team_submissions.json';
+    $submissionsFile = __DIR__ . '/../join_team_submissions.json';
     $submissions = file_exists($submissionsFile) ? json_decode(file_get_contents($submissionsFile), true) : [];
     
     $submission = [

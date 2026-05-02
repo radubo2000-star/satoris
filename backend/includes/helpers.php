@@ -34,7 +34,7 @@ function get_config($key, $default = null) {
  * Get settings from settings.json file
  */
 function get_settings() {
-    $settingsFile = __DIR__ . '/settings.json';
+    $settingsFile = __DIR__ . '/../settings.json';
     $defaults = [
         'site_name' => 'Satoris Events',
         'tagline' => 'We make brands Visible & Digital',
@@ -96,7 +96,7 @@ function getCurrentUser($authHeader) {
  * Load users from JSON file
  */
 function load_users() {
-    $usersFile = __DIR__ . '/users.json';
+    $usersFile = __DIR__ . '/../users.json';
     if (file_exists($usersFile)) {
         $users = json_decode(file_get_contents($usersFile), true);
         
@@ -130,7 +130,7 @@ function load_users() {
  * Save users to JSON file
  */
 function save_users($users) {
-    $usersFile = __DIR__ . '/users.json';
+    $usersFile = __DIR__ . '/../users.json';
     file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
 }
 
@@ -207,7 +207,7 @@ function sanitize_input($value) {
  * Load data from data.json
  */
 function load_data() {
-    $dataFile = __DIR__ . '/data.json';
+    $dataFile = __DIR__ . '/../data.json';
     if (file_exists($dataFile)) {
         return json_decode(file_get_contents($dataFile), true);
     }
@@ -218,6 +218,6 @@ function load_data() {
  * Save data to data.json
  */
 function save_data($data) {
-    $dataFile = __DIR__ . '/data.json';
+    $dataFile = __DIR__ . '/../data.json';
     file_put_contents($dataFile, json_encode($data, JSON_PRETTY_PRINT));
 }

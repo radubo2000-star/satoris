@@ -48,7 +48,7 @@ function handle_contact_submit($input) {
     }
     
     // Save submission to file
-    $submissionsFile = __DIR__ . '/contact_submissions.json';
+    $submissionsFile = __DIR__ . '/../contact_submissions.json';
     $submissions = file_exists($submissionsFile) ? json_decode(file_get_contents($submissionsFile), true) : [];
     
     $submission = [

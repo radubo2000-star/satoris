@@ -42,7 +42,7 @@ function handle_settings_save($input) {
     
     if ($input_data) {
         // Save settings to file
-        $settingsFile = __DIR__ . '/settings.json';
+        $settingsFile = __DIR__ . '/../settings.json';
         file_put_contents($settingsFile, json_encode($input_data, JSON_PRETTY_PRINT));
         
         // Log activity
