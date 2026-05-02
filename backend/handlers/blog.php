@@ -27,10 +27,16 @@ function handle_blog($path, $method, $input, $data) {
         }
     }
     
-    // GET /api/blog/:id - Get single post by ID
+    // GET /api/blog/:id - Get single post by ID (check before slug since numbers are more specific)
     if (preg_match('/^blog\/(\d+)$/', $path, $m)) {
         $id = (int)$m[1];
         return handle_blog_id($id, $method, $input, $data);
+    }
+    
+    // GET /api/blog/:slug - Get single post by slug
+    if (preg_match('/^blog\/(.+)$/', $path, $m)) {
+        $slug = $m[1];
+        return handle_blog_slug($slug, $data);
     }
     
     // POST /api/blog/:id/publish - Toggle publish status
@@ -162,6 +168,20 @@ function handle_blog_publish($id, $data) {
             $data['blogPosts'][$i]['is_published'] = !$p['is_published'];
             save_data($data);
             return ['success' => true, 'is_published' => $data['blogPosts'][$i]['is_published']];
+        }
+    }
+    
+    http_response_code(404);
+    return ['error' => 'Post not found'];
+}
+
+/**
+ * Handle blog by slug (GET /api/blog/:slug)
+ */
+function handle_blog_slug($slug, $data) {
+    foreach ($data['blogPosts'] as $p) {
+        if ($p['slug'] === $slug) {
+            return $p;
         }
     }
     
