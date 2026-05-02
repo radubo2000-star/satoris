@@ -874,17 +874,40 @@ switch ($path) {
     case str_starts_with($path, 'blog/') && !str_contains($path, '/'):
         $slug = substr($path, 5);
         $post = null;
-        foreach ($data['blogPosts'] as $p) {
+        $postIdx = null;
+        foreach ($data['blogPosts'] as $i => $p) {
             if ($p['slug'] === $slug) {
                 $post = $p;
+                $postIdx = $i;
                 break;
             }
         }
         
         if ($post) {
+            // Get approved comments for this post
             $postComments = array_values(array_filter($data['comments'], fn($c) => $c['blog_post_id'] === $post['id'] && $c['is_approved']));
-            $postTags = array_values(array_filter($data['tags'], fn($t) => in_array($t['slug'], $post['tags'] ?? [])));
-            $response = array_merge($post, ['comments' => $postComments, 'tags' => $postTags]);
+            
+            // Get tags that match this post's tags
+            $postTags = [];
+            if (!empty($post['tags'])) {
+                $postTags = array_values(array_filter($data['tags'], fn($t) => in_array($t['slug'], $post['tags'])));
+            }
+            
+            // Build response explicitly to ensure all fields are included
+            $response = [
+                'id' => $post['id'],
+                'title' => $post['title'] ?? '',
+                'slug' => $post['slug'] ?? '',
+                'excerpt' => $post['excerpt'] ?? '',
+                'content' => $post['content'] ?? '',
+                'category' => $post['category'] ?? '',
+                'image' => $post['image'] ?? '',
+                'author' => $post['author'] ?? '',
+                'is_published' => $post['is_published'] ?? false,
+                'created_at' => $post['created_at'] ?? date('Y-m-d'),
+                'tags' => $postTags,
+                'comments' => $postComments
+            ];
         } else {
             http_response_code(404);
             $response = ['error' => 'Post not found'];
@@ -951,9 +974,12 @@ switch ($path) {
             $author_email = $input['author_email'] ?? null;
             $content = $input['content'] ?? null;
             
+            // Debug log input received (comment out in production)
+            // error_log("COMMENTS POST - input: " . json_encode($input));
+            
             if (!$blog_post_id || !$author_name || !$author_email || !$content) {
                 http_response_code(400);
-                $response = ['error' => 'All fields are required'];
+                $response = ['error' => 'All fields are required', 'debug' => ['received' => array_keys($input), 'blog_post_id' => $blog_post_id, 'author_name' => $author_name, 'author_email' => $author_email, 'content_len' => strlen($content ?? '')]];
             } else {
                 $newComment = [
                     'id' => count($data['comments']) + 1,
