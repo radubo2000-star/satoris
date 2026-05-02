@@ -24,12 +24,29 @@ header('Content-Type: application/json');
 
 // Serve local images
 if (str_starts_with($path, 'images/')) {
-    $imageFile = __DIR__ . '/' . $path;
-    if (file_exists($imageFile)) {
-        $ext = pathinfo($imageFile, PATHINFO_EXTENSION);
-        $mimeTypes = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'webp' => 'image/webp'];
-        header('Content-Type: ' . ($mimeTypes[$ext] ?? 'image/jpeg'));
-        readfile($imageFile);
+    $baseDir = realpath(__DIR__ . '/images');
+    $requested = realpath(__DIR__ . '/' . $path);
+
+    if ($requested && str_starts_with($requested, $baseDir) && is_file($requested)) {
+        $ext = strtolower(pathinfo($requested, PATHINFO_EXTENSION));
+
+        $mimeTypes = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp'
+        ];
+
+        if (!isset($mimeTypes[$ext])) {
+            http_response_code(403);
+            exit;
+        }
+
+        header('Content-Type: ' . $mimeTypes[$ext]);
+        header('Cache-Control: public, max-age=31536000');
+
+        readfile($requested);
         exit;
     }
 }
