@@ -10,7 +10,6 @@ import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import AdminLayout from './components/AdminLayout/AdminLayout';
 import Login from './pages/Admin/Auth/Login';
-import Register from './pages/Admin/Auth/Register';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import BlogList from './pages/Admin/Blog/BlogList';
 import BlogForm from './pages/Admin/Blog/BlogForm';
@@ -54,7 +53,6 @@ function App() {
           
           {/* Admin Routes */}
           <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin/register" element={<Register />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
