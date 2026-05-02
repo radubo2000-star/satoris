@@ -37,9 +37,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       });
 
       if (response.ok) {
-        const userData = await response.json();
+        const text = await response.text();
+        if (!text) {
+          setIsAuthenticated(false);
+          return;
+        }
+        const userData = JSON.parse(text);
         setUser(userData);
-        // Store user in localStorage for consistent access
         localStorage.setItem('admin_user', JSON.stringify(userData));
         setIsAuthenticated(true);
       } else {

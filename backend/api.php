@@ -4,11 +4,65 @@
  * Endpoint: /api/
  */
 
+// Polyfill for PHP < 8.0
+if (!function_exists('str_starts_with')) {
+    function str_starts_with(string $haystack, string $needle): bool {
+        return strpos($haystack, $needle) === 0;
+    }
+}
+if (!function_exists('str_contains')) {
+    function str_contains(string $haystack, string $needle): bool {
+        return strpos($haystack, $needle) !== false;
+    }
+}
+
 // CORS headers
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json');
+
+// Get request info - moved up before image serving
+$method = $_SERVER['REQUEST_METHOD'];
+$requestUri = $_SERVER['REQUEST_URI'];
+$path = parse_url($requestUri, PHP_URL_PATH);
+$path = str_replace('/api/', '', $path);
+$path = trim($path ?? '', '/');
+
+// ULTRA CLEAN - basic alphanumeric, hyphens, slashes  
+if ($path) {
+    $path = preg_replace('/[^a-zA-Z0-9\-_\/]/', '', $path);
+    $path = strtolower($path);
+}
+
+// Serve local images - path is now defined
+if (str_starts_with($path, 'images/')) {
+    $baseDir = realpath(__DIR__ . '/images');
+    $requested = realpath(__DIR__ . '/' . $path);
+
+    if ($requested && str_starts_with($requested, $baseDir) && is_file($requested)) {
+        $ext = strtolower(pathinfo($requested, PATHINFO_EXTENSION));
+
+        $mimeTypes = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp'
+        ];
+
+        if (!isset($mimeTypes[$ext])) {
+            http_response_code(403);
+            exit;
+        }
+
+        header('Content-Type: ' . $mimeTypes[$ext]);
+        header('Cache-Control: public, max-age=31536000');
+
+        readfile($requested);
+        exit;
+    }
+}
 
 // Handle preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -23,11 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
-// Get request info
-$method = $_SERVER['REQUEST_METHOD'];
-$requestUri = $_SERVER['REQUEST_URI'];
-$path = parse_url($requestUri, PHP_URL_PATH);
 
 // Helper function to get settings
 function get_settings() {
@@ -48,12 +97,9 @@ function get_settings() {
     }
     return $defaults;
 }
-$path = str_replace('/api/', '', $path);
-$path = trim($path, '/');
 
-// ULTRA CLEAN - extract only alphanumeric and slashes
-$path = preg_replace('/[^a-zA-Z0-9\/_-]/', '', $path);
-$path = strtolower($path);
+// DEBUG: Log request details (temporary)
+// error_log("API Request: $method $path");
 
 // Get input data
 $input = json_decode(file_get_contents('php://input'), true) ?? [];
@@ -61,6 +107,8 @@ if (empty($input) && !empty($_POST)) {
     $input = $_POST;
 }
 
+// DEBUG: Log the path and method for debugging
+// error_log("DEBUG: path=$path, method=$method");
 
 // Get headers
 $headers = getallheaders();
@@ -242,12 +290,12 @@ function saveData($data) {
 }
 
 // Router
-$response = ['error' => 'Endpoint not found', 'debug' => $path];
+$response = ['error' => 'Endpoint not found'];
 
 // Normalize path to lowercase for case-insensitive matching
 $path = strtolower($path);
 
-// Handle blog/:id before switch
+// Handle blog/:id before switch (numeric only)
 if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
     $id = (int)$matches[1];
     if ($method === 'GET') {
@@ -263,33 +311,97 @@ if (preg_match('#^blog/(\d+)$#', $path, $matches)) {
     }
 }
 
-// Handle projects/:id
-if (preg_match('#^projects/(\d+)$#', $path, $matches)) {
-    $id = (int)$matches[1];
-    error_log("projects/$id: method=$method");
+// Handle blog/:slug (non-numeric - for blog detail pages)
+if ($method === 'GET' && preg_match('#^blog/[^/]+$#', $path) && !preg_match('#^blog/\d+$#', $path)) {
+    $slug = substr($path, 5);
+    $post = null;
+    
+    foreach ($data['blogPosts'] as $p) {
+        if ($p['slug'] === $slug) {
+            $post = $p;
+            break;
+        }
+    }
+    
+    if ($post) {
+        // Get approved comments for this post
+        $postComments = [];
+        foreach ($data['comments'] as $c) {
+            if ($c['blog_post_id'] === $post['id'] && !empty($c['is_approved'])) {
+                $postComments[] = $c;
+            }
+        }
+        
+        // Get tags
+        $postTags = [];
+        if (!empty($post['tags']) && is_array($post['tags'])) {
+            foreach ($post['tags'] as $tagSlug) {
+                $foundTag = null;
+                foreach ($data['tags'] as $t) {
+                    if ($t['slug'] === $tagSlug) {
+                        $foundTag = $t;
+                        break;
+                    }
+                }
+                if ($foundTag) {
+                    $postTags[] = $foundTag;
+                }
+            }
+        }
+        
+        $response = [
+            'id' => $post['id'],
+            'title' => $post['title'] ?? '',
+            'slug' => $post['slug'] ?? '',
+            'excerpt' => $post['excerpt'] ?? '',
+            'content' => $post['content'] ?? '',
+            'category' => $post['category'] ?? '',
+            'image' => $post['image'] ?? '',
+            'author' => $post['author'] ?? '',
+            'is_published' => $post['is_published'] ?? false,
+            'created_at' => $post['created_at'] ?? date('Y-m-d'),
+            'tags' => $postTags,
+            'comments' => $postComments
+        ];
+        echo json_encode($response);
+        exit;
+    }
+}
+
+
+// Handle projects/:id or projects/:slug
+if (preg_match('#^projects/([^/]+)$#', $path, $matches)) {
+    $idOrSlug = $matches[1];
+    
+    // Try to find by ID (numeric) or slug (string)
+    $project = null;
+    foreach ($projects as $p) {
+        if ((string)$p['id'] === $idOrSlug || $p['slug'] === $idOrSlug) {
+            $project = $p;
+            break;
+        }
+    }
+    
+    if (!$project) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Project not found']);
+        exit;
+    }
+    
     if ($method === 'PUT') {
-        error_log("PUT request with input: " . json_encode($input));
         foreach ($projects as &$p) {
-            if ($p['id'] === $id) {
+            if ($p['id'] === $project['id']) {
                 $p = array_merge($p, $input);
-                $p['id'] = $id;
+                $p['id'] = $project['id'];
                 $response = $p;
                 echo json_encode($response);
                 exit;
             }
         }
-        http_response_code(404);
-        echo json_encode(['error' => 'Project not found']);
-        exit;
     }
-    // GET
-    $project = array_values(array_filter($projects, fn($p) => $p['id'] === $id));
-    if (empty($project)) {
-        http_response_code(404);
-        $response = ['error' => 'Project not found'];
-    } else {
-        $response = $project[0];
-    }
+    
+    // GET - return project with all fields
+    $response = $project;
     echo json_encode($response);
     exit;
 }
@@ -600,13 +712,12 @@ switch ($path) {
             }
         } elseif ($method === 'POST') {
             // Add new user (admin or super_admin can add users)
-            $debug = ['received_role' => $currentUser ? ($currentUser['role'] ?? 'no role') : 'no user', 'path' => $path];
             if (!$currentUser) {
                 http_response_code(403);
-                $response = ['error' => 'Not authenticated', 'debug' => $debug];
+                $response = ['error' => 'Not authenticated'];
             } elseif (!in_array($currentUser['role'], ['admin', 'super_admin'])) {
                 http_response_code(403);
-                $response = ['error' => 'Admin access required', 'debug' => $debug];
+                $response = ['error' => 'Admin access required'];
             } else {
                 $name = $input['name'] ?? null;
                 $email = $input['email'] ?? null;
@@ -736,7 +847,11 @@ switch ($path) {
                 'image' => $input['image'] ?? '',
                 'is_featured' => $input['is_featured'] ?? false,
                 'is_active' => $input['is_active'] ?? true,
-                'created_at' => date('Y-m-d')
+                'created_at' => date('Y-m-d'),
+                'client' => $input['client'] ?? '',
+                'services' => $input['services'] ?? '',
+                'year' => $input['year'] ?? '',
+                'content' => $input['content'] ?? ''
             ];
             $projects[] = $newProject;
             $data['projects'] = $projects;
@@ -766,36 +881,44 @@ switch ($path) {
             }
         } else {
             // Return all projects by default (for admin). With ?active=true return only active (for site)
-            $activeOnly = isset($_GET['active']) && $_GET['active'] === 'true';
-            $projectsToReturn = $activeOnly 
-                ? array_values(array_filter($projects, fn($p) => $p['is_active']))
-                : $projects;
-            // Re-read from file to get persisted changes
-            $dataFile = __DIR__ . '/data.json';
-            if (file_exists($dataFile)) {
-                $data = json_decode(file_get_contents($dataFile), true);
-                $projects = $data['projects'] ?? $projects;
+            $slug = $_GET['slug'] ?? null;
+            if ($slug) {
+                $project = array_values(array_filter($projects, fn($p) => $p['slug'] === $slug));
+                $response = $project ? $project[0] : ['error' => 'Project not found'];
+            } else {
+                $activeOnly = isset($_GET['active']) && $_GET['active'] === 'true';
+                $projectsToReturn = $activeOnly 
+                    ? array_values(array_filter($projects, fn($p) => $p['is_active']))
+                    : $projects;
+                // Re-read from file to get persisted changes
+                $dataFile = __DIR__ . '/data.json';
+                if (file_exists($dataFile)) {
+                    $data = json_decode(file_get_contents($dataFile), true);
+                    $projects = $data['projects'] ?? $projects;
+                }
+                // Sort by created_at descending (newest first)
+                usort($projectsToReturn, fn($a, $b) => strcmp($b['created_at'] ?? '', $a['created_at'] ?? ''));
+                $response = $projectsToReturn;
             }
-            // Sort by created_at descending (newest first)
-            usort($projectsToReturn, function($a, $b) {
-                $dateA = $a['created_at'] ?? '1970-01-01';
-                $dateB = $b['created_at'] ?? '1970-01-01';
-                return strcmp($dateB, $dateA);
-            });
-            $response = $projectsToReturn;
         }
         break;
 
-    // PROJECTS/:ID
-    case str_starts_with($path, 'projects/'):
+    // PROJECTS/:ID or PROJECTS/:SLUG
+    case (str_starts_with($path, 'projects/') && strlen($path) > 9):
         $idSlug = substr($path, 9);
+        $project = null;
+        
+        // Try to match by ID (numeric) or slug (string)
         foreach ($projects as $p) {
             if ((string)$p['id'] === $idSlug || $p['slug'] === $idSlug) {
-                $response = $p;
+                $project = $p;
                 break;
             }
         }
-        if ($response === ['error' => 'Endpoint not found']) {
+        
+        if ($project) {
+            $response = $project;
+        } else {
             http_response_code(404);
             $response = ['error' => 'Project not found'];
         }
@@ -870,28 +993,6 @@ switch ($path) {
         }
         break;
 
-    // BLOG/:SLUG
-    case str_starts_with($path, 'blog/') && !str_contains($path, '/'):
-        $slug = substr($path, 5);
-        $post = null;
-        foreach ($data['blogPosts'] as $p) {
-            if ($p['slug'] === $slug) {
-                $post = $p;
-                break;
-            }
-        }
-        
-        if ($post) {
-            $postComments = array_values(array_filter($data['comments'], fn($c) => $c['blog_post_id'] === $post['id'] && $c['is_approved']));
-            $postTags = array_values(array_filter($data['tags'], fn($t) => in_array($t['slug'], $post['tags'] ?? [])));
-            $response = array_merge($post, ['comments' => $postComments, 'tags' => $postTags]);
-        } else {
-            http_response_code(404);
-            $response = ['error' => 'Post not found'];
-        }
-        break;
-
-    // BLOG/:ID (PUT/DELETE)
     case preg_match('/^blog\/(\d+)$/', $path, $m) ? $path = $m[0] : '':
         $id = (int)$m[1];
         $idx = null;
@@ -944,6 +1045,8 @@ switch ($path) {
                 $approved = $_GET['approved'] === 'true';
                 $comments = array_values(array_filter($comments, fn($c) => $c['is_approved'] === $approved));
             }
+            // Sort by created_at descending (newest first)
+            usort($comments, fn($a, $b) => strcmp($b['created_at'] ?? '', $a['created_at'] ?? ''));
             $response = $comments;
         } elseif ($method === 'POST') {
             $blog_post_id = $input['blog_post_id'] ?? null;

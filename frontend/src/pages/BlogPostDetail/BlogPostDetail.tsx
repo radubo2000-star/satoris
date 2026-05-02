@@ -21,28 +21,34 @@ function BlogPostDetail() {
       setIsLoading(true);
       getBlogPostBySlug(slug)
         .then(res => {
-          setPost(res.data);
-          setComments(res.data.comments || []);
+          if (res.data && (res.data.id || res.data.title)) {
+            setPost(res.data);
+            setComments(res.data.comments || []);
+          }
         })
-        .catch(console.error)
+        .catch(() => {})
         .finally(() => setIsLoading(false));
     }
   }, [slug]);
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!post) return;
+    if (!post || !post.id) {
+      setCommentMessage('Error: Post not loaded. Please try again.');
+      return;
+    }
     
     setIsSubmitting(true);
     try {
       const res = await addComment({
         blog_post_id: post.id,
-        ...commentForm
+        author_name: commentForm.author_name,
+        author_email: commentForm.author_email,
+        content: commentForm.content
       });
       setCommentMessage(res.data.message);
       setCommentForm({ author_name: '', author_email: '', content: '' });
     } catch (error) {
-      console.error('Error submitting comment:', error);
       setCommentMessage('Error submitting comment. Please try again.');
     } finally {
       setIsSubmitting(false);
