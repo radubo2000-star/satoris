@@ -61,6 +61,8 @@ if (empty($input) && !empty($_POST)) {
     $input = $_POST;
 }
 
+// DEBUG: Log the path and method for debugging
+// error_log("DEBUG: path=$path, method=$method");
 
 // Get headers
 $headers = getallheaders();
@@ -874,26 +876,45 @@ switch ($path) {
     case str_starts_with($path, 'blog/') && !str_contains($path, '/'):
         $slug = substr($path, 5);
         $post = null;
-        $postIdx = null;
-        foreach ($data['blogPosts'] as $i => $p) {
+        
+        foreach ($data['blogPosts'] as $p) {
             if ($p['slug'] === $slug) {
                 $post = $p;
-                $postIdx = $i;
                 break;
             }
         }
         
         if ($post) {
             // Get approved comments for this post
-            $postComments = array_values(array_filter($data['comments'], fn($c) => $c['blog_post_id'] === $post['id'] && $c['is_approved']));
-            
-            // Get tags that match this post's tags
-            $postTags = [];
-            if (!empty($post['tags'])) {
-                $postTags = array_values(array_filter($data['tags'], fn($t) => in_array($t['slug'], $post['tags'])));
+            $postComments = [];
+            foreach ($data['comments'] as $c) {
+                if ($c['blog_post_id'] === $post['id'] && $c['is_approved']) {
+                    $postComments[] = $c;
+                }
             }
             
-            // Build response explicitly to ensure all fields are included
+            // Get tags - use simple array if tags are strings
+            $postTags = [];
+            if (!empty($post['tags']) && is_array($post['tags'])) {
+                foreach ($post['tags'] as $tagSlug) {
+                    // Try to find the tag in data['tags']
+                    $foundTag = null;
+                    foreach ($data['tags'] as $t) {
+                        if ($t['slug'] === $tagSlug) {
+                            $foundTag = $t;
+                            break;
+                        }
+                    }
+                    if ($foundTag) {
+                        $postTags[] = $foundTag;
+                    } else {
+                        // Just use the string tag
+                        $postTags[] = ['name' => $tagSlug, 'slug' => $tagSlug];
+                    }
+                }
+            }
+            
+            // Build response
             $response = [
                 'id' => $post['id'],
                 'title' => $post['title'] ?? '',
@@ -910,7 +931,7 @@ switch ($path) {
             ];
         } else {
             http_response_code(404);
-            $response = ['error' => 'Post not found'];
+            $response = ['error' => 'Post not found', 'debug_slug' => $slug];
         }
         break;
 
