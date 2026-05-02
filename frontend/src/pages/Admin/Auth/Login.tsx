@@ -96,9 +96,6 @@ const Login: React.FC = () => {
           </button>
         </form>
 
-        <div className="auth-footer">
-          {/* Register link removed */}
-        </div>
       </div>
     </div>
   );

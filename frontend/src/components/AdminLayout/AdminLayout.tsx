@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
-import Header from './AdminHeader';
+import AdminHeader from './AdminHeader';
 import API_BASE from '../../api/base';
 import './AdminLayout.css';
 
@@ -83,7 +83,7 @@ const AdminLayout: React.FC = () => {
 
   return (
     <div className="admin-layout">
-      <Header onLogout={handleLogout} />
+      <AdminHeader onLogout={handleLogout} />
       <main className="admin-content">
         <Outlet context={{ user, setUser }} />
       </main>
