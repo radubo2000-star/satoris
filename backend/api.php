@@ -22,6 +22,18 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json');
 
+// Serve local images
+if (str_starts_with($path, 'images/')) {
+    $imageFile = __DIR__ . '/' . $path;
+    if (file_exists($imageFile)) {
+        $ext = pathinfo($imageFile, PATHINFO_EXTENSION);
+        $mimeTypes = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'webp' => 'image/webp'];
+        header('Content-Type: ' . ($mimeTypes[$ext] ?? 'image/jpeg'));
+        readfile($imageFile);
+        exit;
+    }
+}
+
 // Handle preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
