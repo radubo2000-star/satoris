@@ -31,13 +31,19 @@ function BlogPostDetail() {
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!post) return;
+    if (!post || !post.id) {
+      setCommentMessage('Error: Post not loaded. Please try again.');
+      return;
+    }
     
+    console.log('Submitting comment with:', { blog_post_id: post.id, ...commentForm });
     setIsSubmitting(true);
     try {
       const res = await addComment({
         blog_post_id: post.id,
-        ...commentForm
+        author_name: commentForm.author_name,
+        author_email: commentForm.author_email,
+        content: commentForm.content
       });
       setCommentMessage(res.data.message);
       setCommentForm({ author_name: '', author_email: '', content: '' });
