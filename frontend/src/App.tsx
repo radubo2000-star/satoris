@@ -9,6 +9,7 @@ import BlogPostDetail from './pages/BlogPostDetail/BlogPostDetail';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import AdminLayout from './components/AdminLayout/AdminLayout';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Login from './pages/Admin/Auth/Login';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import BlogList from './pages/Admin/Blog/BlogList';
@@ -44,8 +45,15 @@ function App() {
         {/* Admin Login - simple page without header/footer */}
         <Route path="/admin/login" element={<Login />} />
         
-        {/* Admin Routes with AdminLayout - outside public Layout */}
-        <Route path="/admin" element={<AdminLayout />}>
+        {/* Admin Routes with ProtectedRoute - protected by auth */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="blog" element={<BlogList />} />
