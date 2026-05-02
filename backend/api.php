@@ -805,18 +805,24 @@ switch ($path) {
         }
         break;
 
-    // PROJECTS/:ID
-    case str_starts_with($path, 'projects/'):
+    // PROJECTS/:ID or PROJECTS/:SLUG
+    case (str_starts_with($path, 'projects/') && strlen($path) > 9):
         $idSlug = substr($path, 9);
+        $project = null;
+        
+        // Try to match by ID (numeric) or slug (string)
         foreach ($projects as $p) {
             if ((string)$p['id'] === $idSlug || $p['slug'] === $idSlug) {
-                $response = $p;
+                $project = $p;
                 break;
             }
         }
-        if ($response === ['error' => 'Endpoint not found']) {
+        
+        if ($project) {
+            $response = $project;
+        } else {
             http_response_code(404);
-            $response = ['error' => 'Project not found'];
+            $response = ['error' => 'Project not found', 'debug' => $idSlug];
         }
         break;
 
@@ -889,8 +895,8 @@ switch ($path) {
         }
         break;
 
-    // BLOG/:SLUG
-    case str_starts_with($path, 'blog/') && !str_contains($path, '/'):
+    // BLOG/:SLUG - match exactly blog/slug (not blog/number)
+    case preg_match('#^blog/[^0-9]+$#', $path):
         $slug = substr($path, 5);
         $post = null;
         
