@@ -24,18 +24,6 @@ function BlogPostDetail() {
           if (res.data && (res.data.id || res.data.title)) {
             setPost(res.data);
             setComments(res.data.comments || []);
-          } else {
-            // Use fallback for demo
-            setPost({
-              id: 1,
-              title: 'Târg de Crăciun Dalles 2025',
-              slug: slug,
-              content: '<p>We are thrilled to share the success of the Christmas market at Dalles Hall in 2025.</p>',
-              category: 'Events',
-              author: 'Satoris Team',
-              created_at: '2025-12-01',
-              tags: ['events', 'case-study']
-            });
           }
         })
         .catch(() => {})
