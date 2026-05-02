@@ -5,7 +5,7 @@
  */
 
 // Load configuration
-$configFile = __DIR__ . '/config/settings.php';
+$configFile = __DIR__ . '/../config/settings.php';
 if (file_exists($configFile)) {
     require_once $configFile;
 }

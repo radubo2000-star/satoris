@@ -69,120 +69,84 @@ if (str_starts_with($path, 'images/')) {
     exit;
 }
 
-// Route to appropriate handler
-switch ($path) {
-    // Root API info
-    case '':
-        $response = ['api' => 'Satoris API', 'version' => '1.0', 'status' => 'running'];
-        break;
-    
-    // Auth routes
-    case 'auth/register':
-    case 'auth/register/':
-    case 'auth/login':
-    case 'auth/login/':
-    case 'auth/logout':
-    case 'auth/logout/':
-    case 'auth/me':
-    case 'auth/me/':
-    case 'auth/profile':
-    case 'auth/profile/':
-        require_once __DIR__ . '/includes/auth.php';
-        $response = handle_auth($path, $method, $input, $currentUser);
-        break;
-    
-    // Blog routes
-    case 'blog':
-    case 'blog/':
-        require_once __DIR__ . '/handlers/blog.php';
-        $response = handle_blog($path, $method, $input, $data);
-        break;
-    
-    // Blog by ID and publish
-    case preg_match('/^blog\/(\d+)$/', $path) ? true : false:
-    case preg_match('/^blog\/(\d+)\/publish$/', $path) ? true : false:
-        require_once __DIR__ . '/handlers/blog.php';
-        $response = handle_blog($path, $method, $input, $data);
-        break;
-    
-    // Comments routes
-    case 'comments':
-    case 'comments/':
-        require_once __DIR__ . '/handlers/comments.php';
-        $response = handle_comments($path, $method, $input, $data);
-        break;
-    
-    case preg_match('/^comments\/(\d+)$/', $path) ? true : false:
-        require_once __DIR__ . '/handlers/comments.php';
-        $response = handle_comments($path, $method, $input, $data);
-        break;
-    
-    // Tags routes
-    case 'tags':
-    case 'tags/':
-        require_once __DIR__ . '/handlers/tags.php';
-        $response = handle_tags($path, $method, $input, $data);
-        break;
-    
-    // Projects routes
-    case 'projects':
-    case 'projects/':
-        require_once __DIR__ . '/handlers/projects.php';
-        $response = handle_projects($path, $method, $input, $data);
-        break;
-    
-    case str_starts_with($path, 'projects/') && strlen($path) > 9:
-        require_once __DIR__ . '/handlers/projects.php';
-        $response = handle_projects($path, $method, $input, $data);
-        break;
-    
-    // Services routes
-    case 'services':
-    case 'services/':
-        require_once __DIR__ . '/handlers/services.php';
-        $response = handle_services($path, $method, $data);
-        break;
-    
-    // Contact route
-    case 'contact':
-    case 'contact/':
-        require_once __DIR__ . '/handlers/contact.php';
-        $response = handle_contact($path, $method, $input);
-        break;
-    
-    // Join team route
-    case 'join-team':
-    case 'join-team/':
-        require_once __DIR__ . '/handlers/join-team.php';
-        $response = handle_join_team($path, $method, $input);
-        break;
-    
-    // Newsletter route
-    case 'newsletter':
-    case 'newsletter/':
-        require_once __DIR__ . '/handlers/newsletter.php';
-        $response = handle_newsletter($path, $method, $input);
-        break;
-    
-    // Testimonials route
-    case 'testimonials':
-    case 'testimonials/':
-        require_once __DIR__ . '/handlers/testimonials.php';
-        $response = handle_testimonials($path, $method);
-        break;
-    
-    // Settings route
-    case 'settings':
-    case 'settings/':
-        require_once __DIR__ . '/handlers/settings.php';
-        $response = handle_settings($path, $method, $input);
-        break;
-    
-    default:
-        // No route found - check if it's empty for root API
-        if (empty($path)) {
-            $response = ['api' => 'Satoris API', 'version' => '1.0', 'status' => 'running'];
-        }
+// Route to appropriate handler using if-else for regex matching
+// Root API info
+if (empty($path)) {
+    $response = ['api' => 'Satoris API', 'version' => '1.0', 'status' => 'running'];
+}
+// Auth routes
+elseif ($path === 'auth/register' || $path === 'auth/register/' || 
+      $path === 'auth/login' || $path === 'auth/login/' ||
+      $path === 'auth/logout' || $path === 'auth/logout/' ||
+      $path === 'auth/me' || $path === 'auth/me/' ||
+      $path === 'auth/profile' || $path === 'auth/profile/') {
+    require_once __DIR__ . '/includes/auth.php';
+    $response = handle_auth($path, $method, $input, $currentUser);
+}
+// Blog by ID or publish
+elseif (preg_match('/^blog\/(\d+)$/', $path) || preg_match('/^blog\/(\d+)\/publish$/', $path)) {
+    require_once __DIR__ . '/handlers/blog.php';
+    $response = handle_blog($path, $method, $input, $data);
+}
+// Blog list
+elseif ($path === 'blog' || $path === 'blog/') {
+    require_once __DIR__ . '/handlers/blog.php';
+    $response = handle_blog($path, $method, $input, $data);
+}
+// Comments by ID
+elseif (preg_match('/^comments\/(\d+)$/', $path)) {
+    require_once __DIR__ . '/handlers/comments.php';
+    $response = handle_comments($path, $method, $input, $data);
+}
+// Comments list
+elseif ($path === 'comments' || $path === 'comments/') {
+    require_once __DIR__ . '/handlers/comments.php';
+    $response = handle_comments($path, $method, $input, $data);
+}
+// Tags
+elseif ($path === 'tags' || $path === 'tags/') {
+    require_once __DIR__ . '/handlers/tags.php';
+    $response = handle_tags($path, $method, $input, $data);
+}
+// Projects by slug
+elseif (str_starts_with($path, 'projects/') && strlen($path) > 9) {
+    require_once __DIR__ . '/handlers/projects.php';
+    $response = handle_projects($path, $method, $input, $data);
+}
+// Projects list
+elseif ($path === 'projects' || $path === 'projects/') {
+    require_once __DIR__ . '/handlers/projects.php';
+    $response = handle_projects($path, $method, $input, $data);
+}
+// Services
+elseif ($path === 'services' || $path === 'services/') {
+    require_once __DIR__ . '/handlers/services.php';
+    $response = handle_services($path, $method, $data);
+}
+// Contact
+elseif ($path === 'contact' || $path === 'contact/') {
+    require_once __DIR__ . '/handlers/contact.php';
+    $response = handle_contact($path, $method, $input);
+}
+// Join team
+elseif ($path === 'join-team' || $path === 'join-team/') {
+    require_once __DIR__ . '/handlers/join-team.php';
+    $response = handle_join_team($path, $method, $input);
+}
+// Newsletter
+elseif ($path === 'newsletter' || $path === 'newsletter/') {
+    require_once __DIR__ . '/handlers/newsletter.php';
+    $response = handle_newsletter($path, $method, $input);
+}
+// Testimonials
+elseif ($path === 'testimonials' || $path === 'testimonials/') {
+    require_once __DIR__ . '/handlers/testimonials.php';
+    $response = handle_testimonials($path, $method);
+}
+// Settings
+elseif ($path === 'settings' || $path === 'settings/') {
+    require_once __DIR__ . '/handlers/settings.php';
+    $response = handle_settings($path, $method, $input);
 }
 
 // Send response

@@ -1,95 +1,204 @@
-# PLAN: Fix Blog Comments Error & Blog Post Detail Display
+# PLAN: Refactor api.php - Modularization, Cleanup & Security
 
 ## 1. OBJECTIVE
 
-Fix two bugs on the blog post detail page (`/blog/t-rg-de-cr-ciun-dalles-2025`):
+Refactor the monolithic `backend/api.php` (~400 lines) to improve maintainability while maintaining:
+- Full backward API compatibility (all existing endpoints work the same)
+- PHP 8.0+ compatibility
+- cPanel/PHP hosting compatibility
 
-1. **Comment submission error:** When posting a comment with all fields filled (author_name, author_email, content), the API returns `{"error":"All fields are required"}`
-2. **Missing blog details:** The blog post content/tags are not showing on the page, only the comment form is visible
+Goals:
+1. **Modularization** - Split into organized modules/handlers by feature
+2. **Code cleanup** - Remove debug comments, improve code style
+3. **Security hardening** - Better input validation, remove hardcoded secrets
 
 ---
 
 ## 2. CONTEXT SUMMARY
 
-### Current stack
-- **Frontend:** React + Vite (port 12000) + TypeScript + Axios
-- **Backend:** PHP API (file-based JSON storage in `backend/data.json`)
+### Current Structure
+- **File:** `backend/api.php` (~400 lines, monolithic)
+- **Endpoints handled:**
+  - `/api/` - API info
+  - `/api/auth/*` - Login, register, logout
+  - `/api/blog*` - Blog posts CRUD
+  - `/api/services*` - Services list
+  - `/api/contact` - Contact form submissions
+  - `/api/join-team` - Job applications
+  - `/api/newsletter` - Newsletter subscriptions
+  - `/api/testimonials` - Testimonials list
+  - `/api/settings` - Site settings
+  - `/api/images/*` - Image serving
+- **Storage:** JSON files in `backend/` (users.json, data.json, etc.)
 
-### Relevant files identified
-- `frontend/src/pages/BlogPostDetail/BlogPostDetail.tsx` - Blog detail page with comment form
-- `frontend/src/api/client.ts` - API client with `addComment()` function  
-- `backend/api.php` - PHP backend handling comments endpoint (lines 936-973)
-- `backend/data.json` - Contains blog posts, comments, tags
-
-### How comment submission works
-1. Frontend `BlogPostDetail.tsx` calls `addComment({ blog_post_id: post.id, ...commentForm })`
-2. Axios makes POST request to `/api/comments`
-3. PHP API receives JSON body, validates fields (blog_post_id, author_name, author_email, content)
-4. Returns success or "All fields are required" error
+### Constraints
+- PHP 8.0+ compatible
+- Same URLs/endpoints must work
+- File-based storage (keep JSON files)
+- No composer dependencies (cPanel compatibility)
 
 ---
 
 ## 3. APPROACH OVERVIEW
 
-Two potential root causes identified:
+### Architecture
+Restructure into a simple router with feature modules:
 
-### Issue 1: Comment Submission
-- May be caused by frontend not properly awaiting/passing data
-- May be caused by PHP not parsing JSON body correctly
-- Need to verify API receives all fields and returns proper response
+```
+backend/
+  api.php           # Main entry point (router only)
+  includes/
+    helpers.php    # Shared helper functions
+    auth.php       # Authentication handlers
+  handlers/
+    blog.php       # Blog endpoints
+    services.php   # Services endpoints
+    contact.php    # Contact form handler
+    ...
+```
 
-### Issue 2: Blog Details Not Showing  
-- The blog/:slug endpoint at line 874 in api.php returns post with comments and tags
-- Frontend displays `post.content` via dangerouslySetInnerHTML at line 141
-- May be a data loading issue or render condition problem
+### Key Changes
+1. **Router in api.php** - Parse routes, include appropriate handler
+2. **Feature modules** - Each endpoint in its own file
+3. **Shared helpers** - JWT, user management, logging functions
+4. **Input validation** - Sanitize all inputs in one place
+5. **Remove hardcoded secrets** - Use environment/config
 
 ---
 
 ## 4. IMPLEMENTATION STEPS
 
-### Step 1: Debug comment submission
-**Goal:** Fix the "All fields are required" error when posting comments
-
-**Method:** 
-1. Review frontend `handleCommentSubmit` function in BlogPostDetail.tsx
-2. Verify axios is sending JSON with correct Content-Type header
-3. Add console logging to debug what data is being sent
-4. Verify PHP receives all fields correctly in api.php comments POST handler
-5. Fix any data parsing issues in the PHP code
-
-**Reference:** 
-- `frontend/src/pages/BlogPostDetail/BlogPostDetail.tsx` lines 32-50
-- `backend/api.php` lines 936-973 (comments case)
-
----
-
-### Step 2: Debug blog post detail rendering  
-**Goal:** Fix blog content and tags not displaying on the page
+### Step 1: Create directory structure
+**Goal:** Set up modular directory structure
 
 **Method:**
-1. Check if `post` data is properly loaded in the component
-2. Verify API response contains `content` and `tags` fields  
-3. Add error handling for missing data
-4. Ensure content renders with dangerouslySetInnerHTML
-5. Ensure tags render correctly (handle both string and object formats)
+1. Create `backend/includes/` directory
+2. Create `backend/handlers/` directory
+3. Create `backend/config/` directory (for config)
 
-**Reference:**
-- `frontend/src/pages/BlogPostDetail/BlogPostDetail.tsx` lines 69-99, 133-146
-- `backend/api.php` lines 873-892 (blog/:slug case)
+**Reference:** `backend/`
+
+### Step 2: Extract and organize helpers
+**Goal:** Move shared functions to includes/helpers.php
+
+**Method:**
+1. Move polyfill functions (str_starts_with, str_contains)
+2. Move JWT functions (generateJWT, verifyJWT, getCurrentUser)
+3. Move user functions (saveUsers, findUserByEmail, findUserById)
+4. Move logging functions (logActivity, logPageView)
+5. Move settings function (get_settings)
+
+**Reference:** 
+- `backend/api.php` lines 8-17, 82-99, 118-145, 175-194, 196-213, 215-227
+
+### Step 3: Create config handling
+**Goal:** Move hardcoded secrets to config
+
+**Method:**
+1. Create `backend/config/settings.php` with config array
+2. Move JWT secret 'satoris_secret_key_2024' to config
+3. Create default admin credentials in config
+
+**Reference:** `backend/config/` (new)
+
+### Step 4: Create image handler
+**Goal:** Extract image serving to separate handler
+
+**Method:**
+1. Create `backend/handlers/images.php`
+2. Move image serving logic from api.php
+3. Include from api.php after routes are parsed
+
+**Reference:** `backend/api.php` lines 38-65
+
+### Step 5: Create blog handler
+**Goal:** Extract blog endpoints to handler file
+
+**Method:**
+1. Create `backend/handlers/blog.php`
+2. Move blog endpoints (/, /:id, /:slug)
+3. Include data store handling
+
+**Reference:** `backend/api.php` blog case (around line 830+)
+
+### Step 6: Create services handler
+**Goal:** Extract services endpoints
+
+**Method:**
+1. Create `backend/handlers/services.php`
+2. Move services endpoints
+3. Include data handling
+
+### Step 7: Create auth handler
+**Goal:** Extract authentication endpoints
+
+**Method:**
+1. Create `backend/includes/auth.php`
+2. Move login, register, logout
+3. Include user management
+
+**Reference:** auth case in api.php
+
+### Step 8: Create remaining handlers
+**Goal:** Extract all other endpoints
+
+**Method:**
+1. Create `backend/handlers/contact.php`
+2. Create `backend/handlers/join-team.php`
+3. Create `backend/handlers/newsletter.php`
+4. Create `backend/handlers/testimonials.php`
+5. Create `backend/handlers/settings.php`
+
+### Step 9: Refactor main api.php router
+**Goal:** Simplify to pure router
+
+**Method:**
+1. Remove all endpoint logic (now in handlers)
+2. Keep CORS headers
+3. Keep route parsing
+4. Include appropriate handler based on route
+5. Remove debug comments
+6. Add proper input sanitization
+
+**Reference:** `backend/api.php`
+
+### Step 10: Test all endpoints
+**Goal:** Verify backward compatibility
+
+**Method:**
+1. Test `/api/` - API info works
+2. Test `/api/auth/*` - Login/register work
+3. Test `/api/blog*` - Blog CRUD works
+4. Test `/api/services*` - Services work
+5. Test `/api/contact` - Contact form works
+6. Test `/api/join-team` - Join team works
+7. Test `/api/newsletter` - Newsletter works
+8. Test `/api/testimonials` - Testimonials work
+9. Test `/api/settings` - Settings work
+10. Test `/api/images/*` - Images serve correctly
 
 ---
 
 ## 5. TESTING AND VALIDATION
 
-### Comment submission test:
-- [ ] Fill in author_name, author_email, content fields
-- [ ] Submit comment form
-- [ ] Verify API returns success (not error)
-- [ ] Verify comment appears in backend data.json after approval
+### Backward Compatibility Tests
+- [ ] `/api/` returns API info JSON
+- [ ] `/api/auth/login` accepts credentials, returns JWT
+- [ ] `/api/auth/register` creates new user
+- [ ] `/api/blog` returns blog posts list
+- [ ] `/api/blog/:slug` returns single post
+- [ ] `/api/services` returns services list
+- [ ] `/api/contact` POST saves submission
+- [ ] `/api/join-team` POST saves application
+- [ ] `/api/newsletter` POST accepts email
+- [ ] `/api/testimonials` returns testimonials
+- [ ] `/api/settings` GET returns settings
+- [ ] `/api/settings` POST saves settings
+- [ ] `/api/images/*` serves images with correct MIME type
 
-### Blog detail page test:
-- [ ] Navigate to `/blog/t-rg-de-cr-ciun-dalles-2025`
-- [ ] Verify blog title displays
-- [ ] Verify blog content renders
-- [ ] Verify tags display correctly
-- [ ] Verify existing approved comments display
+### Code Quality Checks
+- [ ] No debug comments in code
+- [ ] All inputs sanitized
+- [ ] No hardcoded secrets in handlers
+- [ ] PHP 8.0 compatible (no PHP 8.1+ features)
+- [ ] Works on cPanel hosting
